@@ -52,6 +52,7 @@ object LibraryDependency {
         const val NAVIGATION_KTX = "2.2.0-rc01"
         const val WORK_KTX = "2.3.0-alpha03"
         const val DYN_ANIM_KTX = "1.0.0-alpha01"
+        const val CAMERA_KTX = "1.0.0-alpha03"
 
         const val ROOM = "2.2.1"
         const val MMKV = "1.0.23"
@@ -110,6 +111,8 @@ object LibraryDependency {
     const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:${Version.NAVIGATION_KTX}"
     const val WORKER_KTX = "androidx.work:work-runtime-ktx:${Version.WORK_KTX}"
     const val DYN_ANIM_KTX = "androidx.dynamicanimation-ktx:${Version.DYN_ANIM_KTX}"
+    const val CAMERA_KTX = "androidx.camera:camera-extensions:${Version.CAMERA_KTX}"
+    const val CAMERA_VIEW = "androidx.camera:camera-view:${Version.CAMERA_KTX}"
     //endregion
     //region DI
     const val KODEIN_JVM = "org.kodein.di:kodein-di-generic-jvm:${Version.KODEIN}"

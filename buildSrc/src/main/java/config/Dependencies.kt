@@ -94,6 +94,11 @@ object Dependencies {
         "quickDialog" to LibraryDependency.QUICK_DIALOG
     )
 
+    val cameraDeps = hashMapOf(
+        "cameraView" to LibraryDependency.CAMERA_VIEW,
+        "cameraKtx" to LibraryDependency.CAMERA_KTX
+    )
+
     val debugDeps = hashMapOf(
         "steho" to DebugLibraryDependency.STEHO,
         "stehoInterceptor" to DebugLibraryDependency.STEHO_INTERCEPTOR,

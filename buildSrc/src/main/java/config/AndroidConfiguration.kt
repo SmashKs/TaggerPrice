@@ -27,7 +27,6 @@ package config
 object AndroidConfiguration {
     const val MIN_SDK = 23
     const val TARGET_SDK = 29
-    const val BUIILD_TOOL = "28.0.3"
     const val COMPILE_SDK = TARGET_SDK
 
     const val ID = "taiwan.no.one.taggerprice"
