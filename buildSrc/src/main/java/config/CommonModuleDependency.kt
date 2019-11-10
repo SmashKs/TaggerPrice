@@ -27,7 +27,7 @@ package config
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
-private const val FEATURE_PREFIX = ":feature_"
+private const val FEATURE_PREFIX = ":feature"
 
 @Suppress("unused")
 object CommonModuleDependency {
@@ -37,7 +37,7 @@ object CommonModuleDependency {
     const val LIB_WIDGET = ":library_widget"
     const val LIB_DEVICE = ":library_device"
     const val LIB_CORE = ":library_core"
-    const val FEAT_DUMMY = ":feature_featDummy"
+    const val FEAT_DUMMY = ":feature:capture"
 
     fun getAllModules() = CommonModuleDependency::class.memberProperties
         .asSequence()
@@ -50,8 +50,5 @@ object CommonModuleDependency {
         .filter { it.startsWith(FEATURE_PREFIX) }
         .toSet()
 
-    fun getFeatureModuleName() = getDynamicFeatureModules()
-        .asSequence()
-        .map { it.replace("feature_", "") }
-        .toMutableSet()
+    fun getFeatureModuleName() = getDynamicFeatureModules().toMutableSet()
 }
