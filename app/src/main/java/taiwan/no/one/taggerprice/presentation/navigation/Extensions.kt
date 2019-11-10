@@ -22,29 +22,21 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.jurassicpark.presentation.fragment
+package taiwan.no.one.taggerprice.presentation.navigation
 
-import android.net.Uri
-import androidx.navigation.fragment.findNavController
-import taiwan.no.one.core.presentation.fragment.BaseFragment
-import taiwan.no.one.jurassicpark.databinding.ActivitySecondBinding
-import taiwan.no.one.jurassicpark.presentation.activity.MainActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph
+import taiwan.no.one.taggerprice.provider.NaviGraphRouteProvider
 
-class MainFragment : BaseFragment<MainActivity, ActivitySecondBinding>() {
-    /**
-     * For separating the huge function code in [rendered]. Initialize all view components here.
-     */
-    override fun viewComponentBinding() {
-        binding.tvMsg.text = "321862189hfeuwih89d2h8923"
-    }
-
-    /**
-     * For separating the huge function code in [rendered]. Initialize all component listeners here.
-     */
-    override fun componentListenersBinding() {
-        binding.btnClick.setOnClickListener {
-            //            findNavController().navigate(MainFragmentDirections.actionFragmentSecondToActivitySecond(13))
-            findNavController().navigate(Uri.parse("https://taiwan.no.one.dummy/dummy"))
-        }
-    }
+fun Fragment.addNavGraphDestination(
+    navigationGraphRoute: NaviGraphRouteProvider,
+    navController: NavController
+): NavGraph {
+    val navigationId = requireContext().resources.getIdentifier(navigationGraphRoute.graphName,
+                                                                "navigation",
+                                                                navigationGraphRoute.packageName)
+    val newGraph = navController.navInflater.inflate(navigationGraphRoute.resourceId)
+    navController.graph.addDestination(newGraph)
+    return newGraph
 }

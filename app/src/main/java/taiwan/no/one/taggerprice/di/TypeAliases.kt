@@ -22,28 +22,9 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.jurassicpark
+package taiwan.no.one.taggerprice.di
 
-import android.app.Application
-import android.content.Context
-import com.google.android.play.core.splitcompat.SplitCompat
-import org.kodein.di.KodeinAware
-import taiwan.no.one.jurassicpark.di.Dispatcher
+import androidx.lifecycle.ViewModel
 
-class JurassicParkApp : Application(), KodeinAware {
-    companion object {
-        lateinit var appContext: Context
-            private set
-    }
-
-    init {
-        appContext = this
-    }
-
-    override val kodein = Dispatcher.importIntoApp(this)
-
-    override fun attachBaseContext(context: Context?) {
-        super.attachBaseContext(context)
-        SplitCompat.install(this)
-    }
-}
+typealias ViewModelEntry = Pair<Class<out ViewModel>, ViewModel>
+typealias ViewModelEntries = Set<ViewModelEntry>

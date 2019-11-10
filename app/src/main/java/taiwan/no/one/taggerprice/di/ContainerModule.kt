@@ -22,26 +22,22 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.jurassicpark.presentation.activity
+package taiwan.no.one.taggerprice.di
 
-import android.content.Context
-import android.content.res.Configuration
-import com.google.android.play.core.splitcompat.SplitCompat
-import taiwan.no.one.core.presentation.activity.BaseActivity
-import taiwan.no.one.jurassicpark.JurassicParkApp
-import taiwan.no.one.jurassicpark.databinding.ActivityMainBinding
-import taiwan.no.one.jurassicpark.presentation.lifecycle.SplitModuleAddLifecycle
-import java.util.Locale
+import androidx.lifecycle.ViewModelProvider
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.setBinding
+import org.kodein.di.generic.singleton
+import taiwan.no.one.core.presentation.viewmodel.ViewModelFactory
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
-    init {
-        SplitModuleAddLifecycle(JurassicParkApp.appContext, listOf("featDummy"))
-    }
+object ContainerModule {
+    fun provide() = Kodein.Module("ContainerModule") {
+        bind() from setBinding<ViewModelEntry>()
 
-    override fun attachBaseContext(newBase: Context?) {
-        val config = Configuration().apply { setLocale(Locale.getDefault()) }
-        val ctx = newBase?.createConfigurationContext(config)
-        super.attachBaseContext(ctx)
-        SplitCompat.install(this)
+        bind<ViewModelProvider.Factory>() with singleton {
+            ViewModelFactory(instance<ViewModelEntries>().toMap().toMutableMap())
+        }
     }
 }

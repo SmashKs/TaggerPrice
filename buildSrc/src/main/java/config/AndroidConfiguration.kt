@@ -30,6 +30,6 @@ object AndroidConfiguration {
     const val BUIILD_TOOL = "28.0.3"
     const val COMPILE_SDK = TARGET_SDK
 
-    const val ID = "taiwan.no.one.jurassicpark"
+    const val ID = "taiwan.no.one.taggerprice"
     const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
 }

@@ -25,7 +25,7 @@
 package taiwan.no.one.featDummy
 
 import androidx.navigation.NavGraph
-import taiwan.no.one.jurassicpark.provider.NaviGraphRouteProvider
+import taiwan.no.one.taggerprice.provider.NaviGraphRouteProvider
 
 object FeatureARoute : NaviGraphRouteProvider {
     override lateinit var navGraph: NavGraph

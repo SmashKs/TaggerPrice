@@ -32,7 +32,7 @@
 
     <fragment
         android:id="@+id/fragmentSecond"
-        android:name="taiwan.no.one.jurassicpark.presentation.fragment.MainFragment"
+        android:name="taiwan.no.one.taggerprice.presentation.fragment.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/activity_second">
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <activity
         android:id="@+id/activitySecond"
-        android:name="taiwan.no.one.jurassicpark.presentation.activity.SecondActivity"
+        android:name="taiwan.no.one.taggerprice.presentation.activity.SecondActivity"
         android:label="Second"
         tools:layout="@layout/activity_second">
         <argument

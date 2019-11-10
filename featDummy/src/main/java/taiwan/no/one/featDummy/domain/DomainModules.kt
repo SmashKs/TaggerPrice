@@ -31,7 +31,7 @@ import org.kodein.di.generic.singleton
 import taiwan.no.one.featDummy.FeatModules.FEAT_NAME
 import taiwan.no.one.featDummy.domain.usecase.RetrieveDummyCase
 import taiwan.no.one.featDummy.domain.usecase.RetrieveDummyDeferredCase
-import taiwan.no.one.jurassicpark.provider.ModuleProvider
+import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 object DomainModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}DomainModule") {

@@ -22,22 +22,29 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.jurassicpark.di
+package taiwan.no.one.taggerprice.presentation.fragment
 
-import androidx.lifecycle.ViewModelProvider
-import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.setBinding
-import org.kodein.di.generic.singleton
-import taiwan.no.one.core.presentation.viewmodel.ViewModelFactory
+import android.net.Uri
+import androidx.navigation.fragment.findNavController
+import taiwan.no.one.core.presentation.fragment.BaseFragment
+import taiwan.no.one.taggerprice.databinding.ActivitySecondBinding
+import taiwan.no.one.taggerprice.presentation.activity.MainActivity
 
-object ContainerModule {
-    fun provide() = Kodein.Module("ContainerModule") {
-        bind() from setBinding<ViewModelEntry>()
+class MainFragment : BaseFragment<MainActivity, ActivitySecondBinding>() {
+    /**
+     * For separating the huge function code in [rendered]. Initialize all view components here.
+     */
+    override fun viewComponentBinding() {
+        binding.tvMsg.text = "321862189hfeuwih89d2h8923"
+    }
 
-        bind<ViewModelProvider.Factory>() with singleton {
-            ViewModelFactory(instance<ViewModelEntries>().toMap().toMutableMap())
+    /**
+     * For separating the huge function code in [rendered]. Initialize all component listeners here.
+     */
+    override fun componentListenersBinding() {
+        binding.btnClick.setOnClickListener {
+            //            findNavController().navigate(MainFragmentDirections.actionFragmentSecondToActivitySecond(13))
+            findNavController().navigate(Uri.parse("https://taiwan.no.one.dummy/dummy"))
         }
     }
 }

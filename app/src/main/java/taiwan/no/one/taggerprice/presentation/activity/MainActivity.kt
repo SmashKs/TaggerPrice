@@ -22,26 +22,26 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.jurassicpark.provider
+package taiwan.no.one.taggerprice.presentation.activity
 
-import androidx.navigation.NavGraph
+import android.content.Context
+import android.content.res.Configuration
+import com.google.android.play.core.splitcompat.SplitCompat
+import taiwan.no.one.core.presentation.activity.BaseActivity
+import taiwan.no.one.taggerprice.TaggerPriceApp
+import taiwan.no.one.taggerprice.databinding.ActivityMainBinding
+import taiwan.no.one.taggerprice.presentation.lifecycle.SplitModuleAddLifecycle
+import java.util.Locale
 
-/**
- * Provides necessary information for NavGraph in other modules
- */
-interface NaviGraphRouteProvider {
-    /*
-     * The inflated NavGraph
-     */
-    var navGraph: NavGraph
-    /**
-     * The .xml name for the nav-graph
-     */
-    val graphName: String
-    /**
-     * The full package name where the nav-graph is located
-     */
-    val packageName: String
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+    init {
+        SplitModuleAddLifecycle(TaggerPriceApp.appContext, listOf("featDummy"))
+    }
 
-    val resourceId: Int
+    override fun attachBaseContext(newBase: Context?) {
+        val config = Configuration().apply { setLocale(Locale.getDefault()) }
+        val ctx = newBase?.createConfigurationContext(config)
+        super.attachBaseContext(ctx)
+        SplitCompat.install(this)
+    }
 }

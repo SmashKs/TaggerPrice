@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.jurassicpark.presentation.lifecycle
+package taiwan.no.one.taggerprice.presentation.lifecycle
 
 import android.content.Context
 import androidx.lifecycle.Lifecycle
@@ -32,8 +32,8 @@ import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
-import taiwan.no.one.jurassicpark.di.FeatModuleHelper
-import taiwan.no.one.jurassicpark.provider.NaviGraphRouteProvider
+import taiwan.no.one.taggerprice.di.FeatModuleHelper
+import taiwan.no.one.taggerprice.provider.NaviGraphRouteProvider
 
 class SplitModuleAddLifecycle(
     private val context: Context,

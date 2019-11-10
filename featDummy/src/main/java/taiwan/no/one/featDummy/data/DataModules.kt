@@ -36,7 +36,7 @@ import taiwan.no.one.featDummy.data.repository.DummyRepository
 import taiwan.no.one.featDummy.data.stores.LocalStore
 import taiwan.no.one.featDummy.data.stores.RemoteStore
 import taiwan.no.one.featDummy.domain.repository.DummyRepo
-import taiwan.no.one.jurassicpark.provider.ModuleProvider
+import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 object DataModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}DataModule") {

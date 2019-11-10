@@ -22,29 +22,10 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.jurassicpark.di
+package taiwan.no.one.taggerprice.provider
 
-import taiwan.no.one.jurassicpark.BuildConfig
-import taiwan.no.one.jurassicpark.provider.ModuleProvider
+import org.kodein.di.Kodein
 
-object FeatModuleHelper {
-    // Will get the string "taiwan.no.one.".
-    val featurePackagePrefix by lazy {
-        BuildConfig.APPLICATION_ID
-            .split(".")
-            .dropLast(1)
-            .joinToString(".")
-    }
-
-    val kodeinModules = BuildConfig.FEATURE_MODULE_NAMES
-        .map { "$featurePackagePrefix.$it.FeatModules" }
-        .map {
-            try {
-                Class.forName(it).kotlin.objectInstance as ModuleProvider
-            }
-            catch (e: ClassNotFoundException) {
-                throw ClassNotFoundException("Kodein module class not found $it")
-            }
-        }
-        .map { it.provide() }
+interface ModuleProvider {
+    fun provide(): Kodein.Module
 }

@@ -22,16 +22,29 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.jurassicpark.presentation.activity
+package taiwan.no.one.taggerprice.di
 
-import androidx.navigation.navArgs
-import taiwan.no.one.core.presentation.activity.BaseActivity
-import taiwan.no.one.jurassicpark.databinding.ActivitySecondBinding
+import taiwan.no.one.taggerprice.BuildConfig
+import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-class SecondActivity : BaseActivity<ActivitySecondBinding>() {
-    private val args by navArgs<SecondActivityArgs>()
-
-    override fun viewComponentBinding() {
-        binding.tvMsg.text = "This is second Activity ${args.id}"
+object FeatModuleHelper {
+    // Will get the string "taiwan.no.one.".
+    val featurePackagePrefix by lazy {
+        BuildConfig.APPLICATION_ID
+            .split(".")
+            .dropLast(1)
+            .joinToString(".")
     }
+
+    val kodeinModules = BuildConfig.FEATURE_MODULE_NAMES
+        .map { "$featurePackagePrefix.$it.FeatModules" }
+        .map {
+            try {
+                Class.forName(it).kotlin.objectInstance as ModuleProvider
+            }
+            catch (e: ClassNotFoundException) {
+                throw ClassNotFoundException("Kodein module class not found $it")
+            }
+        }
+        .map { it.provide() }
 }

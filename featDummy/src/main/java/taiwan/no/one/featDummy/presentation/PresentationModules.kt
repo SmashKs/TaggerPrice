@@ -31,8 +31,8 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import taiwan.no.one.featDummy.FeatModules.FEAT_NAME
 import taiwan.no.one.featDummy.presentation.viewmodel.DummyViewModel
-import taiwan.no.one.jurassicpark.di.ViewModelEntry
-import taiwan.no.one.jurassicpark.provider.ModuleProvider
+import taiwan.no.one.taggerprice.di.ViewModelEntry
+import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 object PresentationModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}PreziModule") {

@@ -28,7 +28,7 @@ import org.kodein.di.Kodein
 import taiwan.no.one.featDummy.data.DataModules
 import taiwan.no.one.featDummy.domain.DomainModules
 import taiwan.no.one.featDummy.presentation.PresentationModules
-import taiwan.no.one.jurassicpark.provider.ModuleProvider
+import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 object FeatModules : ModuleProvider {
     internal const val FEAT_NAME = "Dummy"

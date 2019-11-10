@@ -22,10 +22,26 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.jurassicpark.provider
+package taiwan.no.one.taggerprice.provider
 
-import org.kodein.di.Kodein
+import androidx.navigation.NavGraph
 
-interface ModuleProvider {
-    fun provide(): Kodein.Module
+/**
+ * Provides necessary information for NavGraph in other modules
+ */
+interface NaviGraphRouteProvider {
+    /*
+     * The inflated NavGraph
+     */
+    var navGraph: NavGraph
+    /**
+     * The .xml name for the nav-graph
+     */
+    val graphName: String
+    /**
+     * The full package name where the nav-graph is located
+     */
+    val packageName: String
+
+    val resourceId: Int
 }

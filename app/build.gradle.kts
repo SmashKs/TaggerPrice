@@ -138,6 +138,8 @@ dependencies {
     api(LibraryDependency.KNIFER)
     api(LibraryDependency.MMKV)
     api(LibraryDependency.COIL)
+    implementation("androidx.navigation:navigation-fragment-ktx:2.1.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.1.0")
     (Dependencies.androidxKtxDeps.values +
      Dependencies.androidxDeps.values +
      Dependencies.uiDeps.values).forEach(::api)

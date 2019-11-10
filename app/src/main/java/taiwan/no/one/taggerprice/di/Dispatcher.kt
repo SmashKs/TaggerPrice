@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.jurassicpark.di
+package taiwan.no.one.taggerprice.di
 
 import android.app.Application
 import org.kodein.di.Kodein
