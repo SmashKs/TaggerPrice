@@ -22,27 +22,21 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.taggerprice.presentation.activity
+package taiwan.no.one.capture.data.local.services.database.v1
 
-import android.content.Context
-import android.content.res.Configuration
-import com.google.android.play.core.splitcompat.SplitCompat
-import taiwan.no.one.core.presentation.activity.BaseActivity
-import taiwan.no.one.taggerprice.BuildConfig
-import taiwan.no.one.taggerprice.TaggerPriceApp
-import taiwan.no.one.taggerprice.databinding.ActivityMainBinding
-import taiwan.no.one.taggerprice.presentation.lifecycle.SplitModuleAddLifecycle
-import java.util.Locale
+import androidx.room.Dao
+import androidx.room.Query
+import taiwan.no.one.capture.data.local.entities.CaptureEntity
+import taiwan.no.one.core.data.local.room.BaseDao
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
-    init {
-        SplitModuleAddLifecycle(TaggerPriceApp.appContext, BuildConfig.FEATURE_MODULE_NAMES.toList())
-    }
-
-    override fun attachBaseContext(newBase: Context?) {
-        val config = Configuration().apply { setLocale(Locale.getDefault()) }
-        val ctx = newBase?.createConfigurationContext(config)
-        super.attachBaseContext(ctx)
-        SplitCompat.install(this)
-    }
+/**
+ * Integrated the base [androidx.room.Room] database operations.
+ * Thru [androidx.room.Room] we can just define the interfaces that we want to
+ * access for from a local database.
+ * Using prefix name (get), (insert), (update), (delete)
+ */
+@Dao
+internal abstract class CaptureDao : BaseDao<CaptureEntity> {
+    @Query("""SELECT * FROM table_capture""")
+    abstract suspend fun getDummies(): List<CaptureEntity>
 }

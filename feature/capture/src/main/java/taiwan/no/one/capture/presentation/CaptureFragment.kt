@@ -22,27 +22,30 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.taggerprice.presentation.activity
+package taiwan.no.one.capture.presentation
 
-import android.content.Context
-import android.content.res.Configuration
-import com.google.android.play.core.splitcompat.SplitCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
+import com.devrapid.kotlinknifer.logw
+import taiwan.no.one.capture.databinding.FragmentCaptureBinding
+import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
 import taiwan.no.one.core.presentation.activity.BaseActivity
-import taiwan.no.one.taggerprice.BuildConfig
-import taiwan.no.one.taggerprice.TaggerPriceApp
-import taiwan.no.one.taggerprice.databinding.ActivityMainBinding
-import taiwan.no.one.taggerprice.presentation.lifecycle.SplitModuleAddLifecycle
-import java.util.Locale
+import taiwan.no.one.core.presentation.fragment.BaseFragment
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
-    init {
-        SplitModuleAddLifecycle(TaggerPriceApp.appContext, BuildConfig.FEATURE_MODULE_NAMES.toList())
+class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() {
+    private val vm by viewModels<CaptureViewModel> { vmFactory }
+
+    /** The block of binding to [androidx.lifecycle.ViewModel]'s [androidx.lifecycle.LiveData]. */
+    override fun bindLiveData() {
+        vm.dummy.observe(viewLifecycleOwner) {
+            logw(it)
+        }
     }
 
-    override fun attachBaseContext(newBase: Context?) {
-        val config = Configuration().apply { setLocale(Locale.getDefault()) }
-        val ctx = newBase?.createConfigurationContext(config)
-        super.attachBaseContext(ctx)
-        SplitCompat.install(this)
+    /**
+     * For separating the huge function code in [rendered]. Initialize all view components here.
+     */
+    override fun viewComponentBinding() {
+        vm.getDummies()
     }
 }

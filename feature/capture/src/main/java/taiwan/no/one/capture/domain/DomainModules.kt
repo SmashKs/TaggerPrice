@@ -22,27 +22,19 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.taggerprice.presentation.activity
+package taiwan.no.one.capture.domain
 
-import android.content.Context
-import android.content.res.Configuration
-import com.google.android.play.core.splitcompat.SplitCompat
-import taiwan.no.one.core.presentation.activity.BaseActivity
-import taiwan.no.one.taggerprice.BuildConfig
-import taiwan.no.one.taggerprice.TaggerPriceApp
-import taiwan.no.one.taggerprice.databinding.ActivityMainBinding
-import taiwan.no.one.taggerprice.presentation.lifecycle.SplitModuleAddLifecycle
-import java.util.Locale
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.singleton
+import taiwan.no.one.capture.FeatModules.FEAT_NAME
+import taiwan.no.one.capture.domain.usecase.RetrieveDummyCase
+import taiwan.no.one.capture.domain.usecase.RetrieveDummyDeferredCase
+import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
-    init {
-        SplitModuleAddLifecycle(TaggerPriceApp.appContext, BuildConfig.FEATURE_MODULE_NAMES.toList())
-    }
-
-    override fun attachBaseContext(newBase: Context?) {
-        val config = Configuration().apply { setLocale(Locale.getDefault()) }
-        val ctx = newBase?.createConfigurationContext(config)
-        super.attachBaseContext(ctx)
-        SplitCompat.install(this)
+object DomainModules : ModuleProvider {
+    override fun provide() = Kodein.Module("${FEAT_NAME}DomainModule") {
+        bind<RetrieveDummyCase>() with singleton { RetrieveDummyDeferredCase(instance()) }
     }
 }

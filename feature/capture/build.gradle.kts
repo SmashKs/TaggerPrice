@@ -48,7 +48,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         if (Configuration.isFeature) {
-            applicationId = "taiwan.no.one.featureDummy"
+            applicationId = "taiwan.no.one.capture"
         }
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi = AndroidConfiguration.MIN_SDK

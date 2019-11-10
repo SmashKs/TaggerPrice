@@ -22,27 +22,19 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.taggerprice.presentation.activity
+package taiwan.no.one.capture.data.local.entities
 
-import android.content.Context
-import android.content.res.Configuration
-import com.google.android.play.core.splitcompat.SplitCompat
-import taiwan.no.one.core.presentation.activity.BaseActivity
-import taiwan.no.one.taggerprice.BuildConfig
-import taiwan.no.one.taggerprice.TaggerPriceApp
-import taiwan.no.one.taggerprice.databinding.ActivityMainBinding
-import taiwan.no.one.taggerprice.presentation.lifecycle.SplitModuleAddLifecycle
-import java.util.Locale
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import taiwan.no.one.capture.domain.model.Dummy
+import java.util.Date
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
-    init {
-        SplitModuleAddLifecycle(TaggerPriceApp.appContext, BuildConfig.FEATURE_MODULE_NAMES.toList())
-    }
-
-    override fun attachBaseContext(newBase: Context?) {
-        val config = Configuration().apply { setLocale(Locale.getDefault()) }
-        val ctx = newBase?.createConfigurationContext(config)
-        super.attachBaseContext(ctx)
-        SplitCompat.install(this)
-    }
+@Entity(tableName = "table_capture")
+internal data class CaptureEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val content: String,
+    val updated: Date = Date()
+) {
+    fun toModel() = Dummy(id, content)
 }

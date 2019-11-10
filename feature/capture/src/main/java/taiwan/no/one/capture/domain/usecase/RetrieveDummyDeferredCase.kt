@@ -22,27 +22,15 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.taggerprice.presentation.activity
+package taiwan.no.one.capture.domain.usecase
 
-import android.content.Context
-import android.content.res.Configuration
-import com.google.android.play.core.splitcompat.SplitCompat
-import taiwan.no.one.core.presentation.activity.BaseActivity
-import taiwan.no.one.taggerprice.BuildConfig
-import taiwan.no.one.taggerprice.TaggerPriceApp
-import taiwan.no.one.taggerprice.databinding.ActivityMainBinding
-import taiwan.no.one.taggerprice.presentation.lifecycle.SplitModuleAddLifecycle
-import java.util.Locale
+import taiwan.no.one.capture.domain.repository.CaptureRepo
+import taiwan.no.one.core.domain.usecase.Usecase
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
-    init {
-        SplitModuleAddLifecycle(TaggerPriceApp.appContext, BuildConfig.FEATURE_MODULE_NAMES.toList())
-    }
+internal class RetrieveDummyDeferredCase(
+    private val captureRepo: CaptureRepo
+) : RetrieveDummyCase() {
+    override suspend fun acquireCase(parameter: Request?) = captureRepo.retrieveDummies()
 
-    override fun attachBaseContext(newBase: Context?) {
-        val config = Configuration().apply { setLocale(Locale.getDefault()) }
-        val ctx = newBase?.createConfigurationContext(config)
-        super.attachBaseContext(ctx)
-        SplitCompat.install(this)
-    }
+    data class Request(val id: Int) : Usecase.RequestValues
 }

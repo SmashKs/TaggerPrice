@@ -22,27 +22,20 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.taggerprice.presentation.activity
+package taiwan.no.one.capture
 
-import android.content.Context
-import android.content.res.Configuration
-import com.google.android.play.core.splitcompat.SplitCompat
-import taiwan.no.one.core.presentation.activity.BaseActivity
-import taiwan.no.one.taggerprice.BuildConfig
-import taiwan.no.one.taggerprice.TaggerPriceApp
-import taiwan.no.one.taggerprice.databinding.ActivityMainBinding
-import taiwan.no.one.taggerprice.presentation.lifecycle.SplitModuleAddLifecycle
-import java.util.Locale
+import org.kodein.di.Kodein
+import taiwan.no.one.capture.data.DataModules
+import taiwan.no.one.capture.domain.DomainModules
+import taiwan.no.one.capture.presentation.PresentationModules
+import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
-    init {
-        SplitModuleAddLifecycle(TaggerPriceApp.appContext, BuildConfig.FEATURE_MODULE_NAMES.toList())
-    }
+object FeatModules : ModuleProvider {
+    internal const val FEAT_NAME = "Capture"
 
-    override fun attachBaseContext(newBase: Context?) {
-        val config = Configuration().apply { setLocale(Locale.getDefault()) }
-        val ctx = newBase?.createConfigurationContext(config)
-        super.attachBaseContext(ctx)
-        SplitCompat.install(this)
+    override fun provide() = Kodein.Module("${FEAT_NAME}Module") {
+        import(DataModules.provide())
+        import(DomainModules.provide())
+        import(PresentationModules.provide())
     }
 }

@@ -26,9 +26,17 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navApp"
-    app:startDestination="@id/navFeatCapture">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navCapture"
+    app:startDestination="@id/captureFragment">
 
-    <include app:graph="@navigation/nav_feat_dummy"/>
-    <include app:graph="@navigation/nav_second"/>
+    <fragment
+        android:id="@+id/captureFragment"
+        android:name="taiwan.no.one.capture.presentation.CaptureFragment"
+        android:label="Capture Fragment"
+        tools:layout="@layout/fragment_capture">
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="taiwan.no.one.dummy/dummy"/>
+    </fragment>
 </navigation>

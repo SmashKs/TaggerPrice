@@ -37,7 +37,7 @@ object CommonModuleDependency {
     const val LIB_WIDGET = ":library_widget"
     const val LIB_DEVICE = ":library_device"
     const val LIB_CORE = ":library_core"
-    const val FEAT_DUMMY = ":feature:capture"
+    const val FEAT_CAPTURE = "$FEATURE_PREFIX:capture"
 
     fun getAllModules() = CommonModuleDependency::class.memberProperties
         .asSequence()
@@ -48,7 +48,9 @@ object CommonModuleDependency {
     fun getDynamicFeatureModules() = getAllModules()
         .asSequence()
         .filter { it.startsWith(FEATURE_PREFIX) }
-        .toSet()
+        .toMutableSet()
 
-    fun getFeatureModuleName() = getDynamicFeatureModules().toMutableSet()
+    fun getFeatureModuleName() = getDynamicFeatureModules()
+        .map { it.replace(":feature:", "") }
+        .toMutableSet()
 }

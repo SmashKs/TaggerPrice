@@ -67,8 +67,7 @@ android {
                 )
             }
         }
-        buildConfigField("FEATURE_MODULE_NAMES",
-                         CommonModuleDependency.getFeatureModuleName().map { it.replace(":", "") }.toSet())
+        buildConfigField("FEATURE_MODULE_NAMES", CommonModuleDependency.getFeatureModuleName())
     }
     buildTypes {
         getByName("release") {
@@ -116,7 +115,7 @@ android {
     }
     viewBinding.isEnabled = true
     if (!Configuration.isFeature) {
-        dynamicFeatures = CommonModuleDependency.getFeatureModuleName()
+        dynamicFeatures = CommonModuleDependency.getDynamicFeatureModules()
     }
 }
 

@@ -22,27 +22,21 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.taggerprice.presentation.activity
+package taiwan.no.one.capture.presentation.viewmodel
 
-import android.content.Context
-import android.content.res.Configuration
-import com.google.android.play.core.splitcompat.SplitCompat
-import taiwan.no.one.core.presentation.activity.BaseActivity
-import taiwan.no.one.taggerprice.BuildConfig
-import taiwan.no.one.taggerprice.TaggerPriceApp
-import taiwan.no.one.taggerprice.databinding.ActivityMainBinding
-import taiwan.no.one.taggerprice.presentation.lifecycle.SplitModuleAddLifecycle
-import java.util.Locale
+import taiwan.no.one.capture.domain.model.Dummy
+import taiwan.no.one.capture.domain.usecase.RetrieveDummyCase
+import taiwan.no.one.core.presentation.viewmodel.BehindViewModel
+import taiwan.no.one.ktx.livedata.SilentMutableLiveData
+import taiwan.no.one.ktx.livedata.toLiveData
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
-    init {
-        SplitModuleAddLifecycle(TaggerPriceApp.appContext, BuildConfig.FEATURE_MODULE_NAMES.toList())
-    }
+internal class CaptureViewModel(
+    private val retrieveDummyCase: RetrieveDummyCase
+) : BehindViewModel() {
+    private val _dummy by lazy { SilentMutableLiveData<List<Dummy>>() }
+    val dummy = _dummy.toLiveData()
 
-    override fun attachBaseContext(newBase: Context?) {
-        val config = Configuration().apply { setLocale(Locale.getDefault()) }
-        val ctx = newBase?.createConfigurationContext(config)
-        super.attachBaseContext(ctx)
-        SplitCompat.install(this)
+    fun getDummies() = launchBehind {
+        retrieveDummyCase.execute().onSuccess(_dummy::postValue)
     }
 }

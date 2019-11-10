@@ -44,11 +44,11 @@ class SplitModuleAddLifecycle(
         SplitInstallRequest.newBuilder().apply { modules.forEach { addModule(it) } }.build()
     }
     private val listener by lazy {
-        val dummyRoute = "${FeatModuleHelper.featurePackagePrefix}.featDummy.FeatureARoute"
+        val captureRoute = "${FeatModuleHelper.featurePackagePrefix}.capture.FeatureARoute"
         SplitInstallStateUpdatedListener {
             when (it.status()) {
                 SplitInstallSessionStatus.INSTALLED -> {
-                    val route = Class.forName(dummyRoute).kotlin.objectInstance as? NaviGraphRouteProvider
+                    val route = Class.forName(captureRoute).kotlin.objectInstance as? NaviGraphRouteProvider
                 }
             }
         }

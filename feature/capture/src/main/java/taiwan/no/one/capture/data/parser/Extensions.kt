@@ -22,27 +22,30 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.taggerprice.presentation.activity
+package taiwan.no.one.capture.data.parser
 
 import android.content.Context
-import android.content.res.Configuration
-import com.google.android.play.core.splitcompat.SplitCompat
-import taiwan.no.one.core.presentation.activity.BaseActivity
-import taiwan.no.one.taggerprice.BuildConfig
-import taiwan.no.one.taggerprice.TaggerPriceApp
-import taiwan.no.one.taggerprice.databinding.ActivityMainBinding
-import taiwan.no.one.taggerprice.presentation.lifecycle.SplitModuleAddLifecycle
-import java.util.Locale
+import android.util.Log
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
-    init {
-        SplitModuleAddLifecycle(TaggerPriceApp.appContext, BuildConfig.FEATURE_MODULE_NAMES.toList())
+internal inline fun <reified T> Context.parseObjectFromJson(jsonFileName: String): T? {
+    var dataObj: T? = null
+
+    try {
+        val gson = Gson().newBuilder().create()
+        applicationContext.assets.open(jsonFileName).use { inputStream ->
+            JsonReader(inputStream.reader()).use { jsonReader ->
+                val type = object : TypeToken<T>() {}.type
+                dataObj = gson.fromJson<T>(jsonReader, type)
+            }
+        }
+    }
+    catch (e: Exception) {
+        e.printStackTrace()
+        Log.e("data layer", "Error for parsing json account", e)
     }
 
-    override fun attachBaseContext(newBase: Context?) {
-        val config = Configuration().apply { setLocale(Locale.getDefault()) }
-        val ctx = newBase?.createConfigurationContext(config)
-        super.attachBaseContext(ctx)
-        SplitCompat.install(this)
-    }
+    return dataObj
 }

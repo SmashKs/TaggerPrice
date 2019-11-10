@@ -26,12 +26,12 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navFeatDummy"
-    app:startDestination="@id/dummyFragment">
+    android:id="@+id/navFeatCapture"
+    app:startDestination="@id/captureFragment">
 
     <fragment
-        android:id="@+id/dummyFragment"
-        android:name="taiwan.no.one.featDummy.presentation.DummyFragment"
-        android:label="Dummy Index">
+        android:id="@+id/captureFragment"
+        android:name="taiwan.no.one.capture.presentation.CaptureFragment"
+        android:label="Capture Index">
     </fragment>
 </navigation>

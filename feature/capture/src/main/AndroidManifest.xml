@@ -26,11 +26,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
-    package="taiwan.no.one.featDummy">
+    package="taiwan.no.one.capture">
 
     <dist:module
         dist:instant="false"
-        dist:title="@string/title_dummy">
+        dist:title="@string/title_capture">
         <dist:delivery>
             <!--<dist:on-demand/>-->
             <dist:install-time/>
