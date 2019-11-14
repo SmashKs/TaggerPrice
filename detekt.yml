@@ -202,7 +202,7 @@ formatting:
     active: true
     autoCorrect: true
   ImportOrdering:
-    active: false
+    active: true
     autoCorrect: true
   Indentation:
     active: false
@@ -228,8 +228,8 @@ formatting:
     active: true
     autoCorrect: true
   NoLineBreakAfterElse:
-    active: true
-    autoCorrect: true
+    active: false
+    autoCorrect: false
   NoLineBreakBeforeAssignment:
     active: true
     autoCorrect: true

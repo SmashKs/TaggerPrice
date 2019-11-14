@@ -29,11 +29,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvMsg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="This is dummy data, Man!"
+    <TextureView
+        android:id="@+id/viewFinder"
+        android:layout_width="@dimen/md_zero_unit"
+        android:layout_height="@dimen/md_zero_unit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
