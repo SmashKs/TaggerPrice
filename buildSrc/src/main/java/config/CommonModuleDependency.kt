@@ -38,6 +38,7 @@ object CommonModuleDependency {
     const val LIB_DEVICE = ":library_device"
     const val LIB_CORE = ":library_core"
     const val FEAT_CAPTURE = "$FEATURE_PREFIX:capture"
+    const val FEAT_CURRENCY = "$FEATURE_PREFIX:currency"
 
     fun getAllModules() = CommonModuleDependency::class.memberProperties
         .asSequence()

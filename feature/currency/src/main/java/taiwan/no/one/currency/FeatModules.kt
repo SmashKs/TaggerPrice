@@ -22,6 +22,19 @@
  * SOFTWARE.
  */
 
-include ':app', ':ktx', ':ext', ':widget', ':device', ':core'
-include ':feature:capture'
-include ':feature:currency'
+package taiwan.no.one.currency
+
+import org.kodein.di.Kodein
+import taiwan.no.one.currency.data.DataModules
+import taiwan.no.one.currency.domain.DomainModules
+import taiwan.no.one.taggerprice.provider.ModuleProvider
+
+object FeatModules : ModuleProvider {
+    internal const val FEAT_NAME = "Currency"
+
+    override fun provide() = Kodein.Module("${FEAT_NAME}Module") {
+        import(DataModules.provide())
+        import(DomainModules.provide())
+//        import(PresentationModules.provide())
+    }
+}
