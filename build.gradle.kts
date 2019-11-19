@@ -34,7 +34,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.0.0-alpha02")
+        classpath("com.android.tools.build:gradle:4.0.0-alpha03")
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath(config.GradleDependency.SAFE_ARGS)
@@ -78,17 +78,18 @@ allprojects {
 }
 
 subprojects {
-    //region Apply plugin
-    apply {
-        when (name) {
-            "domain", "ext" -> {
-                plugin("java-library")
-                plugin("kotlin")
-            }
-            "widget", "ktx", "device", "core" -> {
-                plugin("com.android.library")
-                plugin("kotlin-android")
-            }
+    beforeEvaluate {
+        //region Apply plugin
+        apply {
+            when (name) {
+                "domain", "ext" -> {
+                    plugin("java-library")
+                    plugin("kotlin")
+                }
+                "widget", "ktx", "device", "core" -> {
+                    plugin("com.android.library")
+                    plugin("kotlin-android")
+                }
 //            "featDummy" -> {
 //                plugin("kotlin-android")
 //                plugin("kotlin-kapt")
@@ -99,37 +100,38 @@ subprojects {
 //                plugin("androidx.navigation.safeargs.kotlin")
 // //                plugin("io.fabric")
 //            }
-        }
-        if (name == "core") {
-            plugin("kotlin-android-extensions")
-            plugin("org.jetbrains.kotlin.kapt")
-        }
-        plugin(config.GradleDependency.DETEKT)
+            }
+            if (name == "core") {
+                plugin("kotlin-android-extensions")
+                plugin("org.jetbrains.kotlin.kapt")
+            }
+            plugin(config.GradleDependency.DETEKT)
 //        plugin("org.jlleitschuh.gradle.ktlint")
-    }
-    //endregion
-
-    //region Detekt
-    val detektVersion = config.GradleDependency.Version.DETEKT
-    detekt {
-        toolVersion = detektVersion
-        debug = true
-        parallel = true
-        input = files("src/main/java")
-        config = files("$rootDir/detekt.yml")
-
-        idea {
-            path = "$rootDir/.idea"
-            codeStyleScheme = "$rootDir/.idea/idea-code-style.xml"
-            inspectionsProfile = "$rootDir/.idea/inspect.xml"
-            mask = "*.kt"
         }
+        //endregion
     }
 
-    tasks.withType<io.gitlab.arturbosch.detekt.Detekt> {
-        exclude(".*/resources/.*", ".*/build/.*") // but exclude our legacy internal package
-    }
-    //endregion
+//    //region Detekt
+//    val detektVersion = config.GradleDependency.Version.DETEKT
+//    detekt {
+//        toolVersion = detektVersion
+//        debug = true
+//        parallel = true
+//        input = files("src/main/java")
+//        config = files("$rootDir/detekt.yml")
+//
+//        idea {
+//            path = "$rootDir/.idea"
+//            codeStyleScheme = "$rootDir/.idea/idea-code-style.xml"
+//            inspectionsProfile = "$rootDir/.idea/inspect.xml"
+//            mask = "*.kt"
+//        }
+//    }
+//
+//    tasks.withType<io.gitlab.arturbosch.detekt.Detekt> {
+//        exclude(".*/resources/.*", ".*/build/.*") // but exclude our legacy internal package
+//    }
+//    //endregion
 
 //    tasks.whenObjectAdded {
 //        if (
