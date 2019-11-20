@@ -22,30 +22,13 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.data.parser
+package taiwan.no.one.currency.data.contract
 
-import android.content.Context
-import android.util.Log
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.google.gson.stream.JsonReader
+import taiwan.no.one.currency.data.data.CountryData
+import taiwan.no.one.currency.data.data.CurrencyData
 
-internal inline fun <reified T> Context.parseObjectFromJson(jsonFileName: String): T? {
-    var dataObj: T? = null
+internal interface DataStore {
+    suspend fun retrieveCountries(): List<CountryData>
 
-    try {
-        val gson = Gson().newBuilder().create()
-        applicationContext.assets.open(jsonFileName).use { inputStream ->
-            JsonReader(inputStream.reader()).use { jsonReader ->
-                val type = object : TypeToken<T>() {}.type
-                dataObj = gson.fromJson<T>(jsonReader, type)
-            }
-        }
-    }
-    catch (e: Exception) {
-        e.printStackTrace()
-        Log.e("data layer", "Error for parsing json account", e)
-    }
-
-    return dataObj
+    suspend fun retrieveCurrencies(): List<CurrencyData>
 }
