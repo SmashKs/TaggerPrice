@@ -26,6 +26,7 @@ package taiwan.no.one.currency.data.store
 
 import com.google.gson.GsonBuilder
 import taiwan.no.one.currency.data.contract.DataStore
+import taiwan.no.one.currency.data.data.ConvertRateData
 import taiwan.no.one.currency.data.data.CountryData
 import taiwan.no.one.currency.data.data.CurrencyData
 import taiwan.no.one.currency.data.remote.service.CurrencyConvertService
@@ -34,6 +35,14 @@ internal class RemoteStore(
     private val currencyConvertService: CurrencyConvertService
 ) : DataStore {
     private val gson by lazy { GsonBuilder().create() }
+
+    override suspend fun retrieveRateCurrencies(): List<ConvertRateData> {
+        val rates = currencyConvertService.getRateCurrencies(mapOf())
+        return rates.entrySet()
+            .asSequence()
+            .map { ConvertRateData(it.key, gson.fromJson(it.value, Double::class.java)) }
+            .toList()
+    }
 
     override suspend fun retrieveCountries(): List<CountryData> {
         val countries = currencyConvertService.getCountries(mapOf()).results ?: throw NullPointerException()

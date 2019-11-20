@@ -22,16 +22,10 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.domain.repostory
+package taiwan.no.one.currency.domain.model
 
-import taiwan.no.one.currency.domain.model.CountryModel
-import taiwan.no.one.currency.domain.model.CurrencyModel
-import taiwan.no.one.currency.domain.model.CurrencyRateModel
-
-interface CurrencyRepo {
-    suspend fun fetchCurrencyRate(): List<CurrencyRateModel>
-
-    suspend fun fetchCountries(): List<CountryModel>
-
-    suspend fun fetchCurrencies(): List<CurrencyModel>
-}
+data class CurrencyRateModel(
+    val from: String,
+    val to: String,
+    val rate: Double
+)

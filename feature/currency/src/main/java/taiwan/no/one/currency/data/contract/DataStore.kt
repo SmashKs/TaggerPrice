@@ -24,10 +24,13 @@
 
 package taiwan.no.one.currency.data.contract
 
+import taiwan.no.one.currency.data.data.ConvertRateData
 import taiwan.no.one.currency.data.data.CountryData
 import taiwan.no.one.currency.data.data.CurrencyData
 
 internal interface DataStore {
+    suspend fun retrieveRateCurrencies(): List<ConvertRateData>
+
     suspend fun retrieveCountries(): List<CountryData>
 
     suspend fun retrieveCurrencies(): List<CurrencyData>

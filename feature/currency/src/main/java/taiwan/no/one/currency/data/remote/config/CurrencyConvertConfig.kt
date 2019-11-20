@@ -25,6 +25,6 @@
 package taiwan.no.one.currency.data.remote.config
 
 internal object CurrencyConvertConfig {
-    const val DOMAIN_URI = "http://data.fixer.io/api/"
+    const val DOMAIN_URI = "https://free.currconv.com"
     const val PATH = "/api/v7/"
 }

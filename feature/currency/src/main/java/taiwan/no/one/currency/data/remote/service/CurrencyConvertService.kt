@@ -24,6 +24,7 @@
 
 package taiwan.no.one.currency.data.remote.service
 
+import com.google.gson.JsonObject
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
 import taiwan.no.one.currency.data.data.WrapperResult
@@ -32,7 +33,7 @@ import taiwan.no.one.currency.data.remote.config.CurrencyConvertConfig.PATH
 
 internal interface CurrencyConvertService {
     @GET("$DOMAIN_URI$PATH/convert")
-    suspend fun getCurrency(@QueryMap queries: Map<String, String>): WrapperResult
+    suspend fun getRateCurrencies(@QueryMap queries: Map<String, String>): JsonObject
 
     @GET("$DOMAIN_URI$PATH/currencies")
     suspend fun getCurrencies(@QueryMap queries: Map<String, String>): WrapperResult
