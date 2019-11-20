@@ -22,21 +22,10 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.data.data
+package taiwan.no.one.currency.domain.model
 
-import taiwan.no.one.currency.domain.model.CountryModel
-
-data class CountryData(
-    val alpha3: String? = "",
-    val currencyId: String? = "",
-    val currencyName: String? = "",
-    val currencySymbol: String? = "",
-    val id: String? = "",
-    val name: String? = ""
-) {
-    fun convert() = CountryModel(
-        name.orEmpty(),
-        id.orEmpty(),
-        CurrencyData(currencyName, currencySymbol, currencyId).convert()
-    )
-}
+data class CurrencyModel(
+    val name: String,
+    val code: String,
+    val symbol: String
+)

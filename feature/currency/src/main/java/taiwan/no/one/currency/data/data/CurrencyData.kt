@@ -24,8 +24,16 @@
 
 package taiwan.no.one.currency.data.data
 
+import taiwan.no.one.currency.domain.model.CurrencyModel
+
 data class CurrencyData(
     val currencyName: String? = "",
     val currencySymbol: String? = "",
     val id: String? = ""
-)
+) {
+    fun convert() = CurrencyModel(
+        currencyName.orEmpty(),
+        id.orEmpty(),
+        currencySymbol.orEmpty()
+    )
+}

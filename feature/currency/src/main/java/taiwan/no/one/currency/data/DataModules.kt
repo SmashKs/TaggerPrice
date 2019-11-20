@@ -25,18 +25,33 @@
 package taiwan.no.one.currency.data
 
 import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.singleton
+import retrofit2.Retrofit
 import taiwan.no.one.currency.FeatModules.FEAT_NAME
+import taiwan.no.one.currency.data.remote.service.CurrencyConvertService
+import taiwan.no.one.currency.data.repository.CurrencyRepository
+import taiwan.no.one.currency.data.store.LocalStore
+import taiwan.no.one.currency.data.store.RemoteStore
+import taiwan.no.one.currency.domain.repostory.CurrencyRepo
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 object DataModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}DataModule") {
         import(localProvide())
         import(remoteProvide())
+
+        bind<LocalStore>() with singleton { LocalStore() }
+        bind<RemoteStore>() with singleton { RemoteStore(instance()) }
+
+        bind<CurrencyRepo>() with singleton { CurrencyRepository(instance()) }
     }
 
     private fun localProvide() = Kodein.Module("LocalModule") {
     }
 
     private fun remoteProvide() = Kodein.Module("RemoteModule") {
+        bind() from singleton { instance<Retrofit>().create(CurrencyConvertService::class.java) }
     }
 }
