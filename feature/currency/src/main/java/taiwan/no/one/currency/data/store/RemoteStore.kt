@@ -29,6 +29,7 @@ import taiwan.no.one.currency.data.contract.DataStore
 import taiwan.no.one.currency.data.data.ConvertRateData
 import taiwan.no.one.currency.data.data.CountryData
 import taiwan.no.one.currency.data.data.CurrencyData
+import taiwan.no.one.currency.data.remote.config.CurrencyConvertConfig
 import taiwan.no.one.currency.data.remote.service.CurrencyConvertService
 
 internal class RemoteStore(
@@ -37,7 +38,8 @@ internal class RemoteStore(
     private val gson by lazy { GsonBuilder().create() }
 
     override suspend fun retrieveRateCurrencies(): List<ConvertRateData> {
-        val rates = currencyConvertService.getRateCurrencies(mapOf())
+        val params = CurrencyConvertConfig.QUERY_PARAMS
+        val rates = currencyConvertService.getRateCurrencies(params)
         return rates.entrySet()
             .asSequence()
             .map { ConvertRateData(it.key, gson.fromJson(it.value, Double::class.java)) }
@@ -45,7 +47,8 @@ internal class RemoteStore(
     }
 
     override suspend fun retrieveCountries(): List<CountryData> {
-        val countries = currencyConvertService.getCountries(mapOf()).results ?: throw NullPointerException()
+        val params = CurrencyConvertConfig.QUERY_PARAMS
+        val countries = currencyConvertService.getCountries(params).results ?: throw NullPointerException()
         return countries.entrySet()
             .asSequence()
             .map { gson.fromJson(it.value, CountryData::class.java) }
@@ -53,7 +56,8 @@ internal class RemoteStore(
     }
 
     override suspend fun retrieveCurrencies(): List<CurrencyData> {
-        val currencies = currencyConvertService.getCurrencies(mapOf()).results ?: throw NullPointerException()
+        val params = CurrencyConvertConfig.QUERY_PARAMS
+        val currencies = currencyConvertService.getCurrencies(params).results ?: throw NullPointerException()
         return currencies.entrySet()
             .asSequence()
             .map { gson.fromJson(it.value, CurrencyData::class.java) }

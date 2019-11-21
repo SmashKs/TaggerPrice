@@ -27,4 +27,7 @@ package taiwan.no.one.currency.data.remote.config
 internal object CurrencyConvertConfig {
     const val DOMAIN_URI = "https://free.currconv.com"
     const val PATH = "/api/v7/"
+
+    const val TOKEN = "sample-key-do-not-use"
+    val QUERY_PARAMS get() = mutableMapOf("apiKey" to TOKEN)
 }
