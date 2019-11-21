@@ -29,8 +29,8 @@ import taiwan.no.one.core.domain.usecase.Usecase
 
 internal class FetchDummyOneShotCase(
     private val captureRepo: CaptureRepo
-) : RetrieveDummyCase() {
+) : FetchDummyCase() {
     override suspend fun acquireCase(parameter: Request?) = captureRepo.fetchDummies()
 
-    data class Request(val id: Int) : Usecase.RequestValues
+    internal data class Request(val id: Int) : Usecase.RequestValues
 }

@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.domain.usecase
+package taiwan.no.one.currency.domain.usecase
 
-import taiwan.no.one.capture.domain.model.Dummy
 import taiwan.no.one.core.domain.usecase.OneShotUsecase
+import taiwan.no.one.currency.domain.model.CountryModel
 
-internal typealias FetchDummyCase = OneShotUsecase<List<Dummy>, FetchDummyReq>
-internal typealias FetchDummyReq = FetchDummyOneShotCase.Request
+internal typealias FetchCountriesCase = OneShotUsecase<List<CountryModel>, FetchCountriesReq>
+internal typealias FetchCountriesReq = FetchCountriesInfoCase.Request

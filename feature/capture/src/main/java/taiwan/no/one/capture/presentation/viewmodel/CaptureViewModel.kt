@@ -25,18 +25,18 @@
 package taiwan.no.one.capture.presentation.viewmodel
 
 import taiwan.no.one.capture.domain.model.Dummy
-import taiwan.no.one.capture.domain.usecase.RetrieveDummyCase
+import taiwan.no.one.capture.domain.usecase.FetchDummyCase
 import taiwan.no.one.core.presentation.viewmodel.BehindViewModel
 import taiwan.no.one.ktx.livedata.SilentMutableLiveData
 import taiwan.no.one.ktx.livedata.toLiveData
 
 internal class CaptureViewModel(
-    private val retrieveDummyCase: RetrieveDummyCase
+    private val fetchDummyCase: FetchDummyCase
 ) : BehindViewModel() {
     private val _dummy by lazy { SilentMutableLiveData<List<Dummy>>() }
     val dummy = _dummy.toLiveData()
 
     fun getDummies() = launchBehind {
-        retrieveDummyCase.execute().onSuccess(_dummy::postValue)
+        fetchDummyCase.execute().onSuccess(_dummy::postValue)
     }
 }

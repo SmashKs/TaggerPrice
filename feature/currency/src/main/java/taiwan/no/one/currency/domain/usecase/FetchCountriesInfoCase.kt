@@ -22,10 +22,15 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.domain.usecase
+package taiwan.no.one.currency.domain.usecase
 
-import taiwan.no.one.capture.domain.model.Dummy
-import taiwan.no.one.core.domain.usecase.OneShotUsecase
+import taiwan.no.one.core.domain.usecase.Usecase
+import taiwan.no.one.currency.domain.repostory.CurrencyRepo
 
-internal typealias FetchDummyCase = OneShotUsecase<List<Dummy>, FetchDummyReq>
-internal typealias FetchDummyReq = FetchDummyOneShotCase.Request
+internal class FetchCountriesInfoCase(
+    private val currencyRepo: CurrencyRepo
+) : FetchCountriesCase() {
+    override suspend fun acquireCase(parameter: Request?) = currencyRepo.fetchCountries()
+
+    internal data class Request(val id: Int) : Usecase.RequestValues
+}

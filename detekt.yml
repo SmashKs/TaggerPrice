@@ -226,7 +226,7 @@ formatting:
     autoCorrect: true
   NoEmptyClassBody:
     active: true
-    autoCorrect: true
+    autoCorrect: false
   NoLineBreakAfterElse:
     active: false
     autoCorrect: false
