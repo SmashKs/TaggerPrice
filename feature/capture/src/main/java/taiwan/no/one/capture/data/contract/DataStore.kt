@@ -22,19 +22,6 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.data.local.entities
+package taiwan.no.one.capture.data.contract
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import taiwan.no.one.capture.domain.model.Dummy
-import java.util.Date
-
-@Entity(tableName = "table_capture")
-internal data class CaptureEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val content: String,
-    val updated: Date = Date()
-) {
-    fun toModel() = Dummy(id, content)
-}
+internal interface DataStore

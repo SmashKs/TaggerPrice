@@ -22,8 +22,14 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.data.stores
+package taiwan.no.one.core.domain.usecase
 
-import taiwan.no.one.capture.data.contracts.DataStore
+/**
+ * A base abstract class for wrapping a coroutine [ObserverUsecase] object and do the
+ * error handling when an error or cancellation happened.
+ */
+abstract class ObserverUsecase<out T : Any, in R : Usecase.RequestValues> : Usecase<R> {
+    abstract suspend fun acquireCase(parameter: R? = null): T
 
-internal class RemoteStore : DataStore
+    open suspend fun execute(parameter: R? = null) = runCatching { acquireCase(parameter) }
+}

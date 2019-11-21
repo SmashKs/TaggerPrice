@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.data.local.services.json.v1
+package taiwan.no.one.capture.data.local.service.json.v1
 
 import android.content.Context
-import taiwan.no.one.capture.data.local.entities.CaptureEntity
-import taiwan.no.one.capture.data.parser.parseObjectFromJson
+import taiwan.no.one.capture.data.local.entity.CaptureEntity
+import taiwan.no.one.core.data.extensions.parseObjectFromJson
 
 internal class CaptureFile(
     private val context: Context

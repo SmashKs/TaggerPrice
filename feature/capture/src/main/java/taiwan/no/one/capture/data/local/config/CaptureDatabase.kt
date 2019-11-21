@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.data.local.configs
+package taiwan.no.one.capture.data.local.config
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import taiwan.no.one.capture.data.local.entities.CaptureEntity
-import taiwan.no.one.capture.data.local.services.database.v1.CaptureDao
+import taiwan.no.one.capture.data.local.entity.CaptureEntity
+import taiwan.no.one.capture.data.local.service.database.v1.CaptureDao
 import taiwan.no.one.core.data.local.room.convert.DateConvert
 
 /**

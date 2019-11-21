@@ -25,7 +25,7 @@
 package taiwan.no.one.capture.domain.usecase
 
 import taiwan.no.one.capture.domain.model.Dummy
-import taiwan.no.one.core.domain.usecase.DeferredUsecase
+import taiwan.no.one.core.domain.usecase.OneShotUsecase
 
-internal typealias RetrieveDummyCase = DeferredUsecase<List<Dummy>, RetrieveDummyReq>
-internal typealias RetrieveDummyReq = RetrieveDummyDeferredCase.Request
+internal typealias RetrieveDummyCase = OneShotUsecase<List<Dummy>, RetrieveDummyReq>
+internal typealias RetrieveDummyReq = FetchDummyOneShotCase.Request

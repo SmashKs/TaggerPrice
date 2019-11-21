@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.data.contracts
+package taiwan.no.one.capture.data.store
 
-internal interface DataStore
+import taiwan.no.one.capture.data.contract.DataStore
+
+internal class RemoteStore : DataStore

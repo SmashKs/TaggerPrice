@@ -22,19 +22,19 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.data.stores
+package taiwan.no.one.capture.data.store
 
-import taiwan.no.one.capture.data.contracts.DataStore
-import taiwan.no.one.capture.data.contracts.sub.CaptureSubStore
-import taiwan.no.one.capture.data.local.entities.CaptureEntity
-import taiwan.no.one.capture.data.local.services.database.v1.CaptureDao
-import taiwan.no.one.capture.data.local.services.json.v1.CaptureFile
+import taiwan.no.one.capture.data.contract.DataStore
+import taiwan.no.one.capture.data.contract.sub.CaptureSubStore
+import taiwan.no.one.capture.data.local.entity.CaptureEntity
+import taiwan.no.one.capture.data.local.service.database.v1.CaptureDao
+import taiwan.no.one.capture.data.local.service.json.v1.CaptureFile
 
 internal class LocalStore(
     private val dummyDao: CaptureDao,
     private val dummyFile: CaptureFile
 ) : DataStore, CaptureSubStore {
-    override suspend fun getDummies(): List<CaptureEntity> {
+    override suspend fun retrieveDummies(): List<CaptureEntity> {
         val dbDummy = dummyDao.getDummies()
         if (dbDummy.isNotEmpty()) return dbDummy
         return dummyFile.getDummies()

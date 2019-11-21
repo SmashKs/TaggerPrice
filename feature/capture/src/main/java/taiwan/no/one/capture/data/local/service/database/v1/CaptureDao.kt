@@ -22,16 +22,21 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.data.repository
+package taiwan.no.one.capture.data.local.service.database.v1
 
+import androidx.room.Dao
+import androidx.room.Query
 import taiwan.no.one.capture.data.local.entity.CaptureEntity
-import taiwan.no.one.capture.data.store.LocalStore
-import taiwan.no.one.capture.data.store.RemoteStore
-import taiwan.no.one.capture.domain.repository.CaptureRepo
+import taiwan.no.one.core.data.local.room.BaseDao
 
-internal class CaptureRepository(
-    private val local: LocalStore,
-    private val remote: RemoteStore
-) : CaptureRepo {
-    override suspend fun fetchDummies() = local.retrieveDummies().map(CaptureEntity::toModel)
+/**
+ * Integrated the base [androidx.room.Room] database operations.
+ * Thru [androidx.room.Room] we can just define the interfaces that we want to
+ * access for from a local database.
+ * Using prefix name (get), (insert), (update), (delete)
+ */
+@Dao
+internal abstract class CaptureDao : BaseDao<CaptureEntity> {
+    @Query("""SELECT * FROM table_capture""")
+    abstract suspend fun getDummies(): List<CaptureEntity>
 }

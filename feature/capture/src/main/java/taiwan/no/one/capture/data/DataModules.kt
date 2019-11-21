@@ -29,12 +29,12 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 import taiwan.no.one.capture.FeatModules.FEAT_NAME
-import taiwan.no.one.capture.data.local.configs.CaptureDatabase
-import taiwan.no.one.capture.data.local.services.database.v1.CaptureDao
-import taiwan.no.one.capture.data.local.services.json.v1.CaptureFile
+import taiwan.no.one.capture.data.local.config.CaptureDatabase
+import taiwan.no.one.capture.data.local.service.database.v1.CaptureDao
+import taiwan.no.one.capture.data.local.service.json.v1.CaptureFile
 import taiwan.no.one.capture.data.repository.CaptureRepository
-import taiwan.no.one.capture.data.stores.LocalStore
-import taiwan.no.one.capture.data.stores.RemoteStore
+import taiwan.no.one.capture.data.store.LocalStore
+import taiwan.no.one.capture.data.store.RemoteStore
 import taiwan.no.one.capture.domain.repository.CaptureRepo
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 

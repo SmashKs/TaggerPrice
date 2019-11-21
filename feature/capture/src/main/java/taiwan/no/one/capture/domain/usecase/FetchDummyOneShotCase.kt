@@ -22,14 +22,15 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.core.domain.usecase
+package taiwan.no.one.capture.domain.usecase
 
-/**
- * A base abstract class for wrapping a coroutine [DeferredUsecase] object and do the
- * error handling when an error or cancellation happened.
- */
-abstract class DeferredUsecase<out T : Any, in R : Usecase.RequestValues> : Usecase<R> {
-    abstract suspend fun acquireCase(parameter: R? = null): T
+import taiwan.no.one.capture.domain.repository.CaptureRepo
+import taiwan.no.one.core.domain.usecase.Usecase
 
-    open suspend fun execute(parameter: R? = null) = runCatching { acquireCase(parameter) }
+internal class FetchDummyOneShotCase(
+    private val captureRepo: CaptureRepo
+) : RetrieveDummyCase() {
+    override suspend fun acquireCase(parameter: Request?) = captureRepo.fetchDummies()
+
+    data class Request(val id: Int) : Usecase.RequestValues
 }

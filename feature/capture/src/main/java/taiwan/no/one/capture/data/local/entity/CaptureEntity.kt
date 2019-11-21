@@ -22,10 +22,19 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.data.contracts.sub
+package taiwan.no.one.capture.data.local.entity
 
-import taiwan.no.one.capture.data.local.entities.CaptureEntity
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import taiwan.no.one.capture.domain.model.Dummy
+import java.util.Date
 
-internal interface CaptureSubStore {
-    suspend fun getDummies(): List<CaptureEntity>
+@Entity(tableName = "table_capture")
+internal data class CaptureEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val content: String,
+    val updated: Date = Date()
+) {
+    fun toModel() = Dummy(id, content)
 }

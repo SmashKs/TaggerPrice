@@ -22,21 +22,14 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.data.local.services.database.v1
-
-import androidx.room.Dao
-import androidx.room.Query
-import taiwan.no.one.capture.data.local.entities.CaptureEntity
-import taiwan.no.one.core.data.local.room.BaseDao
+package taiwan.no.one.core.domain.usecase
 
 /**
- * Integrated the base [androidx.room.Room] database operations.
- * Thru [androidx.room.Room] we can just define the interfaces that we want to
- * access for from a local database.
- * Using prefix name (get), (insert), (update), (delete)
+ * A base abstract class for wrapping a coroutine [OneShotUsecase] object and do the
+ * error handling when an error or cancellation happened.
  */
-@Dao
-internal abstract class CaptureDao : BaseDao<CaptureEntity> {
-    @Query("""SELECT * FROM table_capture""")
-    abstract suspend fun getDummies(): List<CaptureEntity>
+abstract class OneShotUsecase<out T : Any, in R : Usecase.RequestValues> : Usecase<R> {
+    abstract suspend fun acquireCase(parameter: R? = null): T
+
+    open suspend fun execute(parameter: R? = null) = runCatching { acquireCase(parameter) }
 }

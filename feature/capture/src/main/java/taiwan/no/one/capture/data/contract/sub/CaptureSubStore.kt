@@ -22,15 +22,10 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.domain.usecase
+package taiwan.no.one.capture.data.contract.sub
 
-import taiwan.no.one.capture.domain.repository.CaptureRepo
-import taiwan.no.one.core.domain.usecase.Usecase
+import taiwan.no.one.capture.data.local.entity.CaptureEntity
 
-internal class RetrieveDummyDeferredCase(
-    private val captureRepo: CaptureRepo
-) : RetrieveDummyCase() {
-    override suspend fun acquireCase(parameter: Request?) = captureRepo.retrieveDummies()
-
-    data class Request(val id: Int) : Usecase.RequestValues
+internal interface CaptureSubStore {
+    suspend fun retrieveDummies(): List<CaptureEntity>
 }

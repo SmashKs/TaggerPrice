@@ -29,12 +29,12 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 import taiwan.no.one.capture.FeatModules.FEAT_NAME
+import taiwan.no.one.capture.domain.usecase.FetchDummyOneShotCase
 import taiwan.no.one.capture.domain.usecase.RetrieveDummyCase
-import taiwan.no.one.capture.domain.usecase.RetrieveDummyDeferredCase
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 object DomainModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}DomainModule") {
-        bind<RetrieveDummyCase>() with singleton { RetrieveDummyDeferredCase(instance()) }
+        bind<RetrieveDummyCase>() with singleton { FetchDummyOneShotCase(instance()) }
     }
 }
