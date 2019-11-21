@@ -24,12 +24,13 @@
 
 package taiwan.no.one.currency.domain.usecase
 
-import taiwan.no.one.core.domain.usecase.OneShotUsecase
-import taiwan.no.one.currency.domain.model.CountryModel
-import taiwan.no.one.currency.domain.model.CurrencyRateModel
+import taiwan.no.one.core.domain.usecase.Usecase
+import taiwan.no.one.currency.domain.repostory.CurrencyRepo
 
-internal typealias FetchCountriesCase = OneShotUsecase<List<CountryModel>, FetchCountriesReq>
-internal typealias FetchCountriesReq = FetchCountriesInfoCase.Request
+internal class FetchCurrencyRateCase(
+    private val currencyRepo: CurrencyRepo
+) : FetchRateCase() {
+    override suspend fun acquireCase(parameter: Request?) = currencyRepo.fetchCurrencyRate()
 
-internal typealias FetchRateCase = OneShotUsecase<List<CurrencyRateModel>, FetchRateReq>
-internal typealias FetchRateReq = FetchCurrencyRateCase.Request
+    internal data class Request(val id: Int) : Usecase.RequestValues
+}
