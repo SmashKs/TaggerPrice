@@ -25,9 +25,12 @@
         <emptyLine />
       </value>
     </option>
+    <option name="RIGHT_MARGIN" value="120" />
     <option name="HTML_ATTRIBUTE_WRAP" value="0" />
     <option name="HTML_ELEMENTS_TO_INSERT_NEW_LINE_BEFORE" value="div,p,form,h1,h2,h3,html,body,thead,tbody,tfoot,li" />
     <option name="HTML_DO_NOT_INDENT_CHILDREN_OF" value="" />
+    <option name="FORMATTER_TAGS_ENABLED" value="true" />
+    <option name="FORMATTER_TAGS_ACCEPT_REGEXP" value="true" />
     <AndroidXmlCodeStyleSettings>
       <option name="LAYOUT_SETTINGS">
         <value>
@@ -66,21 +69,7 @@
       <option name="LAYOUT_STATIC_IMPORTS_SEPARATELY" value="false" />
       <option name="IMPORT_LAYOUT_TABLE">
         <value>
-          <package name="android" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="com" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="junit" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="net" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="org" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="java" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="javax" withSubpackages="true" static="false" />
           <package name="" withSubpackages="true" static="false" />
-          <emptyLine />
         </value>
       </option>
       <option name="JD_ADD_BLANK_AFTER_PARM_COMMENTS" value="true" />
@@ -93,6 +82,7 @@
       </option>
       <option name="NAME_COUNT_TO_USE_STAR_IMPORT" value="2147483647" />
       <option name="NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS" value="2147483647" />
+      <option name="IMPORT_NESTED_CLASSES" value="true" />
       <option name="WRAP_EXPRESSION_BODY_FUNCTIONS" value="1" />
       <option name="WRAP_ELVIS_EXPRESSIONS" value="0" />
     </JetCodeStyleSettings>
@@ -160,16 +150,7 @@
         <option name="LABEL_INDENT_ABSOLUTE" value="true" />
       </indentOptions>
       <arrangement>
-        <groups>
-          <group>
-            <type>GETTERS_AND_SETTERS</type>
-            <order>KEEP</order>
-          </group>
-          <group>
-            <type>OVERRIDDEN_METHODS</type>
-            <order>BY_NAME</order>
-          </group>
-        </groups>
+        <groups />
       </arrangement>
     </codeStyleSettings>
     <codeStyleSettings language="JSON">

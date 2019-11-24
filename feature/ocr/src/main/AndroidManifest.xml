@@ -23,6 +23,7 @@
   -->
 
 <manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
     package="taiwan.no.one.ocr">
 
@@ -34,5 +35,7 @@
         </dist:delivery>
         <dist:fusing dist:include="true"/>
     </dist:module>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>
 

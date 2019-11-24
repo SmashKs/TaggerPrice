@@ -1,10 +1,12 @@
 root = true
 
 [*]
+charset = utf-8
 insert_final_newline = true
+trim_trailing_whitespace = true
+end_of_line = lf
 
 [*.{kt, kts}]
-end_of_line = lf
 max_line_length = 120
 
 # Starting from ktlint 0.34.2 There is a problem with import "import-ordering" rule - ktlint contradicts
