@@ -49,13 +49,13 @@ object DataModules : ModuleProvider {
         bind<CaptureRepo>() with singleton { CaptureRepository(instance(), instance()) }
     }
 
-    private fun localProvide() = Kodein.Module("LocalModule") {
+    private fun localProvide() = Kodein.Module("${FEAT_NAME}LocalModule") {
         bind<CaptureDatabase>() with singleton { CaptureDatabase.getDatabase(instance()) }
 
         bind<CaptureFile>() with singleton { CaptureFile(instance()) }
         bind<CaptureDao>() with singleton { instance<CaptureDatabase>().createCaptureDao() }
     }
 
-    private fun remoteProvide() = Kodein.Module("RemoteModule") {
+    private fun remoteProvide() = Kodein.Module("${FEAT_NAME}RemoteModule") {
     }
 }

@@ -48,10 +48,10 @@ object DataModules : ModuleProvider {
         bind<CurrencyRepo>() with singleton { CurrencyRepository(instance()) }
     }
 
-    private fun localProvide() = Kodein.Module("LocalModule") {
+    private fun localProvide() = Kodein.Module("${FEAT_NAME}LocalModule") {
     }
 
-    private fun remoteProvide() = Kodein.Module("RemoteModule") {
+    private fun remoteProvide() = Kodein.Module("${FEAT_NAME}RemoteModule") {
         bind() from singleton { instance<Retrofit>().create(CurrencyConvertService::class.java) }
     }
 }
