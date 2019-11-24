@@ -24,6 +24,14 @@
 
 package taiwan.no.one.ocr.data.store
 
+import android.graphics.Bitmap
 import taiwan.no.one.ocr.data.contract.DataStore
+import java.io.File
 
-internal class RemoteStore : DataStore
+internal class RemoteStore : DataStore {
+    override suspend fun retrieveRecognition(bitmap: Bitmap) = TODO()
+
+    override suspend fun retrieveRecognition(file: File) = TODO()
+
+    override suspend fun retrieveRecognition(byteArray: ByteArray) = TODO()
+}

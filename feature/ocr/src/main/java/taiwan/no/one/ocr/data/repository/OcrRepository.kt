@@ -22,15 +22,18 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.ocr.data.contract
+package taiwan.no.one.ocr.data.repository
 
 import android.graphics.Bitmap
-import java.io.File
+import taiwan.no.one.ocr.data.store.LocalStore
+import taiwan.no.one.ocr.data.store.RemoteStore
+import taiwan.no.one.ocr.domain.repository.OcrRepo
 
-internal interface DataStore {
-    suspend fun retrieveRecognition(bitmap: Bitmap): String
+internal class OcrRepository(
+    private val local: LocalStore,
+    private val remote: RemoteStore
+) : OcrRepo {
+    override suspend fun retrieveRecognition(bitmap: Bitmap) = local.retrieveRecognition(bitmap)
 
-    suspend fun retrieveRecognition(file: File): String
-
-    suspend fun retrieveRecognition(byteArray: ByteArray): String
+    override suspend fun retrieveRecognition(byteArray: ByteArray) = local.retrieveRecognition(byteArray)
 }

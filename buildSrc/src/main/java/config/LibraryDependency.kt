@@ -76,6 +76,9 @@ object LibraryDependency {
         const val SHAPE_OF_VIEW = "1.4.7"
         const val REALTIME_BLUR = "1.2.1"
         const val LOTTIE = "3.2.2"
+
+        const val TESSERACT = "9.1.0"
+        const val TENSORFLOW_LITE = "1.13.1"
     }
 
     const val ANDROID_COROUTINE =
@@ -154,5 +157,6 @@ object LibraryDependency {
     const val REALTIME_BLUR = "com.github.mmin18:realtimeblurview:${Version.REALTIME_BLUR}"
     const val LOTTIE = "com.airbnb.android:lottie:${Version.LOTTIE}"
     //endregion
-    const val TESSERACT = "com.rmtheis:tess-two:9.1.0"
+    const val TESSERACT = "com.rmtheis:tess-two:${Version.TESSERACT}"
+    const val TF_LITE = "org.tensorflow:tensorflow-lite:${Version.TENSORFLOW_LITE}"
 }

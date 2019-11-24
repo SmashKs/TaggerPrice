@@ -24,6 +24,17 @@
 
 package taiwan.no.one.ocr.data.store
 
+import android.graphics.Bitmap
 import taiwan.no.one.ocr.data.contract.DataStore
+import taiwan.no.one.ocr.data.local.service.OcrService
+import java.io.File
 
-internal class LocalStore : DataStore
+internal class LocalStore(
+    private val ocrService: OcrService
+) : DataStore {
+    override suspend fun retrieveRecognition(bitmap: Bitmap) = ocrService.recognize(bitmap)
+
+    override suspend fun retrieveRecognition(file: File) = ocrService.recognize(file)
+
+    override suspend fun retrieveRecognition(byteArray: ByteArray) = ocrService.recognize(byteArray)
+}

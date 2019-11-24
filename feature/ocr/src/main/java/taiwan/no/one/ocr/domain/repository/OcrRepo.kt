@@ -22,15 +22,12 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.ocr.data.contract
+package taiwan.no.one.ocr.domain.repository
 
 import android.graphics.Bitmap
-import java.io.File
 
-internal interface DataStore {
+internal interface OcrRepo {
     suspend fun retrieveRecognition(bitmap: Bitmap): String
-
-    suspend fun retrieveRecognition(file: File): String
 
     suspend fun retrieveRecognition(byteArray: ByteArray): String
 }

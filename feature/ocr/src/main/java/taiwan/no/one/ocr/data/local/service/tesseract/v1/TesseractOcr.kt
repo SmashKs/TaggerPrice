@@ -26,8 +26,8 @@ package taiwan.no.one.ocr.data.local.service.tesseract.v1
 
 import android.graphics.Bitmap
 import com.googlecode.tesseract.android.TessBaseAPI
-import taiwan.no.one.ocr.data.local.service.OcrService
 import java.io.File
+import taiwan.no.one.ocr.data.local.service.OcrService
 
 internal class TesseractOcr(
     private val tess: TessBaseAPI

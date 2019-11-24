@@ -123,6 +123,7 @@ dependencies {
     //    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(project(CommonModuleDependency.APP))
     implementation(LibraryDependency.TESSERACT)
+    implementation(LibraryDependency.TF_LITE)
     kapt(LibraryDependency.ROOM_ANNOTATION)
     kapt(LibraryDependency.LIFECYCLE_COMPILER)
 }
