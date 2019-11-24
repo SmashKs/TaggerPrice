@@ -25,3 +25,4 @@
 include ':app', ':ktx', ':ext', ':widget', ':device', ':core'
 include ':feature:capture'
 include ':feature:currency'
+include ':feature:ocr'

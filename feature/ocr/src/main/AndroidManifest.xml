@@ -22,9 +22,17 @@
   ~ SOFTWARE.
   -->
 
-<resources>
-    <string name="app_name">taggerprice</string>
-    <string name="title_capture">capture</string>
-    <string name="title_currency">currency</string>
-    <string name="title_ocr">ocr</string>
-</resources>
+<manifest
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="taiwan.no.one.ocr">
+
+    <dist:module
+        dist:instant="false"
+        dist:title="@string/title_ocr">
+        <dist:delivery>
+            <dist:install-time/>
+        </dist:delivery>
+        <dist:fusing dist:include="true"/>
+    </dist:module>
+</manifest>
+

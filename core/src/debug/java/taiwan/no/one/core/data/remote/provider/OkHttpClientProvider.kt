@@ -38,7 +38,7 @@ abstract class OkHttpClientProvider(
     var readTimeOut = 0L
     var writeTimeOut = 0L
     var connectTimeOut = 0L
-    protected open val cacheMaxSize = 10 * 1024 * 1024L  // 10 MiB
+    protected open val cacheMaxSize = 10 * 1024 * 1024L // 10 MiB
 
     open fun provideClientBuilder(vararg interceptors: Interceptor) = OkHttpClient.Builder().apply {
         cache(provideCache())

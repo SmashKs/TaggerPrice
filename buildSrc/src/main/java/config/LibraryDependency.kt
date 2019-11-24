@@ -154,4 +154,5 @@ object LibraryDependency {
     const val REALTIME_BLUR = "com.github.mmin18:realtimeblurview:${Version.REALTIME_BLUR}"
     const val LOTTIE = "com.airbnb.android:lottie:${Version.LOTTIE}"
     //endregion
+    const val TESSERACT = "com.rmtheis:tess-two:9.1.0"
 }
