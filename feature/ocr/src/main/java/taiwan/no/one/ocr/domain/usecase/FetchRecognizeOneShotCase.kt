@@ -22,19 +22,26 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.ocr.domain
+package taiwan.no.one.ocr.domain.usecase
 
-import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.singleton
-import taiwan.no.one.ocr.FeatModules.FEAT_NAME
-import taiwan.no.one.ocr.domain.usecase.FetchRecognizeCase
-import taiwan.no.one.ocr.domain.usecase.FetchRecognizeOneShotCase
-import taiwan.no.one.taggerprice.provider.ModuleProvider
+import android.graphics.Bitmap
+import taiwan.no.one.core.domain.usecase.Usecase
+import taiwan.no.one.ocr.domain.repository.OcrRepo
 
-object DomainModules : ModuleProvider {
-    override fun provide() = Kodein.Module("${FEAT_NAME}DomainModule") {
-        bind<FetchRecognizeCase>() with singleton { FetchRecognizeOneShotCase(instance()) }
+internal class FetchRecognizeOneShotCase(
+    private val ocrRepo: OcrRepo
+) : FetchRecognizeCase() {
+    override suspend fun acquireCase(parameter: Request?): String {
+        if (parameter == null) return ""
+        return when {
+            parameter.bitmap != null -> ocrRepo.retrieveRecognition(parameter.bitmap)
+            parameter.byteArray != null -> ocrRepo.retrieveRecognition(parameter.byteArray)
+            else -> ""
+        }
     }
+
+    internal data class Request(
+        val bitmap: Bitmap? = null,
+        val byteArray: ByteArray? = null
+    ) : Usecase.RequestValues
 }
