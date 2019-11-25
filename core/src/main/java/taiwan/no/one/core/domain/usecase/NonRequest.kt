@@ -22,14 +22,6 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.domain.usecase
+package taiwan.no.one.core.domain.usecase
 
-import taiwan.no.one.core.domain.usecase.NonRequest
-import taiwan.no.one.core.domain.usecase.OneShotUsecase
-import taiwan.no.one.currency.domain.model.CountryModel
-import taiwan.no.one.currency.domain.model.CurrencyRateModel
-
-internal typealias FetchCountriesCase = OneShotUsecase<List<CountryModel>, NonRequest>
-
-internal typealias FetchRateCase = OneShotUsecase<List<CurrencyRateModel>, FetchRateReq>
-internal typealias FetchRateReq = FetchCurrencyRateCase.Request
+class NonRequest : Usecase.RequestValues

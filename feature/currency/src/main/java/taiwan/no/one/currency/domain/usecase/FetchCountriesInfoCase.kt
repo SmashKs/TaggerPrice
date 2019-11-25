@@ -24,13 +24,11 @@
 
 package taiwan.no.one.currency.domain.usecase
 
-import taiwan.no.one.core.domain.usecase.Usecase
+import taiwan.no.one.core.domain.usecase.NonRequest
 import taiwan.no.one.currency.domain.repostory.CurrencyRepo
 
 internal class FetchCountriesInfoCase(
     private val currencyRepo: CurrencyRepo
 ) : FetchCountriesCase() {
-    override suspend fun acquireCase(parameter: Request?) = currencyRepo.fetchCountries()
-
-    internal data class Request(val id: Int) : Usecase.RequestValues
+    override suspend fun acquireCase(parameter: NonRequest?) = currencyRepo.fetchCountries()
 }

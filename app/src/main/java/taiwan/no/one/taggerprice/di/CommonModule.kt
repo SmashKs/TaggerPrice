@@ -22,14 +22,16 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.domain.usecase
+package taiwan.no.one.taggerprice.di
 
-import taiwan.no.one.core.domain.usecase.NonRequest
-import taiwan.no.one.core.domain.usecase.OneShotUsecase
-import taiwan.no.one.currency.domain.model.CountryModel
-import taiwan.no.one.currency.domain.model.CurrencyRateModel
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.singleton
 
-internal typealias FetchCountriesCase = OneShotUsecase<List<CountryModel>, NonRequest>
-
-internal typealias FetchRateCase = OneShotUsecase<List<CurrencyRateModel>, FetchRateReq>
-internal typealias FetchRateReq = FetchCurrencyRateCase.Request
+object CommonModule {
+    fun provide() = Kodein.Module("CommonModule") {
+        bind<Gson>() with singleton { GsonBuilder().create() }
+    }
+}

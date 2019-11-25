@@ -29,7 +29,7 @@ import taiwan.no.one.currency.data.data.CountryData
 import taiwan.no.one.currency.data.data.CurrencyData
 
 internal interface DataStore {
-    suspend fun retrieveRateCurrencies(): List<ConvertRateData>
+    suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>): List<ConvertRateData>
 
     suspend fun retrieveCountries(): List<CountryData>
 

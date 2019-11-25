@@ -27,7 +27,7 @@ package taiwan.no.one.currency.data.store
 import taiwan.no.one.currency.data.contract.DataStore
 
 internal class LocalStore : DataStore {
-    override suspend fun retrieveRateCurrencies() = TODO()
+    override suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>) = TODO()
 
     override suspend fun retrieveCountries() = TODO()
 

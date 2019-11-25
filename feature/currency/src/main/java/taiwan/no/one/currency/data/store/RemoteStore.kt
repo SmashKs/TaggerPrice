@@ -24,7 +24,7 @@
 
 package taiwan.no.one.currency.data.store
 
-import com.google.gson.GsonBuilder
+import com.google.gson.Gson
 import taiwan.no.one.currency.data.contract.DataStore
 import taiwan.no.one.currency.data.data.ConvertRateData
 import taiwan.no.one.currency.data.data.CountryData
@@ -33,12 +33,13 @@ import taiwan.no.one.currency.data.remote.config.CurrencyConvertConfig
 import taiwan.no.one.currency.data.remote.service.CurrencyConvertService
 
 internal class RemoteStore(
-    private val currencyConvertService: CurrencyConvertService
+    private val currencyConvertService: CurrencyConvertService,
+    private val gson: Gson
 ) : DataStore {
-    private val gson by lazy { GsonBuilder().create() }
-
-    override suspend fun retrieveRateCurrencies(): List<ConvertRateData> {
+    override suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>): List<ConvertRateData> {
         val params = CurrencyConvertConfig.QUERY_PARAMS
+        val query = currencyKeys.joinToString(",") { (from, to) -> "${from}_$to" }
+        params.putAll(mapOf("q" to query, "compact" to "ultra"))
         val rates = currencyConvertService.getRateCurrencies(params)
         return rates.entrySet()
             .asSequence()
