@@ -43,7 +43,7 @@ object DataModules : ModuleProvider {
         import(remoteProvide())
 
         bind<LocalStore>() with singleton { LocalStore() }
-        bind<RemoteStore>() with singleton { RemoteStore(instance()) }
+        bind<RemoteStore>() with singleton { RemoteStore(instance(), instance()) }
 
         bind<CurrencyRepo>() with singleton { CurrencyRepository(instance()) }
     }

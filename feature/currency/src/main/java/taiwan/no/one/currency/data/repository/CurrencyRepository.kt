@@ -33,7 +33,8 @@ import taiwan.no.one.currency.domain.repostory.CurrencyRepo
 internal class CurrencyRepository(
     private val remote: RemoteStore
 ) : CurrencyRepo {
-    override suspend fun fetchCurrencyRate() = remote.retrieveRateCurrencies().map(ConvertRateData::convert)
+    override suspend fun fetchCurrencyRate(currencyKeys: List<Pair<String, String>>) =
+        remote.retrieveRateCurrencies(currencyKeys).map(ConvertRateData::convert)
 
     override suspend fun fetchCountries() = remote.retrieveCountries().map(CountryData::convert)
 

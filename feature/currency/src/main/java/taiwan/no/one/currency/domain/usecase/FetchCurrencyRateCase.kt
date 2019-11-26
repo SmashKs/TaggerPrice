@@ -30,7 +30,8 @@ import taiwan.no.one.currency.domain.repostory.CurrencyRepo
 internal class FetchCurrencyRateCase(
     private val currencyRepo: CurrencyRepo
 ) : FetchRateCase() {
-    override suspend fun acquireCase(parameter: Request?) = currencyRepo.fetchCurrencyRate()
+    override suspend fun acquireCase(parameter: Request?) =
+        currencyRepo.fetchCurrencyRate(requireNotNull(parameter).keys)
 
-    internal data class Request(val id: Int) : Usecase.RequestValues
+    internal data class Request(val keys: List<Pair<String, String>>) : Usecase.RequestValues
 }
