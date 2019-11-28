@@ -24,6 +24,9 @@
 
 package taiwan.no.one.core.presentation.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+
+typealias ResultLiveData<T> = MutableLiveData<Result<T>>
 
 typealias LookUpViewModel = MutableMap<Class<out ViewModel>, ViewModel>

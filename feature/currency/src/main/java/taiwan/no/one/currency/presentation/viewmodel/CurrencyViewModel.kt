@@ -22,12 +22,23 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.data.remote.config
+package taiwan.no.one.currency.presentation.viewmodel
 
-internal object CurrencyConvertConfig {
-    const val DOMAIN_URI = "https://free.currconv.com"
-    const val PATH = "/api/v7/"
+import taiwan.no.one.core.presentation.viewmodel.BehindViewModel
+import taiwan.no.one.core.presentation.viewmodel.ResultLiveData
+import taiwan.no.one.currency.domain.model.CountryModel
+import taiwan.no.one.currency.domain.usecase.FetchCountriesCase
+import taiwan.no.one.currency.domain.usecase.FetchRateCase
+import taiwan.no.one.ktx.livedata.toLiveData
 
-    const val TOKEN = "sample-key-do-not-use"
-    val QUERY_PARAMS get() = mutableMapOf("apiKey" to TOKEN)
+internal class CurrencyViewModel(
+    private val fetchRateCase: FetchRateCase,
+    private val fetchCountriesCase: FetchCountriesCase
+) : BehindViewModel() {
+    private val _countries by lazy { ResultLiveData<List<CountryModel>>() }
+    val countries = _countries.toLiveData()
+
+    fun getCountries() = launchBehind {
+        _countries.postValue(fetchCountriesCase.execute())
+    }
 }

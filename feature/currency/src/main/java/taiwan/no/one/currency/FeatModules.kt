@@ -27,6 +27,7 @@ package taiwan.no.one.currency
 import org.kodein.di.Kodein
 import taiwan.no.one.currency.data.DataModules
 import taiwan.no.one.currency.domain.DomainModules
+import taiwan.no.one.currency.presentation.PresentationModules
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 object FeatModules : ModuleProvider {
@@ -35,6 +36,6 @@ object FeatModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}Module") {
         import(DataModules.provide())
         import(DomainModules.provide())
-//        import(PresentationModules.provide())
+        import(PresentationModules.provide())
     }
 }

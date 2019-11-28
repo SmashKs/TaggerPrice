@@ -24,7 +24,6 @@
 
 package taiwan.no.one.core.data.remote
 
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
 interface RetrofitConfig {
@@ -37,6 +36,4 @@ interface RetrofitConfig {
     val connectTimeOut: Long
 
     fun provideRetrofitBuilder(): Retrofit.Builder
-
-    fun provideOkHttpClientBuilder(): OkHttpClient.Builder
 }

@@ -26,13 +26,13 @@ package taiwan.no.one.core.data.remote.provider
 
 import android.content.Context
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import java.util.concurrent.TimeUnit
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import java.util.concurrent.TimeUnit
 
-abstract class OkHttpClientProvider(
+open class OkHttpClientProvider(
     private val context: Context
 ) {
     var readTimeOut = 0L
@@ -55,5 +55,5 @@ abstract class OkHttpClientProvider(
                                       ConnectionSpec.CLEARTEXT))
     }
 
-    open fun provideCache() = Cache(context.cacheDir, cacheMaxSize)
+    protected open fun provideCache() = Cache(context.cacheDir, cacheMaxSize)
 }

@@ -126,6 +126,7 @@ object LibraryDependency {
     const val PLAY_CORE = "com.google.android.play:core:${Version.PLAY_CORE}"
     //region Internet
     const val OKHTTP = "com.squareup.okhttp3:okhttp:${Version.OKHTTP3}"
+    const val OKHTTP_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:${Version.OKHTTP3}"
     const val RETROFIT2 = "com.squareup.retrofit2:retrofit:${Version.RETROFIT2}"
     const val RETROFIT2_CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:${Version.RETROFIT2}"
     //endregion

@@ -22,21 +22,22 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.data.remote.service
+package taiwan.no.one.currency.presentation
 
-import com.google.gson.JsonObject
-import retrofit2.http.GET
-import retrofit2.http.QueryMap
-import taiwan.no.one.currency.data.data.WrapperResult
-import taiwan.no.one.currency.data.remote.config.CurrencyRetrofitConfig
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.inSet
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
+import taiwan.no.one.currency.FeatModules.FEAT_NAME
+import taiwan.no.one.currency.presentation.viewmodel.CurrencyViewModel
+import taiwan.no.one.taggerprice.di.ViewModelEntry
+import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-internal interface CurrencyConvertService {
-    @GET("${CurrencyRetrofitConfig.PATH}convert")
-    suspend fun getRateCurrencies(@QueryMap queries: Map<String, String>): JsonObject
-
-    @GET("${CurrencyRetrofitConfig.PATH}currencies")
-    suspend fun getCurrencies(@QueryMap queries: Map<String, String>): WrapperResult
-
-    @GET("${CurrencyRetrofitConfig.PATH}countries")
-    suspend fun getCountries(@QueryMap queries: Map<String, String>): WrapperResult
+object PresentationModules : ModuleProvider {
+    override fun provide() = Kodein.Module("${FEAT_NAME}PreziModule") {
+        bind<ViewModelEntry>().inSet() with provider {
+            CurrencyViewModel::class.java to CurrencyViewModel(instance(), instance())
+        }
+    }
 }

@@ -26,10 +26,13 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navApp"
-    app:startDestination="@id/navFeatCurrency">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_currency"
+    app:startDestination="@id/currencyFragment">
 
-    <include app:graph="@navigation/nav_feat_capture"/>
-    <include app:graph="@navigation/nav_feat_currency"/>
-    <include app:graph="@navigation/nav_second"/>
+    <fragment
+        android:id="@+id/currencyFragment"
+        android:name="taiwan.no.one.currency.presentation.CurrencyFragment"
+        android:label="CurrencyFragment"
+        tools:layout="@layout/fragment_currency"/>
 </navigation>

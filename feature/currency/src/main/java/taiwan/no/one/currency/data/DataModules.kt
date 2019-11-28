@@ -24,23 +24,29 @@
 
 package taiwan.no.one.currency.data
 
+import android.content.Context
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 import retrofit2.Retrofit
+import taiwan.no.one.core.data.remote.RetrofitConfig
+import taiwan.no.one.core.data.remote.provider.OkHttpClientProvider
+import taiwan.no.one.core.data.remote.provider.RetrofitProvider
 import taiwan.no.one.currency.FeatModules.FEAT_NAME
+import taiwan.no.one.currency.data.remote.config.CurrencyRetrofitConfig
 import taiwan.no.one.currency.data.remote.service.CurrencyConvertService
 import taiwan.no.one.currency.data.repository.CurrencyRepository
 import taiwan.no.one.currency.data.store.LocalStore
 import taiwan.no.one.currency.data.store.RemoteStore
 import taiwan.no.one.currency.domain.repostory.CurrencyRepo
+import taiwan.no.one.taggerprice.TaggerPriceApp
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 object DataModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}DataModule") {
         import(localProvide())
-        import(remoteProvide())
+        import(remoteProvide(TaggerPriceApp.appContext))
 
         bind<LocalStore>() with singleton { LocalStore() }
         bind<RemoteStore>() with singleton { RemoteStore(instance(), instance()) }
@@ -51,7 +57,15 @@ object DataModules : ModuleProvider {
     private fun localProvide() = Kodein.Module("${FEAT_NAME}LocalModule") {
     }
 
-    private fun remoteProvide() = Kodein.Module("${FEAT_NAME}RemoteModule") {
-        bind() from singleton { instance<Retrofit>().create(CurrencyConvertService::class.java) }
+    private fun remoteProvide(context: Context) = Kodein.Module("${FEAT_NAME}RemoteModule") {
+        bind<RetrofitConfig>() with singleton {
+            CurrencyRetrofitConfig(context, OkHttpClientProvider(context), RetrofitProvider())
+        }
+        bind<Retrofit>() with singleton {
+            instance<RetrofitConfig>().provideRetrofitBuilder().build()
+        }
+        bind<CurrencyConvertService>() with singleton {
+            instance<Retrofit>().create(CurrencyConvertService::class.java)
+        }
     }
 }

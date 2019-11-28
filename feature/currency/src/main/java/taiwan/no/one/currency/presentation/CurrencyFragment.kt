@@ -22,21 +22,31 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.data.remote.service
+package taiwan.no.one.currency.presentation
 
-import com.google.gson.JsonObject
-import retrofit2.http.GET
-import retrofit2.http.QueryMap
-import taiwan.no.one.currency.data.data.WrapperResult
-import taiwan.no.one.currency.data.remote.config.CurrencyRetrofitConfig
+import android.os.Bundle
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
+import com.devrapid.kotlinknifer.logw
+import taiwan.no.one.core.presentation.activity.BaseActivity
+import taiwan.no.one.core.presentation.fragment.BaseFragment
+import taiwan.no.one.currency.databinding.FragmentCurrencyBinding
+import taiwan.no.one.currency.presentation.viewmodel.CurrencyViewModel
 
-internal interface CurrencyConvertService {
-    @GET("${CurrencyRetrofitConfig.PATH}convert")
-    suspend fun getRateCurrencies(@QueryMap queries: Map<String, String>): JsonObject
+internal class CurrencyFragment : BaseFragment<BaseActivity<*>, FragmentCurrencyBinding>() {
+    private val vm by viewModels<CurrencyViewModel> { vmFactory }
 
-    @GET("${CurrencyRetrofitConfig.PATH}currencies")
-    suspend fun getCurrencies(@QueryMap queries: Map<String, String>): WrapperResult
+    override fun bindLiveData() {
+        vm.countries.observe(viewLifecycleOwner) {
+            it.onSuccess {
+                logw(it)
+            }.onFailure {
+                logw(it.localizedMessage.toString())
+            }
+        }
+    }
 
-    @GET("${CurrencyRetrofitConfig.PATH}countries")
-    suspend fun getCountries(@QueryMap queries: Map<String, String>): WrapperResult
+    override fun rendered(savedInstanceState: Bundle?) {
+        vm.getCountries()
+    }
 }

@@ -22,21 +22,25 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.data.remote.service
+package taiwan.no.one.currency.data.remote.config
 
-import com.google.gson.JsonObject
-import retrofit2.http.GET
-import retrofit2.http.QueryMap
-import taiwan.no.one.currency.data.data.WrapperResult
-import taiwan.no.one.currency.data.remote.config.CurrencyRetrofitConfig
+import android.content.Context
+import taiwan.no.one.core.data.remote.BaseRetrofitConfig
+import taiwan.no.one.core.data.remote.provider.OkHttpClientProvider
+import taiwan.no.one.core.data.remote.provider.RetrofitProvider
 
-internal interface CurrencyConvertService {
-    @GET("${CurrencyRetrofitConfig.PATH}convert")
-    suspend fun getRateCurrencies(@QueryMap queries: Map<String, String>): JsonObject
+internal class CurrencyRetrofitConfig(
+    context: Context,
+    clientProvider: OkHttpClientProvider,
+    retrofitProvider: RetrofitProvider
+) : BaseRetrofitConfig(context, clientProvider, retrofitProvider) {
+    companion object {
+        const val DOMAIN_URI = "https://free.currconv.com/"
+        const val PATH = "api/v7/"
 
-    @GET("${CurrencyRetrofitConfig.PATH}currencies")
-    suspend fun getCurrencies(@QueryMap queries: Map<String, String>): WrapperResult
+        val QUERY_PARAMS get() = mutableMapOf("apiKey" to TOKEN)
+        private const val TOKEN = "dbeaa0f3de50cc918c13"
+    }
 
-    @GET("${CurrencyRetrofitConfig.PATH}countries")
-    suspend fun getCountries(@QueryMap queries: Map<String, String>): WrapperResult
+    override val baseUrl get() = DOMAIN_URI
 }

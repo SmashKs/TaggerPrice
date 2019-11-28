@@ -29,7 +29,7 @@ import taiwan.no.one.currency.data.contract.DataStore
 import taiwan.no.one.currency.data.data.ConvertRateData
 import taiwan.no.one.currency.data.data.CountryData
 import taiwan.no.one.currency.data.data.CurrencyData
-import taiwan.no.one.currency.data.remote.config.CurrencyConvertConfig
+import taiwan.no.one.currency.data.remote.config.CurrencyRetrofitConfig
 import taiwan.no.one.currency.data.remote.service.CurrencyConvertService
 
 internal class RemoteStore(
@@ -37,7 +37,7 @@ internal class RemoteStore(
     private val gson: Gson
 ) : DataStore {
     override suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>): List<ConvertRateData> {
-        val params = CurrencyConvertConfig.QUERY_PARAMS
+        val params = CurrencyRetrofitConfig.QUERY_PARAMS
         val query = currencyKeys.joinToString(",") { (from, to) -> "${from}_$to" }
         params.putAll(mapOf("q" to query, "compact" to "ultra"))
         val rates = currencyConvertService.getRateCurrencies(params)
@@ -48,7 +48,7 @@ internal class RemoteStore(
     }
 
     override suspend fun retrieveCountries(): List<CountryData> {
-        val params = CurrencyConvertConfig.QUERY_PARAMS
+        val params = CurrencyRetrofitConfig.QUERY_PARAMS
         val countries = currencyConvertService.getCountries(params).results ?: throw NullPointerException()
         return countries.entrySet()
             .asSequence()
@@ -57,7 +57,7 @@ internal class RemoteStore(
     }
 
     override suspend fun retrieveCurrencies(): List<CurrencyData> {
-        val params = CurrencyConvertConfig.QUERY_PARAMS
+        val params = CurrencyRetrofitConfig.QUERY_PARAMS
         val currencies = currencyConvertService.getCurrencies(params).results ?: throw NullPointerException()
         return currencies.entrySet()
             .asSequence()
