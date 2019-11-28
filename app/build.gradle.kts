@@ -84,6 +84,9 @@ android {
             ext.set("alwaysUpdateBuildId", false)
             isCrunchPngs = false // Enabled by default for RELEASE build type
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), file("proguard-rules.pro"))
+            ndk {
+                abiFilters("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+            }
         }
     }
     sourceSets {

@@ -78,7 +78,7 @@ object LibraryDependency {
         const val LOTTIE = "3.2.2"
 
         const val TESSERACT = "9.1.0"
-        const val TENSORFLOW_LITE = "1.13.1"
+        const val TENSORFLOW_LITE = "2.0.0"
     }
 
     const val ANDROID_COROUTINE =
