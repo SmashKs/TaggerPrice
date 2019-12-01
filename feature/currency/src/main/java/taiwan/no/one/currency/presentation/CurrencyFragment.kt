@@ -27,6 +27,7 @@ package taiwan.no.one.currency.presentation
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.devrapid.kotlinknifer.loge
 import com.devrapid.kotlinknifer.logw
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
@@ -44,9 +45,17 @@ internal class CurrencyFragment : BaseFragment<BaseActivity<*>, FragmentCurrency
                 logw(it.localizedMessage.toString())
             }
         }
+        vm.rate.observe(viewLifecycleOwner) {
+            it.onSuccess {
+                logw(it)
+            }.onFailure {
+                loge(it.localizedMessage.toString())
+            }
+        }
     }
 
     override fun rendered(savedInstanceState: Bundle?) {
-        vm.getCountries()
+//        vm.getCountries()
+        vm.getRate()
     }
 }

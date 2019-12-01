@@ -27,8 +27,10 @@ package taiwan.no.one.currency.presentation.viewmodel
 import taiwan.no.one.core.presentation.viewmodel.BehindViewModel
 import taiwan.no.one.core.presentation.viewmodel.ResultLiveData
 import taiwan.no.one.currency.domain.model.CountryModel
+import taiwan.no.one.currency.domain.model.CurrencyRateModel
 import taiwan.no.one.currency.domain.usecase.FetchCountriesCase
 import taiwan.no.one.currency.domain.usecase.FetchRateCase
+import taiwan.no.one.currency.domain.usecase.FetchRateReq
 import taiwan.no.one.ktx.livedata.toLiveData
 
 internal class CurrencyViewModel(
@@ -37,8 +39,14 @@ internal class CurrencyViewModel(
 ) : BehindViewModel() {
     private val _countries by lazy { ResultLiveData<List<CountryModel>>() }
     val countries = _countries.toLiveData()
+    private val _rate by lazy { ResultLiveData<List<CurrencyRateModel>>() }
+    val rate = _rate.toLiveData()
 
     fun getCountries() = launchBehind {
         _countries.postValue(fetchCountriesCase.execute())
+    }
+
+    fun getRate() = launchBehind {
+        _rate.postValue(fetchRateCase.execute(FetchRateReq(listOf("TWD" to "USD"))))
     }
 }
