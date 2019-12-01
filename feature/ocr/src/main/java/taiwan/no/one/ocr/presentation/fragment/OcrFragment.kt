@@ -22,20 +22,31 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.ocr
+package taiwan.no.one.ocr.presentation.fragment
 
-import org.kodein.di.Kodein
-import taiwan.no.one.ocr.data.DataModules
-import taiwan.no.one.ocr.domain.DomainModules
-import taiwan.no.one.ocr.presentation.PresentationModules
-import taiwan.no.one.taggerprice.provider.ModuleProvider
+import android.os.Bundle
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
+import com.devrapid.kotlinknifer.logw
+import taiwan.no.one.core.presentation.activity.BaseActivity
+import taiwan.no.one.core.presentation.fragment.BaseFragment
+import taiwan.no.one.ocr.databinding.FragmentOcrBinding
+import taiwan.no.one.ocr.presentation.viewmodel.OcrViewModel
 
-object FeatModules : ModuleProvider {
-    internal const val FEAT_NAME = "Tesseract"
+internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>() {
+    private val vm by viewModels<OcrViewModel> { vmFactory }
 
-    override fun provide() = Kodein.Module("${FEAT_NAME}Module") {
-        import(DataModules.provide())
-        import(DomainModules.provide())
-        import(PresentationModules.provide())
+    override fun bindLiveData() {
+        vm.result.observe(viewLifecycleOwner) {
+            it.onSuccess {
+                logw(it)
+            }.onFailure {
+                logw(it.localizedMessage.toString())
+            }
+        }
+    }
+
+    override fun rendered(savedInstanceState: Bundle?) {
+        vm.getResult()
     }
 }

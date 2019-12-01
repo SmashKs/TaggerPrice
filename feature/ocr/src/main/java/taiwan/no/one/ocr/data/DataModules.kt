@@ -32,17 +32,27 @@ import org.kodein.di.generic.singleton
 import taiwan.no.one.ocr.FeatModules.FEAT_NAME
 import taiwan.no.one.ocr.data.local.service.OcrService
 import taiwan.no.one.ocr.data.local.service.tesseract.v1.TesseractOcr
+import taiwan.no.one.ocr.data.repository.OcrRepository
+import taiwan.no.one.ocr.data.store.LocalStore
+import taiwan.no.one.ocr.data.store.RemoteStore
+import taiwan.no.one.ocr.domain.repository.OcrRepo
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 object DataModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}DataModule") {
         import(localProvide())
         import(remoteProvide())
+
+        bind<LocalStore>() with singleton { LocalStore(instance()) }
+        bind<RemoteStore>() with singleton { RemoteStore() }
+
+        bind<OcrRepo>() with singleton { OcrRepository(instance(), instance()) }
     }
 
     private fun localProvide() = Kodein.Module("${FEAT_NAME}LocalModule") {
         bind<TessBaseAPI>() with singleton {
             TessBaseAPI().apply {
+                init("traindata", "eng")
                 pageSegMode = TessBaseAPI.PageSegMode.PSM_SINGLE_LINE
             }
         }

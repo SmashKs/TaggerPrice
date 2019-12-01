@@ -26,11 +26,13 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navApp"
-    app:startDestination="@id/navFeatOcr">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_ocr"
+    app:startDestination="@id/ocrFragment">
 
-    <include app:graph="@navigation/nav_feat_capture"/>
-    <include app:graph="@navigation/nav_feat_currency"/>
-    <include app:graph="@navigation/nav_feat_ocr"/>
-    <include app:graph="@navigation/nav_second"/>
+    <fragment
+        android:id="@+id/ocrFragment"
+        android:name="taiwan.no.one.ocr.presentation.fragment.OcrFragment"
+        android:label="OcrFragment"
+        tools:layout="@layout/fragment_ocr"/>
 </navigation>

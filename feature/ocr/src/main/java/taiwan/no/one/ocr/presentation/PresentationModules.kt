@@ -22,20 +22,22 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.ocr
+package taiwan.no.one.ocr.presentation
 
 import org.kodein.di.Kodein
-import taiwan.no.one.ocr.data.DataModules
-import taiwan.no.one.ocr.domain.DomainModules
-import taiwan.no.one.ocr.presentation.PresentationModules
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.inSet
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
+import taiwan.no.one.ocr.FeatModules.FEAT_NAME
+import taiwan.no.one.ocr.presentation.viewmodel.OcrViewModel
+import taiwan.no.one.taggerprice.di.ViewModelEntry
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-object FeatModules : ModuleProvider {
-    internal const val FEAT_NAME = "Tesseract"
-
-    override fun provide() = Kodein.Module("${FEAT_NAME}Module") {
-        import(DataModules.provide())
-        import(DomainModules.provide())
-        import(PresentationModules.provide())
+object PresentationModules : ModuleProvider {
+    override fun provide() = Kodein.Module("${FEAT_NAME}PreziModule") {
+        bind<ViewModelEntry>().inSet() with provider {
+            OcrViewModel::class.java to OcrViewModel(instance())
+        }
     }
 }

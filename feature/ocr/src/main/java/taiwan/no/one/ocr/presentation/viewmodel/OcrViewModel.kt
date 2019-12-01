@@ -22,20 +22,21 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.ocr
+package taiwan.no.one.ocr.presentation.viewmodel
 
-import org.kodein.di.Kodein
-import taiwan.no.one.ocr.data.DataModules
-import taiwan.no.one.ocr.domain.DomainModules
-import taiwan.no.one.ocr.presentation.PresentationModules
-import taiwan.no.one.taggerprice.provider.ModuleProvider
+import taiwan.no.one.core.presentation.viewmodel.BehindViewModel
+import taiwan.no.one.core.presentation.viewmodel.ResultLiveData
+import taiwan.no.one.ktx.livedata.toLiveData
+import taiwan.no.one.ocr.domain.usecase.FetchRecognizeCase
+import taiwan.no.one.ocr.domain.usecase.FetchRecognizeReq
 
-object FeatModules : ModuleProvider {
-    internal const val FEAT_NAME = "Tesseract"
+internal class OcrViewModel(
+    private val fetchRecognizeCase: FetchRecognizeCase
+) : BehindViewModel() {
+    private val _result by lazy { ResultLiveData<String>() }
+    val result = _result.toLiveData()
 
-    override fun provide() = Kodein.Module("${FEAT_NAME}Module") {
-        import(DataModules.provide())
-        import(DomainModules.provide())
-        import(PresentationModules.provide())
+    fun getResult() = launchBehind {
+        _result.postValue(fetchRecognizeCase.execute(FetchRecognizeReq()))
     }
 }
