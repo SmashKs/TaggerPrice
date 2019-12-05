@@ -24,13 +24,14 @@
 
 package taiwan.no.one.ocr.data.local.service
 
+import android.content.Context
 import android.graphics.Bitmap
 import java.io.File
 
 internal interface OcrService {
-    suspend fun recognize(bitmap: Bitmap): String
+    suspend fun recognize(context: Context, bitmap: Bitmap): String
 
-    suspend fun recognize(file: File): String
+    suspend fun recognize(context: Context, file: File): String
 
-    suspend fun recognize(raw: ByteArray): String
+    suspend fun recognize(context: Context, raw: ByteArray, lang: String): String
 }

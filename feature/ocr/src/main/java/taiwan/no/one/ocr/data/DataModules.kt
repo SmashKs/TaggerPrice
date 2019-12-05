@@ -52,7 +52,6 @@ object DataModules : ModuleProvider {
     private fun localProvide() = Kodein.Module("${FEAT_NAME}LocalModule") {
         bind<TessBaseAPI>() with singleton {
             TessBaseAPI().apply {
-                init("traindata", "eng")
                 pageSegMode = TessBaseAPI.PageSegMode.PSM_SINGLE_LINE
             }
         }

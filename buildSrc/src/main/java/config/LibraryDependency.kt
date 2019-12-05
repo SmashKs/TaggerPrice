@@ -42,7 +42,7 @@ object LibraryDependency {
 
         const val AAC_LIFECYCLE = "2.2.0-rc02"
 
-        const val KODEIN = "6.4.1"
+        const val KODEIN = "6.5.0"
 
         const val KTX = "1.2.0-rc01"
         const val FRAGMENT_KTX = "1.2.0-rc02"
@@ -75,7 +75,7 @@ object LibraryDependency {
 
         const val SHAPE_OF_VIEW = "1.4.7"
         const val REALTIME_BLUR = "1.2.1"
-        const val LOTTIE = "3.2.2"
+        const val LOTTIE = "3.3.0"
 
         const val TESSERACT = "9.1.0"
         const val TENSORFLOW_LITE = "2.0.0"
