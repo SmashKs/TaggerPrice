@@ -30,7 +30,7 @@ object GradleDependency {
     object Version {
         const val SAFE_ARGS = NAVIGATION_KTX
         const val GOOGLE_SERVICE = "4.3.3"
-        const val DETEKT = "1.2.1"
+        const val DETEKT = "1.2.2"
         const val VERSION_UPDATER = "0.27.0"
     }
 

@@ -34,25 +34,25 @@ object LibraryDependency {
         const val MATERIAL = "1.2.0-alpha02"
         const val ANDROIDX = "1.0.0"
         const val ANNOTATION = "1.1.0"
-        const val APPCOMPAT = "1.1.0"
+        const val APPCOMPAT = "1.2.0-alpha01"
         const val CARDVIEW = ANDROIDX
         const val RECYCLERVIEW = "1.1.0"
         const val CONSTRAINTLAYOUT = "2.0.0-beta3"
-        const val COORDINATORLAYOUT = "1.1.0-rc01"
+        const val COORDINATORLAYOUT = "1.1.0"
 
-        const val AAC_LIFECYCLE = "2.2.0-rc02"
+        const val AAC_LIFECYCLE = "2.2.0-rc03"
 
-        const val KODEIN = "6.5.0"
+        const val KODEIN = "6.5.1"
 
         const val KTX = "1.2.0-rc01"
-        const val FRAGMENT_KTX = "1.2.0-rc02"
+        const val FRAGMENT_KTX = "1.2.0-rc03"
         const val PALETTE_KTX = "1.0.0"
         const val COLLECTION_KTX = "1.1.0"
         const val VIEWMODEL_KTX = AAC_LIFECYCLE
-        const val NAVIGATION_KTX = "2.2.0-rc02"
+        const val NAVIGATION_KTX = "2.2.0-rc03"
         const val WORK_KTX = "2.3.0-beta01"
         const val DYN_ANIM_KTX = "1.0.0-alpha01"
-        const val CAMERA_KTX = "1.0.0-alpha03"
+        const val CAMERA_KTX = "1.0.0-alpha04"
 
         const val ROOM = "2.2.2"
         const val MMKV = "1.0.23"
@@ -60,7 +60,7 @@ object LibraryDependency {
         const val PLAY_CORE = "1.6.4"
 
         const val COIL = "0.8.0"
-        const val RETROFIT2 = "2.6.2"
+        const val RETROFIT2 = "2.7.0"
         const val OKHTTP3 = "4.2.2"
         const val JSOUP = "1.12.1"
 
@@ -75,7 +75,7 @@ object LibraryDependency {
 
         const val SHAPE_OF_VIEW = "1.4.7"
         const val REALTIME_BLUR = "1.2.1"
-        const val LOTTIE = "3.3.0"
+        const val LOTTIE = "3.3.1"
 
         const val TESSERACT = "9.1.0"
         const val TENSORFLOW_LITE = "2.0.0"
