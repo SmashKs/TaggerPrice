@@ -125,7 +125,7 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
     fun copyToSD(path: String, name: String) {
         logw("copyToSD: $path")
         logw("copyToSD: $name")
-        //如果存在就删掉
+        // 如果存在就删掉
         val f = File(path)
         if (f.exists()) {
             f.delete()

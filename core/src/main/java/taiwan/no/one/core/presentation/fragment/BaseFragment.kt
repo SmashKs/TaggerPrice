@@ -34,6 +34,9 @@ import androidx.annotation.StyleRes
 import androidx.annotation.UiThread
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import kotlinx.coroutines.CoroutineScope
@@ -74,6 +77,12 @@ abstract class BaseFragment<out A : BaseActivity<*>, out V : ViewBinding> : Load
     //endregion
 //        private val actionTitle by extra<String>(COMMON_TITLE)
     private val actionTitle = ""
+
+    @UiThread
+    protected inline fun <reified VM : ViewModel> viewModel() = viewModels<VM> { vmFactory }
+
+    @UiThread
+    protected inline fun <reified VM : ViewModel> activityViewModel() = activityViewModels<VM> { vmFactory }
 
     //region Lifecycle
     override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
