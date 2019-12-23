@@ -37,7 +37,7 @@ object LibraryDependency {
         const val APPCOMPAT = "1.2.0-alpha01"
         const val CARDVIEW = ANDROIDX
         const val RECYCLERVIEW = "1.1.0"
-        const val CONSTRAINTLAYOUT = "2.0.0-beta3"
+        const val CONSTRAINTLAYOUT = "2.0.0-beta4"
         const val COORDINATORLAYOUT = "1.1.0"
 
         const val AAC_LIFECYCLE = "2.2.0-rc03"
@@ -45,16 +45,16 @@ object LibraryDependency {
         const val KODEIN = "6.5.1"
 
         const val KTX = "1.2.0-rc01"
-        const val FRAGMENT_KTX = "1.2.0-rc03"
+        const val FRAGMENT_KTX = "1.2.0-rc04"
         const val PALETTE_KTX = "1.0.0"
         const val COLLECTION_KTX = "1.1.0"
         const val VIEWMODEL_KTX = AAC_LIFECYCLE
-        const val NAVIGATION_KTX = "2.2.0-rc03"
-        const val WORK_KTX = "2.3.0-beta01"
+        const val NAVIGATION_KTX = "2.2.0-rc04"
+        const val WORK_KTX = "2.3.0-beta02"
         const val DYN_ANIM_KTX = "1.0.0-alpha01"
-        const val CAMERA_KTX = "1.0.0-alpha04"
+        const val CAMERA_KTX = "1.0.0-alpha05"
 
-        const val ROOM = "2.2.2"
+        const val ROOM = "2.2.3"
         const val MMKV = "1.0.23"
         const val GSON = "2.8.6"
         const val PLAY_CORE = "1.6.4"
