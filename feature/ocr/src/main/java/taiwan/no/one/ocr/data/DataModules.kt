@@ -24,6 +24,7 @@
 
 package taiwan.no.one.ocr.data
 
+import android.content.Context
 import com.googlecode.tesseract.android.TessBaseAPI
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -36,11 +37,12 @@ import taiwan.no.one.ocr.data.repository.OcrRepository
 import taiwan.no.one.ocr.data.store.LocalStore
 import taiwan.no.one.ocr.data.store.RemoteStore
 import taiwan.no.one.ocr.domain.repository.OcrRepo
+import taiwan.no.one.taggerprice.TaggerPriceApp
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 object DataModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}DataModule") {
-        import(localProvide())
+        import(localProvide(TaggerPriceApp.appContext.applicationContext))
         import(remoteProvide())
 
         bind<LocalStore>() with singleton { LocalStore(instance()) }
@@ -49,14 +51,14 @@ object DataModules : ModuleProvider {
         bind<OcrRepo>() with singleton { OcrRepository(instance(), instance()) }
     }
 
-    private fun localProvide() = Kodein.Module("${FEAT_NAME}LocalModule") {
+    private fun localProvide(context: Context) = Kodein.Module("${FEAT_NAME}LocalModule") {
         bind<TessBaseAPI>() with singleton {
             TessBaseAPI().apply {
                 pageSegMode = TessBaseAPI.PageSegMode.PSM_SINGLE_LINE
             }
         }
 
-        bind<OcrService>() with singleton { TesseractOcr(instance()) }
+        bind<OcrService>() with singleton { TesseractOcr(context, instance()) }
     }
 
     private fun remoteProvide() = Kodein.Module("${FEAT_NAME}RemoteModule") {

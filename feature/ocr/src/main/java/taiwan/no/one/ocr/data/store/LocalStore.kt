@@ -36,5 +36,5 @@ internal class LocalStore(
 
     override suspend fun retrieveRecognition(file: File) = ocrService.recognize(file)
 
-    override suspend fun retrieveRecognition(byteArray: ByteArray) = ocrService.recognize(byteArray)
+    override suspend fun retrieveRecognition(byteArray: ByteArray) = TODO()
 }

@@ -34,6 +34,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 internal class TesseractOcr(
+    private val context: Context,
     private val tess: TessBaseAPI
 ) : OcrService {
     companion object {
@@ -43,17 +44,17 @@ internal class TesseractOcr(
 
     private var currentLang = DEFAULT_STR
 
-    override suspend fun recognize(context: Context, bitmap: Bitmap): String {
+    override suspend fun recognize(bitmap: Bitmap): String {
         tess.setImage(bitmap)
         return tess.utF8Text
     }
 
-    override suspend fun recognize(context: Context, file: File): String {
+    override suspend fun recognize(file: File): String {
         tess.setImage(file)
         return tess.utF8Text
     }
 
-    override suspend fun recognize(context: Context, raw: ByteArray, lang: String): String {
+    override suspend fun recognize(raw: ByteArray, lang: String): String {
         if (shouldCopyTo(getLanguagePath(lang))) {
             copyToSD(context, getLanguagePath(lang), getTrainedDataLangName(lang))
         }
