@@ -25,7 +25,6 @@
 package taiwan.no.one.currency.presentation
 
 import android.os.Bundle
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.devrapid.kotlinknifer.loge
 import com.devrapid.kotlinknifer.logw
@@ -35,7 +34,7 @@ import taiwan.no.one.currency.databinding.FragmentCurrencyBinding
 import taiwan.no.one.currency.presentation.viewmodel.CurrencyViewModel
 
 internal class CurrencyFragment : BaseFragment<BaseActivity<*>, FragmentCurrencyBinding>() {
-    private val vm by viewModels<CurrencyViewModel> { vmFactory }
+    private val vm by viewModel<CurrencyViewModel>()
 
     override fun bindLiveData() {
         vm.countries.observe(viewLifecycleOwner) {

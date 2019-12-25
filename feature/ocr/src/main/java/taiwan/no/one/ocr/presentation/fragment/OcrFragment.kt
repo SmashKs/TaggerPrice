@@ -73,7 +73,7 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
     private val LANGUAGE_PATH = tessdata + File.separator + DEFAULT_LANGUAGE_NAME
     private val PERMISSION_REQUEST_CODE = 0
 
-    private val vm by viewModels<OcrViewModel> { vmFactory }
+    private val vm by viewModel<OcrViewModel>()
 
     override fun bindLiveData() {
         vm.result.observe(viewLifecycleOwner) {
