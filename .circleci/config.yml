@@ -20,14 +20,14 @@ jobs:
           name: Decode Api URL
           command: echo ${MUSIC_URI} | base64 --decode > ${HOME}/workspace/local.properties
       - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum "presentation/build.gradle" }}
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradlew
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum "presentation/build.gradle" }}
       - run:
           name: Run Unit Tests
           command: ./gradlew test
