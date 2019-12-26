@@ -6,14 +6,14 @@ jobs:
     environment:
       JVM_OPTS: -Xms512m -Xmx4096m
       GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError" -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-      ANDROID_API_LEVEL: 28
+      ANDROID_API_LEVEL: 29
       EMULATOR_API_LEVEL: 22
       ANDROID_ABI: armeabi-v7a
       ANDROID_TAG: google_apis
       ANDROID_TARGET: android-$ANDROID_API_LEVEL
       ADB_INSTALL_TIMEOUT: 20 # minutes (2 minutes by default)
     docker:
-      - image: circleci/android:api-28
+      - image: circleci/android:api-29
     steps:
       - checkout
       - run:
