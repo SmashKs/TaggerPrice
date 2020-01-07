@@ -39,6 +39,7 @@ buildscript {
         // in the individual module build.gradle files
         classpath(config.GradleDependency.SAFE_ARGS)
         classpath(config.GradleDependency.GOOGLE_SERVICE)
+        classpath("com.google.gms:google-services:4.2.0")
 //        classpath "org.jacoco:org.jacoco.core:0.8.4"
 //        classpath("io.fabric.tools:gradle:1.31.1")
     }
@@ -90,16 +91,6 @@ subprojects {
                     plugin("com.android.library")
                     plugin("kotlin-android")
                 }
-//            "featDummy" -> {
-//                plugin("kotlin-android")
-//                plugin("kotlin-kapt")
-//                plugin("androidx.navigation.safeargs.kotlin")
-//            }
-//            "app" -> {
-//                plugin("kotlin-android")
-//                plugin("androidx.navigation.safeargs.kotlin")
-// //                plugin("io.fabric")
-//            }
             }
             if (name == "core") {
                 plugin("kotlin-android-extensions")
@@ -110,45 +101,6 @@ subprojects {
         }
         //endregion
     }
-
-//    //region Detekt
-//    val detektVersion = config.GradleDependency.Version.DETEKT
-//    detekt {
-//        toolVersion = detektVersion
-//        debug = true
-//        parallel = true
-//        input = files("src/main/java")
-//        config = files("$rootDir/detekt.yml")
-//
-//        idea {
-//            path = "$rootDir/.idea"
-//            codeStyleScheme = "$rootDir/.idea/idea-code-style.xml"
-//            inspectionsProfile = "$rootDir/.idea/inspect.xml"
-//            mask = "*.kt"
-//        }
-//    }
-//
-//    tasks.withType<io.gitlab.arturbosch.detekt.Detekt> {
-//        exclude(".*/resources/.*", ".*/build/.*") // but exclude our legacy internal package
-//    }
-//    //endregion
-
-//    tasks.whenObjectAdded {
-//        if (
-//            name.contains("lint") ||
-//            name == "clean" ||
-//            name.contains("jacoco") ||
-//            name.contains("lintVitalRelease") ||
-//            name.contains("Aidl") ||
-//            name.contains("mockableAndroidJar") ||
-//            name.contains("UnitTest") ||
-//            name.contains("AndroidTest") ||
-//            name.contains("Ndk") ||
-//            name.contains("Jni")
-//        ) {
-//            enabled = false
-//        }
-//    }
 }
 
 tasks.register("clean", Delete::class) {

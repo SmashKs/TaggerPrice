@@ -37,6 +37,7 @@ plugins {
     else {
         id("com.android.library")
     }
+
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
@@ -92,7 +93,8 @@ android {
     sourceSets {
         getByName("main").apply {
             res.srcDirs(*FeatureRes.dirs)
-            manifest.srcFile(file(if (Configuration.isFeature) FeatureRes.MANIFEST_FEATURE else FeatureRes.MANIFEST_APP))
+            manifest.srcFile(file(
+                if (Configuration.isFeature) FeatureRes.MANIFEST_FEATURE else FeatureRes.MANIFEST_APP))
         }
     }
     dexOptions {
@@ -140,8 +142,9 @@ dependencies {
     api(LibraryDependency.KNIFER)
     api(LibraryDependency.MMKV)
     api(LibraryDependency.COIL)
-    implementation("androidx.navigation:navigation-fragment-ktx:2.1.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.1.0")
+    implementation(LibraryDependency.NAVIGATION_FRAGMENT_KTX)
+    implementation(LibraryDependency.NAVIGATION_UI_KTX)
+    implementation("com.google.firebase:firebase-core:16.0.4")
     (Dependencies.androidxKtxDeps.values +
      Dependencies.androidxDeps.values +
      Dependencies.uiDeps.values).forEach(::api)
@@ -154,3 +157,5 @@ fun com.android.build.gradle.internal.dsl.DefaultConfig.buildConfigField(name: S
     val strValue = value.joinToString(prefix = "{", separator = ",", postfix = "}", transform = { "\"$it\"" })
     buildConfigField("String[]", name, strValue)
 }
+
+apply(mapOf("plugin" to "com.google.gms.google-services"))
