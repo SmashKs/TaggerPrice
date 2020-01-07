@@ -31,7 +31,7 @@ object LibraryDependency {
         const val KINFER = "2.1.17"
 
         const val DEX_TOOL = "2.0.1"
-        const val MATERIAL = "1.2.0-alpha02"
+        const val MATERIAL = "1.2.0-alpha03"
         const val ANDROIDX = "1.0.0"
         const val ANNOTATION = "1.1.0"
         const val APPCOMPAT = "1.2.0-alpha01"
@@ -60,9 +60,9 @@ object LibraryDependency {
         const val GSON = "2.8.6"
         const val PLAY_CORE = "1.6.4"
 
-        const val COIL = "0.8.0"
-        const val RETROFIT2 = "2.7.0"
-        const val OKHTTP3 = "4.2.2"
+        const val COIL = "0.9.1"
+        const val RETROFIT2 = "2.7.1"
+        const val OKHTTP3 = "4.3.0"
         const val JSOUP = "1.12.1"
 
         const val FIREBASE_CORE = "16.0.8"
