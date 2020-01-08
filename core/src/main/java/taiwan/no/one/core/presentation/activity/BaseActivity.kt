@@ -41,7 +41,8 @@ import java.lang.reflect.ParameterizedType
  * The basic activity is for the normal activity that prepares all necessary variables or functions.
  */
 abstract class BaseActivity<out V : ViewBinding> : LoadableActivity(), CoroutineScope by MainScope() {
-    protected val vmFactory: ViewModelProvider.Factory by instance()
+    /** Provide the viewmodel factory to create a viewmodel */
+    val vmFactory: ViewModelProvider.Factory by instance()
     protected val binding by viewBinding()
 
     //region Activity lifecycle

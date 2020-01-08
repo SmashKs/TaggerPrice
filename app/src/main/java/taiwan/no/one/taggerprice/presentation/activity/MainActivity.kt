@@ -27,6 +27,7 @@ package taiwan.no.one.taggerprice.presentation.activity
 import android.content.Context
 import android.content.res.Configuration
 import com.google.android.play.core.splitcompat.SplitCompat
+import com.google.firebase.analytics.FirebaseAnalytics
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.taggerprice.BuildConfig
 import taiwan.no.one.taggerprice.TaggerPriceApp
@@ -44,5 +45,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         val ctx = newBase?.createConfigurationContext(config)
         super.attachBaseContext(ctx)
         SplitCompat.install(this)
+        FirebaseAnalytics.getInstance(this)
     }
 }

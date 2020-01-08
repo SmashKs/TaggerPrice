@@ -51,11 +51,12 @@ import java.lang.reflect.ParameterizedType
  */
 abstract class BaseFragment<out A : BaseActivity<*>, out V : ViewBinding> : LoadableFragment(),
                                                                             CoroutineScope by MainScope() {
+    /** Provide the viewmodel factory to create a viewmodel */
+    val vmFactory: ViewModelProvider.Factory by instance()
     @Suppress("UNCHECKED_CAST")
     protected val parent
         // If there's no parent, forcing crashing the app.
         get() = requireActivity() as A
-    protected val vmFactory: ViewModelProvider.Factory by instance()
     // Set action bar's back icon color into all fragments are inheriting advFragment.
     protected open val backDrawable by lazy {
         //                android.R.drawable.arrow_down_float
@@ -65,7 +66,7 @@ abstract class BaseFragment<out A : BaseActivity<*>, out V : ViewBinding> : Load
     }
     protected val binding by viewBinding()
     private lateinit var localInflater: LayoutInflater
-//        private val actionTitle by extra<String>(COMMON_TITLE)
+    //        private val actionTitle by extra<String>(COMMON_TITLE)
     private val actionTitle = ""
 
     //region Lifecycle

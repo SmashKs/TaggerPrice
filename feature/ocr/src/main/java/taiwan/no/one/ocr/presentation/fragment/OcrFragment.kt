@@ -31,11 +31,13 @@ import android.os.Bundle
 import android.os.Environment
 import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.checkSelfPermission
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.devrapid.kotlinknifer.loge
 import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinknifer.toBitmap
 import com.devrapid.kotlinknifer.toDrawable
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.googlecode.tesseract.android.TessBaseAPI
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
@@ -108,6 +110,15 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
         tessapi.setImage(R.drawable.ocr_test.toDrawable(requireContext()).toBitmap())
         logw(tessapi.utF8Text)
         tessapi.end()
+
+        // Firebase way
+        val visionImage = FirebaseVisionImage.fromBitmap(R.drawable.ocr_test.toDrawable(requireContext()).toBitmap())
+        val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
+        detector.processImage(visionImage).addOnSuccessListener {
+            logw(it.text)
+        }.addOnFailureListener {
+            loge(it)
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

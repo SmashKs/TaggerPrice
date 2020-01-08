@@ -142,9 +142,8 @@ dependencies {
     api(LibraryDependency.KNIFER)
     api(LibraryDependency.MMKV)
     api(LibraryDependency.COIL)
-    implementation(LibraryDependency.NAVIGATION_FRAGMENT_KTX)
-    implementation(LibraryDependency.NAVIGATION_UI_KTX)
-    implementation("com.google.firebase:firebase-core:16.0.4")
+    implementation(LibraryDependency.FIREBASE_CORE)
+    implementation(LibraryDependency.FIREBASE_ANALYTICS)
     (Dependencies.androidxKtxDeps.values +
      Dependencies.androidxDeps.values +
      Dependencies.uiDeps.values).forEach(::api)

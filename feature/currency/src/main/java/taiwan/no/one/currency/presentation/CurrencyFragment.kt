@@ -37,14 +37,14 @@ internal class CurrencyFragment : BaseFragment<BaseActivity<*>, FragmentCurrency
     private val vm by viewModel<CurrencyViewModel>()
 
     override fun bindLiveData() {
-        vm.countries.observe(viewLifecycleOwner) {
+        vm.countries.observe(this) {
             it.onSuccess {
                 logw(it)
             }.onFailure {
                 logw(it.localizedMessage.toString())
             }
         }
-        vm.rate.observe(viewLifecycleOwner) {
+        vm.rate.observe(this) {
             it.onSuccess {
                 logw(it)
             }.onFailure {

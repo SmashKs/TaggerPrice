@@ -71,6 +71,7 @@ object LibraryDependency {
         const val FIREBASE_MESSAGING = "17.5.0"
         const val FIREBASE_ANALYTICS = "17.2.0"
         const val FIREBASE_CRASHLYTICS = "2.10.1"
+        const val FIREBASE_ML = "24.0.1"
 
         const val GOOGLE_SERVICE = "4.3.2"
 
@@ -149,8 +150,10 @@ object LibraryDependency {
     const val FIREBASE_CORE = "com.google.firebase:firebase-core:${Version.FIREBASE_CORE}"
     const val FIREBASE_DB = "com.google.firebase:firebase-database:${Version.FIREBASE_DATABASE}"
     const val FIREBASE_AUTH = "com.google.firebase:firebase-auth:${Version.FIREBASE_AUTH}"
+    const val FIREBASE_MESSAGING = "com.google.firebase:firebase-messaging:${Version.FIREBASE_MESSAGING}"
     const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics:${Version.FIREBASE_ANALYTICS}"
     const val FIREBASE_CRASHLYTICS = "com.crashlytics.sdk.android:crashlytics:${Version.FIREBASE_CRASHLYTICS}"
+    const val FIREBASE_ML = "com.google.firebase:firebase-ml-vision:${Version.FIREBASE_ML}"
     //endregion
 //    const val CLOUDINARY = "com.cloudinary:cloudinary-android:${Version.cloudinary}"
 

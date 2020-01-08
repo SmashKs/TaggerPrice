@@ -124,6 +124,7 @@ dependencies {
     implementation(project(CommonModuleDependency.APP))
     implementation(LibraryDependency.TESSERACT)
     implementation(LibraryDependency.TF_LITE)
+    implementation(LibraryDependency.FIREBASE_ML)
     kapt(LibraryDependency.ROOM_ANNOTATION)
     kapt(LibraryDependency.LIFECYCLE_COMPILER)
 }

@@ -34,12 +34,11 @@ buildscript {
         }
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.0.0-alpha07")
+        classpath("com.android.tools.build:gradle:4.0.0-alpha08")
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath(config.GradleDependency.SAFE_ARGS)
         classpath(config.GradleDependency.GOOGLE_SERVICE)
-        classpath("com.google.gms:google-services:4.2.0")
 //        classpath "org.jacoco:org.jacoco.core:0.8.4"
 //        classpath("io.fabric.tools:gradle:1.31.1")
     }
