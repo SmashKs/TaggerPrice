@@ -46,12 +46,12 @@ object LibraryDependency {
         const val KODEIN = "6.5.1"
 
         const val KTX = "1.2.0-rc01"
-        const val FRAGMENT_KTX = "1.2.0-rc04"
+        const val FRAGMENT_KTX = "1.2.0-rc05"
         const val PALETTE_KTX = "1.0.0"
         const val COLLECTION_KTX = "1.1.0"
         const val VIEWMODEL_KTX = AAC_LIFECYCLE
         const val NAVIGATION_KTX = "2.2.0-rc04"
-        const val WORK_KTX = "2.3.0-beta02"
+        const val WORK_KTX = "2.3.0-rc01"
         const val DYN_ANIM_KTX = "1.0.0-alpha01"
         const val CAMERA_KTX = "1.0.0-alpha03"
 
@@ -62,14 +62,14 @@ object LibraryDependency {
 
         const val COIL = "0.9.1"
         const val RETROFIT2 = "2.7.1"
-        const val OKHTTP3 = "4.3.0"
+        const val OKHTTP3 = "4.3.1"
         const val JSOUP = "1.12.1"
 
-        const val FIREBASE_CORE = "16.0.8"
+        const val FIREBASE_CORE = "17.2.1"
         const val FIREBASE_DATABASE = "16.1.0"
         const val FIREBASE_AUTH = "16.0.3"
         const val FIREBASE_MESSAGING = "17.5.0"
-        const val FIREBASE_ANALYTICS = "17.2.0"
+        const val FIREBASE_ANALYTICS = "17.2.1"
         const val FIREBASE_CRASHLYTICS = "2.10.1"
         const val FIREBASE_ML = "24.0.1"
 
@@ -80,7 +80,7 @@ object LibraryDependency {
         const val LOTTIE = "3.3.1"
 
         const val TESSERACT = "9.1.0"
-        const val TENSORFLOW_LITE = "2.0.0"
+        const val TENSORFLOW_LITE = "2.1.0"
     }
 
     const val ANDROID_COROUTINE =

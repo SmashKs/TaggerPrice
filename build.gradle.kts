@@ -47,6 +47,7 @@ buildscript {
 plugins {
     id(config.GradleDependency.DETEKT).version(config.GradleDependency.Version.DETEKT)
     id(config.GradleDependency.GRADLE_VERSION_UPDATER).version(config.GradleDependency.Version.VERSION_UPDATER)
+    id(config.GradleDependency.DEPENDENCY_GRAPH).version(config.GradleDependency.Version.DEPENDENCY_GRAPH)
 }
 
 allprojects {
@@ -96,6 +97,7 @@ subprojects {
                 plugin("org.jetbrains.kotlin.kapt")
             }
             plugin(config.GradleDependency.DETEKT)
+            plugin("project-report")  // for generating dependency graph
 //        plugin("org.jlleitschuh.gradle.ktlint")
         }
         //endregion
@@ -104,4 +106,8 @@ subprojects {
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
+}
+
+dependencyGraphGenerator {
+    generators = listOf(com.vanniktech.dependency.graph.generator.DependencyGraphGeneratorExtension.Generator.ALL)
 }
