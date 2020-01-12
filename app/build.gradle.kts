@@ -70,6 +70,9 @@ android {
         }
         buildConfigField("FEATURE_MODULE_NAMES", CommonModuleDependency.getFeatureModuleName())
     }
+    buildFeatures {
+        viewBinding = true
+    }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
@@ -118,7 +121,6 @@ android {
         val options = this as org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
         options.jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-    viewBinding.isEnabled = true
     if (!Configuration.isFeature) {
         dynamicFeatures = CommonModuleDependency.getDynamicFeatureModules()
     }

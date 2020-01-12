@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 
+import com.android.build.api.dsl.CommonExtension
 import config.AndroidConfiguration
 import config.CommonModuleDependency
 import config.Configuration
@@ -110,7 +111,9 @@ android {
         val options = this as org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
         options.jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-    viewBinding.isEnabled = true
+    (this as CommonExtension<*, *, *, *, *, *, *, *, *, *, *, *, *, *>).buildFeatures {
+        viewBinding = true
+    }
 }
 
 kapt {

@@ -62,7 +62,6 @@ internal class CurrencyFragment : BaseFragment<BaseActivity<*>, FragmentCurrency
 
     override fun rendered(savedInstanceState: Bundle?) {
 //        vm.getCountries()
-        logw("===================================")
         vm.getRate()
     }
 }

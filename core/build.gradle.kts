@@ -86,7 +86,6 @@ android {
         val options = this as org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
         options.jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-    viewBinding.isEnabled = true
 }
 
 androidExtensions {
