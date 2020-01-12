@@ -22,21 +22,10 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.presentation.viewmodel
+package taiwan.no.one.ktx.livedata
 
-import taiwan.no.one.capture.domain.model.Dummy
-import taiwan.no.one.capture.domain.usecase.FetchDummyCase
-import taiwan.no.one.core.presentation.viewmodel.BehindViewModel
-import taiwan.no.one.ktx.livedata.SafeMutableLiveData
-import taiwan.no.one.ktx.livedata.toLiveData
+class SafeMutableLiveData<T>(value: T) : SafeLiveData<T>(value) {
+    public override fun postValue(value: T) = super.postValue(value)
 
-internal class CaptureViewModel(
-    private val fetchDummyCase: FetchDummyCase
-) : BehindViewModel() {
-    private val _dummy by lazy { SafeMutableLiveData<List<Dummy>>(emptyList()) }
-    val dummy = _dummy.toLiveData()
-
-    fun getDummies() = launchBehind {
-        fetchDummyCase.execute().onSuccess(_dummy::postValue)
-    }
+    public override fun setValue(value: T) = super.setValue(value)
 }

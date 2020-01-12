@@ -25,11 +25,7 @@
 package taiwan.no.one.ktx.livedata
 
 class SilentMutableLiveData<T> : SilentLiveData<T>(), SilentHook<T> {
-    public override fun postValue(value: T) {
-        super.postValue(value)
-    }
+    public override fun postValue(value: T) = super.postValue(value)
 
-    public override fun setValue(value: T) {
-        super.setValue(value)
-    }
+    public override fun setValue(value: T) = super.setValue(value)
 }
