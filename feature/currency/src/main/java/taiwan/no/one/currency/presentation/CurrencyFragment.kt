@@ -26,6 +26,7 @@ package taiwan.no.one.currency.presentation
 
 import android.os.Bundle
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import com.devrapid.kotlinknifer.loge
 import com.devrapid.kotlinknifer.logw
 import taiwan.no.one.core.presentation.activity.BaseActivity
@@ -53,8 +54,15 @@ internal class CurrencyFragment : BaseFragment<BaseActivity<*>, FragmentCurrency
         }
     }
 
+    override fun componentListenersBinding() {
+        binding.btn.setOnClickListener {
+            findNavController().navigate(taiwan.no.one.taggerprice.R.id.nextFragment)
+        }
+    }
+
     override fun rendered(savedInstanceState: Bundle?) {
 //        vm.getCountries()
+        logw("===================================")
         vm.getRate()
     }
 }

@@ -22,21 +22,10 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.ktx.internet
+package taiwan.no.one.currency.presentation
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Context.CONNECTIVITY_SERVICE
-import android.net.ConnectivityManager
-import com.devrapid.kotlinshaver.cast
+import taiwan.no.one.core.presentation.activity.BaseActivity
+import taiwan.no.one.core.presentation.fragment.BaseFragment
+import taiwan.no.one.currency.databinding.FragmentNextBinding
 
-@SuppressLint("MissingPermission")
-fun hasNetwork(context: Context): Boolean {
-    var isConnected = false // Initial Value
-    val connectivityManager = cast<ConnectivityManager>(context.getSystemService(CONNECTIVITY_SERVICE))
-    val activeNetwork = connectivityManager.activeNetworkInfo
-    if (activeNetwork != null && activeNetwork.isConnected) {
-        isConnected = true
-    }
-    return isConnected
-}
+internal class NextFragment : BaseFragment<BaseActivity<*>, FragmentNextBinding>()

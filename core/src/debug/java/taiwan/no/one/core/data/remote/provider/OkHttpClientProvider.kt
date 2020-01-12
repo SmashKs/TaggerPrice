@@ -30,6 +30,7 @@ import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import taiwan.no.one.core.data.remote.interceptor.CacheInterceptor
 import java.util.concurrent.TimeUnit
 
 open class OkHttpClientProvider(
@@ -46,6 +47,7 @@ open class OkHttpClientProvider(
         writeTimeout(writeTimeOut, TimeUnit.SECONDS)
         connectTimeout(connectTimeOut, TimeUnit.SECONDS)
         interceptors.forEach { addInterceptor(it) }
+        addNetworkInterceptor(CacheInterceptor(context))
         addNetworkInterceptor(StethoInterceptor())
         // Those three are for HTTPS protocol.
         connectionSpecs(mutableListOf(ConnectionSpec.RESTRICTED_TLS,

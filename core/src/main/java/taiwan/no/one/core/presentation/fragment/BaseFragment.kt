@@ -92,9 +92,13 @@ abstract class BaseFragment<out A : BaseActivity<*>, out V : ViewBinding> : Load
         return anim
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         // Pre-set the binding live data.
         bindLiveData()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Keep the instance data.
         retainInstance = true
         localInflater = customTheme()?.let {

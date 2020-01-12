@@ -22,21 +22,30 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.ktx.internet
+package taiwan.no.one.core.data.remote.interceptor
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Context.CONNECTIVITY_SERVICE
-import android.net.ConnectivityManager
-import com.devrapid.kotlinshaver.cast
+import okhttp3.CacheControl
+import okhttp3.Interceptor
+import okhttp3.Response
+import taiwan.no.one.ktx.internet.hasNetwork
+import java.util.concurrent.TimeUnit
 
-@SuppressLint("MissingPermission")
-fun hasNetwork(context: Context): Boolean {
-    var isConnected = false // Initial Value
-    val connectivityManager = cast<ConnectivityManager>(context.getSystemService(CONNECTIVITY_SERVICE))
-    val activeNetwork = connectivityManager.activeNetworkInfo
-    if (activeNetwork != null && activeNetwork.isConnected) {
-        isConnected = true
+class CacheInterceptor(
+    private val context: Context
+) : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val response = chain.proceed(chain.request())
+        val cacheControl = if (hasNetwork(context)) {
+            CacheControl.Builder().maxAge(0, TimeUnit.SECONDS).build()
+        }
+        else {
+            CacheControl.Builder().maxStale(Constant.CACHE_DAY, TimeUnit.DAYS).build()
+        }
+
+        return response.newBuilder()
+            .removeHeader(Constant.HEADER_CACHE_CONTROL)
+            .header(Constant.HEADER_CACHE_CONTROL, cacheControl.toString())
+            .build()
     }
-    return isConnected
 }
