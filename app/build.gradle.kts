@@ -139,7 +139,7 @@ kapt {
 
 dependencies {
     //    api(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    api(project(":core"))
+    api(project(CommonModuleDependency.LIB_CORE))
     api(LibraryDependency.PLAY_CORE)
     api(LibraryDependency.KNIFER)
     api(LibraryDependency.MMKV)

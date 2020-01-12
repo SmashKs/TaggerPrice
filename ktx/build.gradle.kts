@@ -23,6 +23,7 @@
  */
 
 import config.AndroidConfiguration
+import config.CommonModuleDependency
 import config.Dependencies
 import config.LibraryDependency
 
@@ -60,7 +61,7 @@ android {
 
 dependencies {
     //    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    listOf(project(":widget"), project(":ext")).forEach(::api)
+    listOf(project(CommonModuleDependency.LIB_WIDGET), project(CommonModuleDependency.LIB_PURE_EXT)).forEach(::api)
     (Dependencies.androidxDeps.values + Dependencies.androidxKtxDeps.values).forEach(::implementation)
     implementation(LibraryDependency.KNIFER)
 }

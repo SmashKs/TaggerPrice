@@ -124,7 +124,9 @@ kapt {
 
 dependencies {
     //    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(project(CommonModuleDependency.APP))
+    listOf(project(CommonModuleDependency.APP),
+           project(CommonModuleDependency.FEAT_CURRENCY),
+           project(CommonModuleDependency.FEAT_OCR)).forEach(::implementation)
     kapt(LibraryDependency.ROOM_ANNOTATION)
     kapt(LibraryDependency.LIFECYCLE_COMPILER)
 }

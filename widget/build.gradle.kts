@@ -23,6 +23,7 @@
  */
 
 import config.AndroidConfiguration
+import config.CommonModuleDependency
 import config.Dependencies
 import config.LibraryDependency
 
@@ -60,7 +61,7 @@ android {
 
 dependencies {
     //    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(project(":ext"))
+    implementation(project(CommonModuleDependency.LIB_PURE_EXT))
     (Dependencies.commonAndroidxDeps.values + Dependencies.kotlinAndroidDeps.values).forEach(::implementation)
     implementation(LibraryDependency.MATERIAL_DESIGN)
     implementation(LibraryDependency.CARDVIEW)

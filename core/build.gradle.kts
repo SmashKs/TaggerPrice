@@ -24,6 +24,7 @@
 
 import com.android.build.api.dsl.CommonExtension
 import config.AndroidConfiguration
+import config.CommonModuleDependency
 import config.Dependencies
 import config.LibraryDependency
 import org.jetbrains.kotlin.gradle.internal.CacheImplementation
@@ -105,7 +106,7 @@ kapt {
 
 dependencies {
     //    api(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    listOf(project(":ktx"), project(":device")).forEach(::api)
+    listOf(project(CommonModuleDependency.LIB_KTX), project(CommonModuleDependency.LIB_DEVICE)).forEach(::api)
     (Dependencies.kotlinDeps.values +
      Dependencies.kotlinAndroidDeps.values +
      Dependencies.commonAndroidxDeps.values +

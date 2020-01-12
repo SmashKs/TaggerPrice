@@ -23,6 +23,7 @@
  */
 
 import config.AndroidConfiguration
+import config.CommonModuleDependency
 import config.Dependencies
 
 android {
@@ -59,7 +60,7 @@ android {
 
 dependencies {
     //    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(project(":ext"))
+    implementation(project(CommonModuleDependency.LIB_PURE_EXT))
     Dependencies.kotlinDeps.values.forEach(::implementation)
     Dependencies.cameraDeps.values.forEach(::api)
 }
