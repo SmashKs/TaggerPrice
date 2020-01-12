@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 
+import com.android.build.api.dsl.CommonExtension
 import config.AndroidConfiguration
 import config.Dependencies
 import config.LibraryDependency
@@ -85,6 +86,9 @@ android {
         // If we don't, it does not work: "unresolved reference: jvmTarget"
         val options = this as org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
         options.jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+    (this as CommonExtension<*, *, *, *, *, *, *, *, *, *, *, *, *, *>).buildFeatures {
+        viewBinding = true
     }
 }
 
