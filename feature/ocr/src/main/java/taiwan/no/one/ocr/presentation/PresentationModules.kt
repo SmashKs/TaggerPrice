@@ -34,7 +34,7 @@ import taiwan.no.one.ocr.presentation.viewmodel.OcrViewModel
 import taiwan.no.one.taggerprice.di.ViewModelEntry
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-object PresentationModules : ModuleProvider {
+internal object PresentationModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}PreziModule") {
         bind<ViewModelEntry>().inSet() with provider {
             OcrViewModel::class.java to OcrViewModel(instance())

@@ -40,7 +40,7 @@ import taiwan.no.one.ocr.domain.repository.OcrRepo
 import taiwan.no.one.taggerprice.TaggerPriceApp
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-object DataModules : ModuleProvider {
+internal object DataModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}DataModule") {
         import(localProvide(TaggerPriceApp.appContext.applicationContext))
         import(remoteProvide())

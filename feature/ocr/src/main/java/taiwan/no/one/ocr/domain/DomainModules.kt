@@ -33,7 +33,7 @@ import taiwan.no.one.ocr.domain.usecase.FetchRecognizeCase
 import taiwan.no.one.ocr.domain.usecase.FetchRecognizeOneShotCase
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-object DomainModules : ModuleProvider {
+internal object DomainModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}DomainModule") {
         bind<FetchRecognizeCase>() with singleton { FetchRecognizeOneShotCase(instance()) }
     }

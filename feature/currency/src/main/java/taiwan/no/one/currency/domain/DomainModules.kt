@@ -35,7 +35,7 @@ import taiwan.no.one.currency.domain.usecase.FetchCurrencyRateCase
 import taiwan.no.one.currency.domain.usecase.FetchRateCase
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-object DomainModules : ModuleProvider {
+internal object DomainModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}DomainModule") {
         bind<FetchCountriesCase>() with singleton { FetchCountriesInfoCase(instance()) }
         bind<FetchRateCase>() with singleton { FetchCurrencyRateCase(instance()) }

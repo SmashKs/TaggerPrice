@@ -43,7 +43,7 @@ import taiwan.no.one.currency.domain.repostory.CurrencyRepo
 import taiwan.no.one.taggerprice.TaggerPriceApp
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-object DataModules : ModuleProvider {
+internal object DataModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}DataModule") {
         import(localProvide())
         import(remoteProvide(TaggerPriceApp.appContext))

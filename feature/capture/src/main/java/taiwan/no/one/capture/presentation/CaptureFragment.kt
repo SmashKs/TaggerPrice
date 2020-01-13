@@ -39,7 +39,10 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.PreviewConfig
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.devrapid.kotlinknifer.logw
 import kotlinx.android.synthetic.main.fragment_capture.viewFinder
+import org.kodein.di.description
+import org.kodein.di.fullDescription
 import taiwan.no.one.capture.databinding.FragmentCaptureBinding
 import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
 import taiwan.no.one.core.presentation.activity.BaseActivity
@@ -63,6 +66,9 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
 
     override fun rendered(savedInstanceState: Bundle?) {
         super.rendered(savedInstanceState)
+        println("=================================================")
+        println(kodein.container.tree.bindings.description())
+        println("=================================================")
         // Request camera permissions
         if (allPermissionsGranted()) {
             viewFinder.post { startCamera() }

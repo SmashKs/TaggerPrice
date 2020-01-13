@@ -53,6 +53,7 @@ object CommonModuleDependency {
         .toMutableSet()
 
     fun getFeatureModuleName() = getDynamicFeatureModules()
+        .filter { it == FEAT_CAPTURE } // Only one will be imported
         .map { it.replace(":feature:", "") }
         .toMutableSet()
 }

@@ -30,6 +30,9 @@ import taiwan.no.one.capture.domain.DomainModules
 import taiwan.no.one.capture.presentation.PresentationModules
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
+typealias CurrencyFeatureModules = taiwan.no.one.currency.FeatModules
+typealias OcrFeatureModules = taiwan.no.one.ocr.FeatModules
+
 object FeatModules : ModuleProvider {
     internal const val FEAT_NAME = "Capture"
 
@@ -37,5 +40,8 @@ object FeatModules : ModuleProvider {
         import(DataModules.provide())
         import(DomainModules.provide())
         import(PresentationModules.provide())
+
+        import(CurrencyFeatureModules.provide())
+        import(OcrFeatureModules.provide())
     }
 }

@@ -33,7 +33,7 @@ import taiwan.no.one.capture.domain.usecase.FetchDummyCase
 import taiwan.no.one.capture.domain.usecase.FetchDummyOneShotCase
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-object DomainModules : ModuleProvider {
+internal object DomainModules : ModuleProvider {
     override fun provide() = Kodein.Module("${FEAT_NAME}DomainModule") {
         bind<FetchDummyCase>() with singleton { FetchDummyOneShotCase(instance()) }
     }

@@ -28,7 +28,7 @@ import taiwan.no.one.currency.domain.model.CountryModel
 import taiwan.no.one.currency.domain.model.CurrencyModel
 import taiwan.no.one.currency.domain.model.CurrencyRateModel
 
-internal interface CurrencyRepo {
+interface CurrencyRepo {
     suspend fun fetchCurrencyRate(currencyKeys: List<Pair<String, String>>): List<CurrencyRateModel>
 
     suspend fun fetchCountries(): List<CountryModel>
