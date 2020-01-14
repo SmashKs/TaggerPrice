@@ -24,14 +24,12 @@
 
 package taiwan.no.one.currency.domain.usecase
 
-import taiwan.no.one.core.domain.usecase.Usecase
+import taiwan.no.one.currency.domain.parameters.RateRequestParams
 import taiwan.no.one.currency.domain.repostory.CurrencyRepo
 
-class FetchCurrencyRateCase(
+internal class FetchCurrencyRateCase(
     private val currencyRepo: CurrencyRepo
 ) : FetchRateCase() {
-    override suspend fun acquireCase(parameter: Request?) =
+    override suspend fun acquireCase(parameter: RateRequestParams?) =
         currencyRepo.fetchCurrencyRate(requireNotNull(parameter).keys)
-
-    data class Request(val keys: List<Pair<String, String>>) : Usecase.RequestValues
 }

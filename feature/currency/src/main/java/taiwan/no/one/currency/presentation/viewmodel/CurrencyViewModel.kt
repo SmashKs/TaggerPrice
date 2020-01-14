@@ -33,7 +33,7 @@ import taiwan.no.one.currency.domain.usecase.FetchRateCase
 import taiwan.no.one.currency.domain.usecase.FetchRateReq
 import taiwan.no.one.ktx.livedata.toLiveData
 
-internal class CurrencyViewModel(
+class CurrencyViewModel(
     private val fetchRateCase: FetchRateCase,
     private val fetchCountriesCase: FetchCountriesCase
 ) : BehindViewModel() {

@@ -30,11 +30,12 @@ import taiwan.no.one.ocr.data.local.service.OcrService
 import java.io.File
 
 internal class LocalStore(
-    private val ocrService: OcrService
+    private val tesseractService: OcrService,
+    private val firebaseService: OcrService
 ) : DataStore {
-    override suspend fun retrieveRecognition(bitmap: Bitmap) = ocrService.recognize(bitmap)
+    override suspend fun retrieveRecognition(bitmap: Bitmap) = tesseractService.recognize(bitmap)
 
-    override suspend fun retrieveRecognition(file: File) = ocrService.recognize(file)
+    override suspend fun retrieveRecognition(file: File) = tesseractService.recognize(file)
 
     override suspend fun retrieveRecognition(byteArray: ByteArray) = TODO()
 }

@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.presentation
+package taiwan.no.one.currency.domain.parameters
 
-import taiwan.no.one.core.presentation.activity.BaseActivity
-import taiwan.no.one.core.presentation.fragment.BaseFragment
-import taiwan.no.one.currency.databinding.FragmentNextBinding
+import taiwan.no.one.core.domain.usecase.Usecase
 
-internal class NextFragment : BaseFragment<BaseActivity<*>, FragmentNextBinding>()
+data class RateRequestParams(
+    val keys: List<Pair<String, String>>
+) : Usecase.RequestValues

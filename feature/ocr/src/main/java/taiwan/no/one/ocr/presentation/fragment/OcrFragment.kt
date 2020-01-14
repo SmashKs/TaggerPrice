@@ -32,7 +32,6 @@ import android.os.Environment
 import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.lifecycle.observe
-import com.devrapid.kotlinknifer.loge
 import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinknifer.toBitmap
 import com.devrapid.kotlinknifer.toDrawable
@@ -78,7 +77,7 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
     private val vm by viewModel<OcrViewModel>()
 
     override fun bindLiveData() {
-        vm.result.observe(viewLifecycleOwner) {
+        vm.result.observe(this) {
             it.onSuccess {
                 logw(it)
             }.onFailure {
@@ -114,11 +113,7 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
         // Firebase way
         val visionImage = FirebaseVisionImage.fromBitmap(R.drawable.ocr_test.toDrawable(requireContext()).toBitmap())
         val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
-        detector.processImage(visionImage).addOnSuccessListener {
-            logw(it.text)
-        }.addOnFailureListener {
-            loge(it)
-        }
+        val task = detector.processImage(visionImage)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

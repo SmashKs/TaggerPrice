@@ -25,6 +25,8 @@
 package taiwan.no.one.ocr.data
 
 import android.content.Context
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer
 import com.googlecode.tesseract.android.TessBaseAPI
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -32,6 +34,7 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 import taiwan.no.one.ocr.FeatModules.FEAT_NAME
 import taiwan.no.one.ocr.data.local.service.OcrService
+import taiwan.no.one.ocr.data.local.service.firebase.v1.FirebaseOcr
 import taiwan.no.one.ocr.data.local.service.tesseract.v1.TesseractOcr
 import taiwan.no.one.ocr.data.repository.OcrRepository
 import taiwan.no.one.ocr.data.store.LocalStore
@@ -41,11 +44,17 @@ import taiwan.no.one.taggerprice.TaggerPriceApp
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 internal object DataModules : ModuleProvider {
+    private const val TAG_LOCAL_SERVICE = "local service"
+    private const val TAG_REMOTE_SERVICE = "remote service"
+
+    private const val TAG_FIREBASE = "firebase"
+    private const val TAG_TESSERACT = "tesseract"
+
     override fun provide() = Kodein.Module("${FEAT_NAME}DataModule") {
         import(localProvide(TaggerPriceApp.appContext.applicationContext))
         import(remoteProvide())
 
-        bind<LocalStore>() with singleton { LocalStore(instance()) }
+        bind<LocalStore>() with singleton { LocalStore(instance(TAG_TESSERACT), instance(TAG_FIREBASE)) }
         bind<RemoteStore>() with singleton { RemoteStore() }
 
         bind<OcrRepo>() with singleton { OcrRepository(instance(), instance()) }
@@ -57,10 +66,17 @@ internal object DataModules : ModuleProvider {
                 pageSegMode = TessBaseAPI.PageSegMode.PSM_SINGLE_LINE
             }
         }
+        bind<FirebaseVisionTextRecognizer>(TAG_LOCAL_SERVICE) with singleton {
+            FirebaseVision.getInstance().onDeviceTextRecognizer
+        }
 
-        bind<OcrService>() with singleton { TesseractOcr(context, instance()) }
+        bind<OcrService>(TAG_TESSERACT) with singleton { TesseractOcr(context, instance()) }
+        bind<OcrService>(TAG_FIREBASE) with singleton { FirebaseOcr(context, instance(TAG_LOCAL_SERVICE)) }
     }
 
     private fun remoteProvide() = Kodein.Module("${FEAT_NAME}RemoteModule") {
+        bind<FirebaseVisionTextRecognizer>(TAG_REMOTE_SERVICE) with singleton {
+            FirebaseVision.getInstance().cloudTextRecognizer
+        }
     }
 }
