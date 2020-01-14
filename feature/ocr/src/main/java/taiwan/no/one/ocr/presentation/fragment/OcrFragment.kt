@@ -99,7 +99,6 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
         }
 
         copyToSD(LANGUAGE_PATH, DEFAULT_LANGUAGE_NAME)
-//        vm.getResult(R.drawable.ocr_test.toDrawable(requireContext()).toBitmap())
         val tessapi = TessBaseAPI().apply {
             val datapath = Environment.getExternalStorageDirectory().absolutePath + File.separator
             init(datapath, "eng")
@@ -117,7 +116,6 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        logw("onRequestPermissionsResult: " + grantResults[0])
         when (requestCode) {
             PERMISSION_REQUEST_CODE -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 logw("onRequestPermissionsResult: copy")
