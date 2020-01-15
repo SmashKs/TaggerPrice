@@ -25,9 +25,7 @@
 package taiwan.no.one.capture.presentation.fragment
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.util.Size
 import android.widget.Toast
 import androidx.camera.core.CameraX
@@ -35,64 +33,36 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageAnalysisConfig
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureConfig
-import androidx.camera.core.ImageProxy
 import androidx.camera.core.PreviewConfig
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.observe
-import com.devrapid.kotlinknifer.logw
-import com.devrapid.kotlinknifer.toBitmap
-import com.devrapid.kotlinknifer.toDrawable
 import kotlinx.android.synthetic.main.fragment_capture.viewFinder
 import taiwan.no.one.capture.databinding.FragmentCaptureBinding
 import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
+import taiwan.no.one.device.camera.LuminosityAnalyzer
 import taiwan.no.one.device.util.AutoFitPreviewBuilder
-import taiwan.no.one.ocr.presentation.viewmodel.OcrViewModel
-import java.nio.ByteBuffer
-import java.util.concurrent.TimeUnit
+import taiwan.no.one.ktx.context.allPermissionsGranted
 
 class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() {
-    companion object {
+    companion object Constant {
         // This is an arbitrary number we are using to keep track of the permission
         // request. Where an app has multiple context for requesting permission,
         // this can help differentiate the different contexts.
-        private val REQUEST_CODE_PERMISSIONS = 10
-
-        // This is an array of all the permission specified in the manifest.
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+        private const val REQUEST_CODE_PERMISSIONS = 10
     }
 
+    // This is an array of all the permission specified in the manifest.
+    private val requiredPermissions = arrayOf(Manifest.permission.CAMERA)
     private val vm by viewModel<CaptureViewModel>()
 
-    override fun rendered(savedInstanceState: Bundle?) {
-        super.rendered(savedInstanceState)
-        // Request camera permissions
-        if (allPermissionsGranted()) {
-            viewFinder.post { startCamera() }
-        }
-        else {
-            ActivityCompat.requestPermissions(parent,
-                                              REQUIRED_PERMISSIONS,
-                                              REQUEST_CODE_PERMISSIONS)
-        }
-    }
-
     /**
-     * Process result from permission request dialog box, has the request
-     * been granted? If yes, start Camera. Otherwise display a toast
+     * Process result from permission request dialog box, has the request been granted?
+     * If yes, start Camera. Otherwise, display a toast.
      */
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (allPermissionsGranted()) {
-                viewFinder.post { startCamera() }
-            }
-            else {
+            requestCameraIfFail {
                 Toast.makeText(parent,
                                "Permissions not granted by the user.",
                                Toast.LENGTH_SHORT).show()
@@ -100,11 +70,21 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         }
     }
 
-    /**
-     * Check if all permission specified in the manifest have been granted
-     */
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
+    override fun rendered(savedInstanceState: Bundle?) {
+        super.rendered(savedInstanceState)
+        // Request camera permissions
+        requestCameraIfFail {
+            ActivityCompat.requestPermissions(parent, requiredPermissions, REQUEST_CODE_PERMISSIONS)
+        }
+    }
+
+    private fun requestCameraIfFail(onFailure: (() -> Unit)?) {
+        if (requireContext().allPermissionsGranted(requiredPermissions)) {
+            viewFinder.post { startCamera() }
+        }
+        else {
+            onFailure?.invoke()
+        }
     }
 
     private fun startCamera() {
@@ -136,8 +116,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         }.build()
         // Build the image analysis use case and instantiate our analyzer
         val analyzerUseCase = ImageAnalysis(analyzerConfig).apply {
-            setAnalyzer(parent.mainExecutor,
-                        LuminosityAnalyzer())
+            setAnalyzer(parent.mainExecutor, LuminosityAnalyzer())
         }
 
         // Bind use cases to lifecycle
@@ -145,40 +124,5 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         // try rebuilding the project or updating the appcompat dependency to
         // version 1.1.0 or higher.
         CameraX.bindToLifecycle(this, preview, imageCapture, analyzerUseCase)
-    }
-
-    private class LuminosityAnalyzer : ImageAnalysis.Analyzer {
-        private var lastAnalyzedTimestamp = 0L
-
-        /**
-         * Helper extension function used to extract a byte array from an
-         * image plane buffer
-         */
-        private fun ByteBuffer.toByteArray(): ByteArray {
-            rewind() // Rewind the buffer to zero
-            val data = ByteArray(remaining())
-            get(data) // Copy the buffer into a byte array
-            return data // Return the byte array
-        }
-
-        override fun analyze(image: ImageProxy, rotationDegrees: Int) {
-            val currentTimestamp = System.currentTimeMillis()
-            // Calculate the average luma no more often than every second
-            if (currentTimestamp - lastAnalyzedTimestamp >= TimeUnit.SECONDS.toMillis(1)) {
-                // Since format in ImageAnalysis is YUV, image.planes[0]
-                // contains the Y (luminance) plane
-                val buffer = image.planes[0].buffer
-                // Extract image data from callback object
-                val data = buffer.toByteArray()
-                // Convert the data into an array of pixel values
-                val pixels = data.map { it.toInt() and 0xFF }
-                // Compute average luminance for the image
-                val luma = pixels.average()
-                // Log the new luma value
-                Log.d("CameraXApp", "Average luminosity: $luma")
-                // Update timestamp of last analyzed frame
-                lastAnalyzedTimestamp = currentTimestamp
-            }
-        }
     }
 }

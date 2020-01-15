@@ -22,15 +22,23 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.presentation
+package taiwan.no.one.ktx.context
 
-import android.app.Activity
-import android.os.Bundle
-import taiwan.no.one.capture.R
+import android.content.Context
+import android.content.pm.PackageManager
+import androidx.annotation.UiThread
+import androidx.core.content.ContextCompat
 
-class EntryActivity : Activity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_capture)
-    }
+/**
+ * Check if all permission specified in the manifest have been granted.
+ *
+ * @receiver Context
+ *
+ * @param permissions Array<String>
+ *
+ * @return Boolean
+ */
+@UiThread
+fun Context.allPermissionsGranted(permissions: Array<String>) = permissions.all {
+    ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
 }
