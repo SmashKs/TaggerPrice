@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/captureFragment"
-        android:name="taiwan.no.one.capture.presentation.CaptureFragment"
+        android:name="taiwan.no.one.capture.presentation.fragment.CaptureFragment"
         android:label="Capture Index">
     </fragment>
 </navigation>

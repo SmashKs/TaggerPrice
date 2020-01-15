@@ -32,7 +32,7 @@
 
     <fragment
         android:id="@+id/captureFragment"
-        android:name="taiwan.no.one.capture.presentation.CaptureFragment"
+        android:name="taiwan.no.one.capture.presentation.fragment.CaptureFragment"
         android:label="Capture Fragment"
         tools:layout="@layout/fragment_capture">
         <deepLink

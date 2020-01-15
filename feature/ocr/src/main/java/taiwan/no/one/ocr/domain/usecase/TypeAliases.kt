@@ -25,6 +25,6 @@
 package taiwan.no.one.ocr.domain.usecase
 
 import taiwan.no.one.core.domain.usecase.OneShotUsecase
+import taiwan.no.one.ocr.domain.parameter.OcrRequestParams
 
-internal typealias FetchRecognizeCase = OneShotUsecase<String, FetchRecognizeReq>
-internal typealias FetchRecognizeReq = FetchRecognizeOneShotCase.Request
+typealias FetchRecognizeCase = OneShotUsecase<String, OcrRequestParams>

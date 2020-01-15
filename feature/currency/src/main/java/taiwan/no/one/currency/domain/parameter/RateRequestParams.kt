@@ -22,22 +22,10 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.domain
+package taiwan.no.one.currency.domain.parameter
 
-import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.singleton
-import taiwan.no.one.currency.FeatModules.FEAT_NAME
-import taiwan.no.one.currency.domain.usecase.FetchCountriesCase
-import taiwan.no.one.currency.domain.usecase.FetchCountriesOneShotCase
-import taiwan.no.one.currency.domain.usecase.FetchCurrencyRateOneShotCase
-import taiwan.no.one.currency.domain.usecase.FetchRateCase
-import taiwan.no.one.taggerprice.provider.ModuleProvider
+import taiwan.no.one.core.domain.usecase.Usecase
 
-internal object DomainModules : ModuleProvider {
-    override fun provide() = Kodein.Module("${FEAT_NAME}DomainModule") {
-        bind<FetchCountriesCase>() with singleton { FetchCountriesOneShotCase(instance()) }
-        bind<FetchRateCase>() with singleton { FetchCurrencyRateOneShotCase(instance()) }
-    }
-}
+data class RateRequestParams(
+    val keys: List<Pair<String, String>>
+) : Usecase.RequestValues

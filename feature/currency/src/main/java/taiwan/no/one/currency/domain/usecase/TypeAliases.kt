@@ -28,9 +28,8 @@ import taiwan.no.one.core.domain.usecase.NonRequest
 import taiwan.no.one.core.domain.usecase.OneShotUsecase
 import taiwan.no.one.currency.domain.model.CountryModel
 import taiwan.no.one.currency.domain.model.CurrencyRateModel
-import taiwan.no.one.currency.domain.parameters.RateRequestParams
+import taiwan.no.one.currency.domain.parameter.RateRequestParams
 
 typealias FetchCountriesCase = OneShotUsecase<List<CountryModel>, NonRequest>
 
-typealias FetchRateCase = OneShotUsecase<List<CurrencyRateModel>, FetchRateReq>
-typealias FetchRateReq = RateRequestParams
+typealias FetchRateCase = OneShotUsecase<List<CurrencyRateModel>, RateRequestParams>

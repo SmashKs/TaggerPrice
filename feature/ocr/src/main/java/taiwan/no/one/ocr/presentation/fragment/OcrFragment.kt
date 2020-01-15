@@ -77,7 +77,7 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
     private val vm by viewModel<OcrViewModel>()
 
     override fun bindLiveData() {
-        vm.result.observe(this) {
+        vm.ocrResult.observe(this) {
             it.onSuccess {
                 logw(it)
             }.onFailure {

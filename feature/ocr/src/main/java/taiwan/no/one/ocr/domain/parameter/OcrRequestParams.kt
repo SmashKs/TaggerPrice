@@ -22,13 +22,12 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.domain.usecase
+package taiwan.no.one.ocr.domain.parameter
 
-import taiwan.no.one.core.domain.usecase.NonRequest
-import taiwan.no.one.currency.domain.repostory.CurrencyRepo
+import android.graphics.Bitmap
+import taiwan.no.one.core.domain.usecase.Usecase
 
-internal class FetchCountriesInfoCase(
-    private val currencyRepo: CurrencyRepo
-) : FetchCountriesCase() {
-    override suspend fun acquireCase(parameter: NonRequest?) = currencyRepo.fetchCountries()
-}
+data class OcrRequestParams(
+    val bitmap: Bitmap? = null,
+    val byteArray: ByteArray? = null
+) : Usecase.RequestValues

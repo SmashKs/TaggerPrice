@@ -33,9 +33,9 @@ internal class LocalStore(
     private val tesseractService: OcrService,
     private val firebaseService: OcrService
 ) : DataStore {
-    override suspend fun retrieveRecognition(bitmap: Bitmap) = tesseractService.recognize(bitmap)
+    override suspend fun retrieveRecognition(bitmap: Bitmap) = firebaseService.recognize(bitmap)
 
-    override suspend fun retrieveRecognition(file: File) = tesseractService.recognize(file)
+    override suspend fun retrieveRecognition(file: File) = firebaseService.recognize(file)
 
-    override suspend fun retrieveRecognition(byteArray: ByteArray) = TODO()
+    override suspend fun retrieveRecognition(byteArray: ByteArray) = firebaseService.recognize(byteArray, "en")
 }

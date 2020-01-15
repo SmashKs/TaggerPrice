@@ -39,7 +39,7 @@ internal class FirebaseOcr(
     private val recognizer: FirebaseVisionTextRecognizer
 ) : OcrService {
     companion object Constant {
-        private const val BREAK_TIME_FOR_WHILE = 100L
+        private const val BREAK_TIME_FOR_WHILE = 50L
     }
 
     override suspend fun recognize(bitmap: Bitmap): String {
@@ -48,12 +48,7 @@ internal class FirebaseOcr(
     }
 
     override suspend fun recognize(file: File): String {
-        val image = try {
-            FirebaseVisionImage.fromFilePath(context, file.toUri())
-        }
-        catch (e: Exception) {
-            throw Exception()
-        }
+        val image = FirebaseVisionImage.fromFilePath(context, file.toUri())
         return process(image)
     }
 

@@ -22,10 +22,14 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.domain.parameters
+package taiwan.no.one.currency.domain.usecase
 
-import taiwan.no.one.core.domain.usecase.Usecase
+import taiwan.no.one.currency.domain.parameter.RateRequestParams
+import taiwan.no.one.currency.domain.repostory.CurrencyRepo
 
-data class RateRequestParams(
-    val keys: List<Pair<String, String>>
-) : Usecase.RequestValues
+internal class FetchCurrencyRateOneShotCase(
+    private val currencyRepo: CurrencyRepo
+) : FetchRateCase() {
+    override suspend fun acquireCase(parameter: RateRequestParams?) =
+        currencyRepo.fetchCurrencyRate(requireNotNull(parameter).keys)
+}

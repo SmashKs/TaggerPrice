@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture.presentation
+package taiwan.no.one.capture.presentation.fragment
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -39,12 +39,17 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.PreviewConfig
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.observe
+import com.devrapid.kotlinknifer.logw
+import com.devrapid.kotlinknifer.toBitmap
+import com.devrapid.kotlinknifer.toDrawable
 import kotlinx.android.synthetic.main.fragment_capture.viewFinder
 import taiwan.no.one.capture.databinding.FragmentCaptureBinding
 import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
 import taiwan.no.one.device.util.AutoFitPreviewBuilder
+import taiwan.no.one.ocr.presentation.viewmodel.OcrViewModel
 import java.nio.ByteBuffer
 import java.util.concurrent.TimeUnit
 
@@ -68,7 +73,9 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             viewFinder.post { startCamera() }
         }
         else {
-            ActivityCompat.requestPermissions(parent, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+            ActivityCompat.requestPermissions(parent,
+                                              REQUIRED_PERMISSIONS,
+                                              REQUEST_CODE_PERMISSIONS)
         }
     }
 
@@ -129,7 +136,8 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         }.build()
         // Build the image analysis use case and instantiate our analyzer
         val analyzerUseCase = ImageAnalysis(analyzerConfig).apply {
-            setAnalyzer(parent.mainExecutor, LuminosityAnalyzer())
+            setAnalyzer(parent.mainExecutor,
+                        LuminosityAnalyzer())
         }
 
         // Bind use cases to lifecycle

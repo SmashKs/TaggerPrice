@@ -28,16 +28,16 @@ import android.graphics.Bitmap
 import taiwan.no.one.core.presentation.viewmodel.BehindViewModel
 import taiwan.no.one.core.presentation.viewmodel.ResultLiveData
 import taiwan.no.one.ktx.livedata.toLiveData
+import taiwan.no.one.ocr.domain.parameter.OcrRequestParams
 import taiwan.no.one.ocr.domain.usecase.FetchRecognizeCase
-import taiwan.no.one.ocr.domain.usecase.FetchRecognizeReq
 
-internal class OcrViewModel(
+class OcrViewModel(
     private val fetchRecognizeCase: FetchRecognizeCase
 ) : BehindViewModel() {
     private val _result by lazy { ResultLiveData<String>() }
-    val result = _result.toLiveData()
+    val ocrResult = _result.toLiveData()
 
-    fun getResult(bitmap: Bitmap) = launchBehind {
-        _result.postValue(fetchRecognizeCase.execute(FetchRecognizeReq(bitmap)))
+    fun getOcrResult(bitmap: Bitmap) = launchBehind {
+        _result.postValue(fetchRecognizeCase.execute(OcrRequestParams(bitmap)))
     }
 }

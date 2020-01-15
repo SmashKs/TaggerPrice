@@ -28,9 +28,9 @@ import taiwan.no.one.core.presentation.viewmodel.BehindViewModel
 import taiwan.no.one.core.presentation.viewmodel.ResultLiveData
 import taiwan.no.one.currency.domain.model.CountryModel
 import taiwan.no.one.currency.domain.model.CurrencyRateModel
+import taiwan.no.one.currency.domain.parameter.RateRequestParams
 import taiwan.no.one.currency.domain.usecase.FetchCountriesCase
 import taiwan.no.one.currency.domain.usecase.FetchRateCase
-import taiwan.no.one.currency.domain.usecase.FetchRateReq
 import taiwan.no.one.ktx.livedata.toLiveData
 
 class CurrencyViewModel(
@@ -47,6 +47,6 @@ class CurrencyViewModel(
     }
 
     fun getRate() = launchBehind {
-        _rate.postValue(fetchRateCase.execute(FetchRateReq(listOf("TWD" to "USD"))))
+        _rate.postValue(fetchRateCase.execute(RateRequestParams(listOf("TWD" to "USD"))))
     }
 }

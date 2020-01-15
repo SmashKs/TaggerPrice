@@ -24,14 +24,13 @@
 
 package taiwan.no.one.ocr.domain.usecase
 
-import android.graphics.Bitmap
-import taiwan.no.one.core.domain.usecase.Usecase
+import taiwan.no.one.ocr.domain.parameter.OcrRequestParams
 import taiwan.no.one.ocr.domain.repository.OcrRepo
 
 internal class FetchRecognizeOneShotCase(
     private val ocrRepo: OcrRepo
 ) : FetchRecognizeCase() {
-    override suspend fun acquireCase(parameter: Request?): String {
+    override suspend fun acquireCase(parameter: OcrRequestParams?): String {
         if (parameter == null) return ""
         return when {
             parameter.bitmap != null -> ocrRepo.retrieveRecognition(parameter.bitmap)
@@ -39,9 +38,4 @@ internal class FetchRecognizeOneShotCase(
             else -> ""
         }
     }
-
-    internal data class Request(
-        val bitmap: Bitmap? = null,
-        val byteArray: ByteArray? = null
-    ) : Usecase.RequestValues
 }
