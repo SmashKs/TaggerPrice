@@ -24,6 +24,7 @@
 
 package taiwan.no.one.capture.data.repository
 
+import com.devrapid.kotlinshaver.ioSwitch
 import taiwan.no.one.capture.data.local.entity.CaptureEntity
 import taiwan.no.one.capture.data.store.LocalStore
 import taiwan.no.one.capture.data.store.RemoteStore
@@ -33,5 +34,7 @@ internal class CaptureRepository(
     private val local: LocalStore,
     private val remote: RemoteStore
 ) : CaptureRepo {
-    override suspend fun fetchDummies() = local.retrieveDummies().map(CaptureEntity::toModel)
+    override suspend fun fetchDummies() = ioSwitch {
+        local.retrieveDummies().map(CaptureEntity::toModel)
+    }
 }

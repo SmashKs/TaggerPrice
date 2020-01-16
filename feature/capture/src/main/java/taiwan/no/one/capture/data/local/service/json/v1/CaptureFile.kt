@@ -31,7 +31,7 @@ import taiwan.no.one.core.data.extensions.parseObjectFromJson
 internal class CaptureFile(
     private val context: Context
 ) {
-    suspend fun getDummies(): List<CaptureEntity> {
+    fun getDummies(): List<CaptureEntity> {
         val jsonFileName = "json/dummy.json"
         return context.parseObjectFromJson<List<CaptureEntity>>(jsonFileName).orEmpty()
     }

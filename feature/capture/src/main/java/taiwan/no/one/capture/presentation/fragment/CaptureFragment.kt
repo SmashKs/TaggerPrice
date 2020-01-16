@@ -34,7 +34,6 @@ import androidx.camera.core.ImageAnalysisConfig
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureConfig
 import androidx.camera.core.PreviewConfig
-import androidx.core.app.ActivityCompat
 import kotlinx.android.synthetic.main.fragment_capture.viewFinder
 import taiwan.no.one.capture.databinding.FragmentCaptureBinding
 import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
@@ -74,13 +73,13 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         super.rendered(savedInstanceState)
         // Request camera permissions
         requestCameraIfFail {
-            ActivityCompat.requestPermissions(parent, requiredPermissions, REQUEST_CODE_PERMISSIONS)
+            requestPermissions(requiredPermissions, REQUEST_CODE_PERMISSIONS)
         }
     }
 
     private fun requestCameraIfFail(onFailure: (() -> Unit)?) {
         if (requireContext().allPermissionsGranted(requiredPermissions)) {
-            viewFinder.post { startCamera() }
+//            viewFinder.post { startCamera() }
         }
         else {
             onFailure?.invoke()

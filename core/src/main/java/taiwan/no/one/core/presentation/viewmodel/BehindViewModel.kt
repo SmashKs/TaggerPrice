@@ -33,7 +33,7 @@ import kotlin.coroutines.CoroutineContext
 
 abstract class BehindViewModel : ViewModel() {
     inline fun launchBehind(
-        context: CoroutineContext = Dispatchers.IO,
+        context: CoroutineContext = Dispatchers.Default,
         crossinline block: suspend CoroutineScope.() -> Unit
     ) = viewModelScope.launch(context) { block() }
 }

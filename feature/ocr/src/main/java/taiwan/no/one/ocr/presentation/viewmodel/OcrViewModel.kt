@@ -25,6 +25,8 @@
 package taiwan.no.one.ocr.presentation.viewmodel
 
 import android.graphics.Bitmap
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import taiwan.no.one.core.presentation.viewmodel.BehindViewModel
 import taiwan.no.one.core.presentation.viewmodel.ResultLiveData
 import taiwan.no.one.ktx.livedata.toLiveData
@@ -37,7 +39,7 @@ class OcrViewModel(
     private val _result by lazy { ResultLiveData<String>() }
     val ocrResult = _result.toLiveData()
 
-    fun getOcrResult(bitmap: Bitmap) = launchBehind {
-        _result.postValue(fetchRecognizeCase.execute(OcrRequestParams(bitmap)))
+    fun getOcrResult(bitmap: Bitmap) = viewModelScope.launch {
+        _result.value = fetchRecognizeCase.execute(OcrRequestParams(bitmap))
     }
 }

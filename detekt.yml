@@ -45,7 +45,7 @@ comments:
   UndocumentedPublicFunction:
     active: false
   UndocumentedPublicProperty:
-    active: true
+    active: false
 
 complexity:
   active: true

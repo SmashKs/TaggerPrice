@@ -24,6 +24,9 @@
 
 package taiwan.no.one.core.domain.usecase
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
 /**
  * A base abstract class for wrapping a coroutine [OneShotUsecase] object and do the
  * error handling when an error or cancellation happened.
@@ -31,5 +34,7 @@ package taiwan.no.one.core.domain.usecase
 abstract class OneShotUsecase<out T : Any, in R : Usecase.RequestValues> : Usecase<R> {
     abstract suspend fun acquireCase(parameter: R? = null): T
 
-    open suspend fun execute(parameter: R? = null) = runCatching { acquireCase(parameter) }
+    open suspend fun execute(parameter: R? = null) = withContext(Dispatchers.Default) {
+        runCatching { acquireCase(parameter) }
+    }
 }
