@@ -29,18 +29,13 @@ import android.os.Bundle
 import android.util.Size
 import android.widget.Toast
 import androidx.camera.core.CameraX
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageAnalysisConfig
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureConfig
-import androidx.camera.core.PreviewConfig
-import kotlinx.android.synthetic.main.fragment_capture.viewFinder
 import taiwan.no.one.capture.databinding.FragmentCaptureBinding
 import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
-import taiwan.no.one.device.camera.LuminosityAnalyzer
-import taiwan.no.one.device.util.AutoFitPreviewBuilder
+import taiwan.no.one.device.camera.AnalyzerUsecase
+import taiwan.no.one.device.camera.ImageCaptureUsecase
+import taiwan.no.one.device.camera.PreviewUsecase
 import taiwan.no.one.ktx.context.allPermissionsGranted
 
 class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() {
@@ -79,7 +74,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
 
     private fun requestCameraIfFail(onFailure: (() -> Unit)?) {
         if (requireContext().allPermissionsGranted(requiredPermissions)) {
-//            viewFinder.post { startCamera() }
+            binding.viewFinder.post { startCamera() }
         }
         else {
             onFailure?.invoke()
@@ -87,41 +82,13 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
     }
 
     private fun startCamera() {
-        // Create configuration object for the viewfinder use case
-        val previewConfig = PreviewConfig.Builder().apply {
-            setTargetResolution(Size(640, 480))
-        }.build()
-        // Build the viewfinder use case
-        val preview = AutoFitPreviewBuilder.build(previewConfig, viewFinder)
-
-        // Create configuration object for the image capture use case
-        val imageCaptureConfig = ImageCaptureConfig.Builder()
-            .apply {
-                // We don't set a resolution for image capture; instead, we
-                // select a capture mode which will infer the appropriate
-                // resolution based on aspect ration and requested mode
-                setCaptureMode(ImageCapture.CaptureMode.MIN_LATENCY)
-            }.build()
-
-        // Build the image capture use case and attach button click listener
-        val imageCapture = ImageCapture(imageCaptureConfig)
-
-        // Setup image analysis pipeline that computes average pixel luminance
-        val analyzerConfig = ImageAnalysisConfig.Builder().apply {
-            // In our analysis, we care more about the latest image than
-            // analyzing *every* image
-            setImageReaderMode(
-                ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE)
-        }.build()
-        // Build the image analysis use case and instantiate our analyzer
-        val analyzerUseCase = ImageAnalysis(analyzerConfig).apply {
-            setAnalyzer(parent.mainExecutor, LuminosityAnalyzer())
-        }
-
         // Bind use cases to lifecycle
         // If Android Studio complains about "this" being not a LifecycleOwner
         // try rebuilding the project or updating the appcompat dependency to
         // version 1.1.0 or higher.
-        CameraX.bindToLifecycle(this, preview, imageCapture, analyzerUseCase)
+        CameraX.bindToLifecycle(this,
+                                PreviewUsecase.build(Size(640, 480), binding.viewFinder),
+                                ImageCaptureUsecase.build(),
+                                AnalyzerUsecase.build(parent.mainExecutor))
     }
 }
