@@ -30,46 +30,45 @@ object LibraryDependency {
         const val QUICK_DIALOG = "1.0.7"
         const val KINFER = "2.1.17"
 
-        const val DEX_TOOL = "2.0.1"
-        const val MATERIAL = "1.2.0-alpha03"
+        const val MATERIAL = "1.2.0-alpha04"
         const val ANDROIDX = "1.0.0"
         const val ANNOTATION = "1.1.0"
         const val APPCOMPAT = "1.2.0-alpha01"
         const val CARDVIEW = ANDROIDX
-        const val RECYCLERVIEW = "1.1.0"
+        const val RECYCLERVIEW = "1.2.0-alpha01"
         const val CONSTRAINTLAYOUT = "2.0.0-beta4"
         const val COORDINATORLAYOUT = "1.1.0"
         const val CAMERA_CORE = "1.0.0-alpha06"
 
-        const val AAC_LIFECYCLE = "2.2.0-rc03"
+        const val AAC_LIFECYCLE = "2.2.0"
 
         const val KODEIN = "6.5.1"
 
         const val KTX = "1.2.0-rc01"
-        const val FRAGMENT_KTX = "1.2.0-rc05"
+        const val FRAGMENT_KTX = "1.2.0"
         const val PALETTE_KTX = "1.0.0"
         const val COLLECTION_KTX = "1.1.0"
         const val VIEWMODEL_KTX = AAC_LIFECYCLE
-        const val NAVIGATION_KTX = "2.2.0-rc04"
-        const val WORK_KTX = "2.3.0-rc01"
+        const val NAVIGATION_KTX = "2.2.0"
+        const val WORK_KTX = "2.3.0"
         const val DYN_ANIM_KTX = "1.0.0-alpha01"
         const val CAMERA_KTX = "1.0.0-alpha03"
 
         const val ROOM = "2.2.3"
-        const val MMKV = "1.0.23"
+        const val MMKV = "1.0.24"
         const val GSON = "2.8.6"
         const val PLAY_CORE = "1.6.4"
 
-        const val COIL = "0.9.1"
+        const val COIL = "0.9.2"
         const val RETROFIT2 = "2.7.1"
         const val OKHTTP3 = "4.3.1"
         const val JSOUP = "1.12.1"
 
-        const val FIREBASE_CORE = "17.2.1"
+        const val FIREBASE_CORE = "17.2.2"
         const val FIREBASE_DATABASE = "16.1.0"
         const val FIREBASE_AUTH = "16.0.3"
         const val FIREBASE_MESSAGING = "17.5.0"
-        const val FIREBASE_ANALYTICS = "17.2.1"
+        const val FIREBASE_ANALYTICS = "17.2.2"
         const val FIREBASE_CRASHLYTICS = "2.10.1"
         const val FIREBASE_ML = "24.0.1"
 

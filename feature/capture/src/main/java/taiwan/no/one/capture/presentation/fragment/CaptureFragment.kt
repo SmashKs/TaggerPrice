@@ -37,6 +37,7 @@ import taiwan.no.one.device.camera.AnalyzerUsecase
 import taiwan.no.one.device.camera.ImageCaptureUsecase
 import taiwan.no.one.device.camera.PreviewUsecase
 import taiwan.no.one.ktx.context.allPermissionsGranted
+import java.util.Arrays
 
 class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() {
     companion object Constant {
