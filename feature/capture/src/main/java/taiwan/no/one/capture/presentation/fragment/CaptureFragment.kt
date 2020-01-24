@@ -33,11 +33,10 @@ import taiwan.no.one.capture.databinding.FragmentCaptureBinding
 import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
-import taiwan.no.one.device.camera.AnalyzerUsecase
+import taiwan.no.one.device.camera.ImageReaderUsecase
 import taiwan.no.one.device.camera.ImageCaptureUsecase
 import taiwan.no.one.device.camera.PreviewUsecase
 import taiwan.no.one.ktx.context.allPermissionsGranted
-import java.util.Arrays
 
 class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() {
     companion object Constant {
@@ -90,6 +89,6 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         CameraX.bindToLifecycle(this,
                                 PreviewUsecase.build(Size(640, 480), binding.viewFinder),
                                 ImageCaptureUsecase.build(),
-                                AnalyzerUsecase.build(parent.mainExecutor))
+                                ImageReaderUsecase.build(parent.mainExecutor))
     }
 }

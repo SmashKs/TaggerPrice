@@ -28,10 +28,10 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageAnalysisConfig
 import java.util.concurrent.Executor
 
-class AnalyzerUsecase {
+class ImageReaderUsecase {
     companion object Builder {
         fun build(executor: Executor): ImageAnalysis {
-            val config = AnalyzerUsecase().buildImageCaptureConfig()
+            val config = ImageReaderUsecase().buildImageCaptureConfig()
             return ImageAnalysis(config).apply {
                 setAnalyzer(executor, LuminosityAnalyzer())
             }
