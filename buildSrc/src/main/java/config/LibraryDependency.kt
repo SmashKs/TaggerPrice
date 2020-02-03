@@ -59,7 +59,7 @@ object LibraryDependency {
         const val GSON = "2.8.6"
         const val PLAY_CORE = "1.6.4"
 
-        const val COIL = "0.9.2"
+        const val COIL = "0.9.3"
         const val RETROFIT2 = "2.7.1"
         const val OKHTTP3 = "4.3.1"
         const val JSOUP = "1.12.1"
@@ -84,10 +84,12 @@ object LibraryDependency {
 
     const val ANDROID_COROUTINE =
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${CoreDependency.Version.KOTLIN_COROUTINE}"
+
     //region Jieyi
     const val KNIFER = "com.devrapid.jieyi:kotlinknifer:${Version.KINFER}"
     const val ARV = "com.devrapid.jieyi:adaptiverecyclerview:${Version.ARV}"
     const val QUICK_DIALOG = "com.devrapid.jieyi:dialogbuilder:${Version.QUICK_DIALOG}"
+
     //endregion
     //region Android Jetpack
     const val MATERIAL_DESIGN = "com.google.android.material:material:${Version.MATERIAL}"
@@ -97,10 +99,12 @@ object LibraryDependency {
     const val CARDVIEW = "androidx.cardview:cardview:${Version.CARDVIEW}"
     const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Version.CONSTRAINTLAYOUT}"
     const val COORDINATOR_LAYOUT = "androidx.coordinatorlayout:coordinatorlayout:${Version.COORDINATORLAYOUT}"
+
     //endregion
     //region ViewModel and LiveData
     const val LIFECYCLE = "androidx.lifecycle:lifecycle-extensions:${Version.AAC_LIFECYCLE}"
     const val LIFECYCLE_COMPILER = "android.arch.lifecycle:compiler:${Version.AAC_LIFECYCLE}"
+
     //endregion
     //region Android Ktx
     const val KTX = "androidx.core:core-ktx:${Version.KTX}"
@@ -117,33 +121,41 @@ object LibraryDependency {
     const val DYN_ANIM_KTX = "androidx.dynamicanimation-ktx:${Version.DYN_ANIM_KTX}"
     const val CAMERA_KTX = "androidx.camera:camera-extensions:${Version.CAMERA_KTX}"
     const val CAMERA_VIEW = "androidx.camera:camera-view:${Version.CAMERA_KTX}"
+
     //endregion
     //region DI
     const val KODEIN_JVM = "org.kodein.di:kodein-di-generic-jvm:${Version.KODEIN}"
     const val KODEIN_CORE = "org.kodein.di:kodein-di-core-jvm:${Version.KODEIN}"
     const val KODEIN_ANDROID_X = "org.kodein.di:kodein-di-framework-android-x:${Version.KODEIN}"
+
     //endregion
     const val GSON = "com.google.code.gson:gson:${Version.GSON}"
     const val PLAY_CORE = "com.google.android.play:core:${Version.PLAY_CORE}"
+
     //region Internet
     const val OKHTTP = "com.squareup.okhttp3:okhttp:${Version.OKHTTP3}"
     const val OKHTTP_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:${Version.OKHTTP3}"
     const val RETROFIT2 = "com.squareup.retrofit2:retrofit:${Version.RETROFIT2}"
     const val RETROFIT2_CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:${Version.RETROFIT2}"
+
     //endregion
     //region Database
     const val ROOM = "androidx.room:room-runtime:${Version.ROOM}"
     const val ROOM_KTX = "androidx.room:room-ktx:${Version.ROOM}"
     const val ROOM_ANNOTATION = "androidx.room:room-compiler:${Version.ROOM}"
+
     //endregion
     //region MMKV
     const val MMKV = "com.tencent:mmkv-static:${Version.MMKV}"
+
     //endregion
     //region Jsoup
     const val JSOUP = "org.jsoup:jsoup:${Version.JSOUP}"
+
     //endregion
     //region Internet for image
     const val COIL = "io.coil-kt:coil:${Version.COIL}"
+
     //endregion
     //region Firebase
     const val FIREBASE_CORE = "com.google.firebase:firebase-core:${Version.FIREBASE_CORE}"
@@ -160,6 +172,7 @@ object LibraryDependency {
     const val SHAPE_OF_VIEW = "com.github.florent37:shapeofview:${Version.SHAPE_OF_VIEW}"
     const val REALTIME_BLUR = "com.github.mmin18:realtimeblurview:${Version.REALTIME_BLUR}"
     const val LOTTIE = "com.airbnb.android:lottie:${Version.LOTTIE}"
+
     //endregion
     const val TESSERACT = "com.rmtheis:tess-two:${Version.TESSERACT}"
     const val TF_LITE = "org.tensorflow:tensorflow-lite:${Version.TENSORFLOW_LITE}"
