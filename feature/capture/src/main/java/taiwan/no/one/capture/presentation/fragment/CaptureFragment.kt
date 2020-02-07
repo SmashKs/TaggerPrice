@@ -25,18 +25,23 @@
 package taiwan.no.one.capture.presentation.fragment
 
 import android.Manifest
-import android.os.Bundle
-import android.util.Size
-import android.widget.Toast
-import androidx.camera.core.CameraX
+import android.util.DisplayMetrics
+import androidx.camera.core.AspectRatio
+import androidx.camera.core.Camera
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import com.devrapid.kotlinknifer.logd
 import taiwan.no.one.capture.databinding.FragmentCaptureBinding
 import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
-import taiwan.no.one.device.camera.ImageReaderUsecase
-import taiwan.no.one.device.camera.ImageCaptureUsecase
-import taiwan.no.one.device.camera.PreviewUsecase
-import taiwan.no.one.ktx.context.allPermissionsGranted
+import taiwan.no.one.device.camera.LuminosityAnalyzer
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 
 class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() {
     companion object Constant {
@@ -44,7 +49,15 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         // request. Where an app has multiple context for requesting permission,
         // this can help differentiate the different contexts.
         private const val REQUEST_CODE_PERMISSIONS = 10
+        private const val RATIO_4_3_VALUE = 4.0 / 3.0
+        private const val RATIO_16_9_VALUE = 16.0 / 9.0
     }
+
+    private var lensFacing = CameraSelector.LENS_FACING_BACK
+    private var preview: Preview? = null
+    private var imageCapture: ImageCapture? = null
+    private var imageAnalyzer: ImageAnalysis? = null
+    private var camera: Camera? = null
 
     // This is an array of all the permission specified in the manifest.
     private val requiredPermissions = arrayOf(Manifest.permission.CAMERA)
@@ -56,39 +69,178 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
      */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            requestCameraIfFail {
-                Toast.makeText(parent,
-                               "Permissions not granted by the user.",
-                               Toast.LENGTH_SHORT).show()
+//            requestCameraIfFail {
+//                Toast.makeText(parent,
+//                               "Permissions not granted by the user.",
+//                               Toast.LENGTH_SHORT).show()
+//            }
+        }
+    }
+
+    override fun viewComponentBinding() {
+        super.viewComponentBinding()
+        // Wait for the views to be properly laid out
+        binding.previewFinder.post {
+            // Build UI controls
+//            updateCameraUi()
+            // Bind use cases
+            bindCameraUseCases()
+        }
+    }
+
+    /** Declare and bind preview, capture and analysis use cases */
+    private fun bindCameraUseCases() {
+        // Get screen metrics used to setup camera for full screen resolution
+        val metrics = DisplayMetrics().also { binding.previewFinder.display.getRealMetrics(it) }
+        logd("Screen metrics: ${metrics.widthPixels} x ${metrics.heightPixels}")
+
+        val screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
+        logd("Preview aspect ratio: $screenAspectRatio")
+
+        val rotation = binding.previewFinder.display.rotation
+
+        // Bind the CameraProvider to the LifeCycleOwner
+        val cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        cameraProviderFuture.addListener(Runnable {
+            // CameraProvider
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            // Preview
+            preview = Preview.Builder()
+                // We request aspect ratio but no resolution
+                .setTargetAspectRatio(screenAspectRatio)
+                // Set initial target rotation
+                .setTargetRotation(rotation)
+                .build()
+
+            // Default PreviewSurfaceProvider
+            preview?.previewSurfaceProvider = binding.previewFinder.previewSurfaceProvider
+
+            // ImageCapture
+            imageCapture = ImageCapture.Builder()
+                .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+                // We request aspect ratio but no resolution to match preview config, but letting
+                // CameraX optimize for whatever specific resolution best fits requested capture mode
+                .setTargetAspectRatio(screenAspectRatio)
+                // Set initial target rotation, we will have to call this again if rotation changes
+                // during the lifecycle of this use case
+                .setTargetRotation(rotation)
+                .build()
+
+            // ImageAnalysis
+            imageAnalyzer = ImageAnalysis.Builder()
+                // We request aspect ratio but no resolution
+                .setTargetAspectRatio(screenAspectRatio)
+                // Set initial target rotation, we will have to call this again if rotation changes
+                // during the lifecycle of this use case
+                .setTargetRotation(rotation)
+                .build()
+                // The analyzer can then be assigned to the instance
+                .also {
+                    it.setAnalyzer(parent.mainExecutor, LuminosityAnalyzer { luma ->
+                        // Values returned from our analyzer are passed to the attached listener
+                        // We log image analysis results here - you should do something useful instead!
+                        logd("Average luminosity: $luma")
+                    })
+                }
+
+            // Must unbind the use-cases before rebinding them.
+            cameraProvider.unbindAll()
+
+            try {
+                // A variable number of use-cases can be passed here -
+                // camera provides access to CameraControl & CameraInfo
+                camera = cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview, imageCapture, imageAnalyzer
+                )
             }
-        }
+            catch (exc: Exception) {
+                logd("Use case binding failed", exc)
+            }
+        }, parent.mainExecutor)
     }
 
-    override fun rendered(savedInstanceState: Bundle?) {
-        super.rendered(savedInstanceState)
-        // Request camera permissions
-        requestCameraIfFail {
-            requestPermissions(requiredPermissions, REQUEST_CODE_PERMISSIONS)
+    /**
+     *  [androidx.camera.core.ImageAnalysisConfig] requires enum value of
+     *  [androidx.camera.core.AspectRatio]. Currently it has values of 4:3 & 16:9.
+     *
+     *  Detecting the most suitable ratio for dimensions provided in @params by counting absolute
+     *  of preview ratio to one of the provided values.
+     *
+     *  @param width - preview width
+     *  @param height - preview height
+     *  @return suitable aspect ratio
+     */
+    private fun aspectRatio(width: Int, height: Int): Int {
+        val previewRatio = max(width, height).toDouble() / min(width, height)
+        if (abs(previewRatio - RATIO_4_3_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE)) {
+            return AspectRatio.RATIO_4_3
         }
+        return AspectRatio.RATIO_16_9
     }
 
-    private fun requestCameraIfFail(onFailure: (() -> Unit)?) {
-        if (requireContext().allPermissionsGranted(requiredPermissions)) {
-            binding.viewFinder.post { startCamera() }
-        }
-        else {
-            onFailure?.invoke()
-        }
-    }
-
-    private fun startCamera() {
-        // Bind use cases to lifecycle
-        // If Android Studio complains about "this" being not a LifecycleOwner
-        // try rebuilding the project or updating the appcompat dependency to
-        // version 1.1.0 or higher.
-        CameraX.bindToLifecycle(this,
-                                PreviewUsecase.build(Size(640, 480), binding.viewFinder),
-                                ImageCaptureUsecase.build(),
-                                ImageReaderUsecase.build(parent.mainExecutor))
-    }
+    /** Method used to re-draw the camera UI controls, called every time configuration changes. */
+//    private fun updateCameraUi() {
+//        // Remove previous UI if any
+//        container.findViewById<ConstraintLayout>(R.id.camera_ui_container)?.let {
+//            container.removeView(it)
+//        }
+//
+//        // Inflate a new view containing all UI for controlling the camera
+//        val controls = View.inflate(requireContext(), R.layout.camera_ui_container, container)
+//
+//        // Listener for button used to capture photo
+//        controls.findViewById<ImageButton>(R.id.camera_capture_button).setOnClickListener {
+//
+//            // Get a stable reference of the modifiable image capture use case
+//            imageCapture?.let { imageCapture ->
+//
+//                // Create output file to hold the image
+//                val photoFile = createFile(outputDirectory, FILENAME, PHOTO_EXTENSION)
+//
+//                // Setup image capture metadata
+//                val metadata = Metadata().apply {
+//
+//                    // Mirror image when using the front camera
+//                    isReversedHorizontal = lensFacing == CameraSelector.LENS_FACING_FRONT
+//                }
+//
+//                // Setup image capture listener which is triggered after photo has been taken
+//                imageCapture.takePicture(photoFile, metadata, mainExecutor, imageSavedListener)
+//
+//                // We can only change the foreground Drawable using API level 23+ API
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//
+//                    // Display flash animation to indicate that photo was captured
+//                    container.postDelayed({
+//                                              container.foreground = ColorDrawable(Color.WHITE)
+//                                              container.postDelayed(
+//                                                  { container.foreground = null }, ANIMATION_FAST_MILLIS)
+//                                          }, ANIMATION_SLOW_MILLIS)
+//                }
+//            }
+//        }
+//
+//        // Listener for button used to switch cameras
+//        controls.findViewById<ImageButton>(R.id.camera_switch_button).setOnClickListener {
+//            lensFacing = if (CameraSelector.LENS_FACING_FRONT == lensFacing) {
+//                CameraSelector.LENS_FACING_BACK
+//            }
+//            else {
+//                CameraSelector.LENS_FACING_FRONT
+//            }
+//            // Bind use cases
+//            bindCameraUseCases()
+//        }
+//
+//        // Listener for button used to view the most recent photo
+//        controls.findViewById<ImageButton>(R.id.photo_view_button).setOnClickListener {
+//            // Only navigate when the gallery has photos
+//            if (true == outputDirectory.listFiles()?.isNotEmpty()) {
+//                Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
+//                    CameraFragmentDirections.actionCameraToGallery(outputDirectory.absolutePath))
+//            }
+//        }
+//    }
 }

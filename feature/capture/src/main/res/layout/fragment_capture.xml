@@ -26,11 +26,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextureView
-        android:id="@+id/viewFinder"
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewFinder"
         android:layout_width="@dimen/md_zero_unit"
         android:layout_height="@dimen/md_zero_unit"
         app:layout_constraintBottom_toBottomOf="parent"

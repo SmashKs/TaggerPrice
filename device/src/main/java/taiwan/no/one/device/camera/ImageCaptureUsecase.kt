@@ -24,22 +24,19 @@
 
 package taiwan.no.one.device.camera
 
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureConfig
-
 class ImageCaptureUsecase {
-    companion object Builder {
-        fun build(): ImageCapture {
-            val config = ImageCaptureUsecase().buildImageCaptureConfig()
-            return ImageCapture(config)
-        }
-    }
-
-    // Create configuration object for the image capture use case
-    private fun buildImageCaptureConfig() = ImageCaptureConfig.Builder()
-        // We don't set a resolution for image capture; instead, we
-        // select a capture mode which will infer the appropriate
-        // resolution based on aspect ration and requested mode
-        .setCaptureMode(ImageCapture.CaptureMode.MIN_LATENCY)
-        .build()
+//    companion object Builder {
+//        fun build(): ImageCapture {
+//            val config = ImageCaptureUsecase().buildImageCaptureConfig()
+//            return ImageCapture(config)
+//        }
+//    }
+//
+//    // Create configuration object for the image capture use case
+//    private fun buildImageCaptureConfig() = ImageCaptureConfig.Builder()
+//        // We don't set a resolution for image capture; instead, we
+//        // select a capture mode which will infer the appropriate
+//        // resolution based on aspect ration and requested mode
+//        .setCaptureMode(ImageCapture.CaptureMode.MIN_LATENCY)
+//        .build()
 }

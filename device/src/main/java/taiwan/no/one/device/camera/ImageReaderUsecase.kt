@@ -24,24 +24,20 @@
 
 package taiwan.no.one.device.camera
 
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageAnalysisConfig
-import java.util.concurrent.Executor
-
 class ImageReaderUsecase {
-    companion object Builder {
-        fun build(executor: Executor): ImageAnalysis {
-            val config = ImageReaderUsecase().buildImageCaptureConfig()
-            return ImageAnalysis(config).apply {
-                setAnalyzer(executor, LuminosityAnalyzer())
-            }
-        }
-    }
-
-    // Setup image analysis pipeline that computes average pixel luminance
-    private fun buildImageCaptureConfig() = ImageAnalysisConfig.Builder()
-        // In our analysis, we care more about the latest image than
-        // analyzing *every* image
-        .setImageReaderMode(ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE)
-        .build()
+//    companion object Builder {
+//        fun build(executor: Executor): ImageAnalysis {
+//            val config = ImageReaderUsecase().buildImageCaptureConfig()
+//            return ImageAnalysis(config).apply {
+//                setAnalyzer(executor, LuminosityAnalyzer())
+//            }
+//        }
+//    }
+//
+//    // Setup image analysis pipeline that computes average pixel luminance
+//    private fun buildImageCaptureConfig() = ImageAnalysisConfig.Builder()
+//        // In our analysis, we care more about the latest image than
+//        // analyzing *every* image
+//        .setImageReaderMode(ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE)
+//        .build()
 }

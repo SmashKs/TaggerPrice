@@ -24,23 +24,17 @@
 
 package taiwan.no.one.device.camera
 
-import android.util.Size
-import android.view.TextureView
-import androidx.camera.core.Preview
-import androidx.camera.core.PreviewConfig
-import taiwan.no.one.device.util.AutoFitPreviewBuilder
-
 class PreviewUsecase {
-    companion object Builder {
-        fun build(size: Size, viewFinder: TextureView): Preview {
-            val config = PreviewUsecase().buildPreviewConfig(size)
-            // Build the viewfinder use case
-            return AutoFitPreviewBuilder.build(config, viewFinder)
-        }
-    }
-
-    // Create configuration object for the viewfinder use case
-    private fun buildPreviewConfig(size: Size) = PreviewConfig.Builder()
-        .setTargetResolution(size)
-        .build()
+//    companion object Builder {
+//        fun build(size: Size, viewFinder: TextureView): Preview {
+//            val config = PreviewUsecase().buildPreviewConfig(size)
+//            // Build the viewfinder use case
+//            return AutoFitPreviewBuilder.build(config, viewFinder)
+//        }
+//    }
+//
+//    // Create configuration object for the viewfinder use case
+//    private fun buildPreviewConfig(size: Size) = PreviewConfig.Builder()
+//        .setTargetResolution(size)
+//        .build()
 }
