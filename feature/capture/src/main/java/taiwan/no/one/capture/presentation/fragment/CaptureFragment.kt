@@ -33,6 +33,7 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.content.ContextCompat
 import com.devrapid.kotlinknifer.logd
 import taiwan.no.one.capture.databinding.FragmentCaptureBinding
 import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
@@ -104,7 +105,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener(Runnable {
             // CameraProvider
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+            val cameraProvider = cameraProviderFuture.get()
 
             // Preview
             preview = Preview.Builder()
@@ -113,7 +114,6 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
                 // Set initial target rotation
                 .setTargetRotation(rotation)
                 .build()
-
             // Default PreviewSurfaceProvider
             preview?.previewSurfaceProvider = binding.previewFinder.previewSurfaceProvider
 
@@ -138,7 +138,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
                 .build()
                 // The analyzer can then be assigned to the instance
                 .also {
-                    it.setAnalyzer(parent.mainExecutor, LuminosityAnalyzer { luma ->
+                    it.setAnalyzer(ContextCompat.getMainExecutor(parent), LuminosityAnalyzer { luma ->
                         // Values returned from our analyzer are passed to the attached listener
                         // We log image analysis results here - you should do something useful instead!
                         logd("Average luminosity: $luma")
@@ -151,19 +151,17 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             try {
                 // A variable number of use-cases can be passed here -
                 // camera provides access to CameraControl & CameraInfo
-                camera = cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture, imageAnalyzer
-                )
+                camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture, imageAnalyzer)
             }
             catch (exc: Exception) {
                 logd("Use case binding failed", exc)
             }
-        }, parent.mainExecutor)
+        }, ContextCompat.getMainExecutor(parent))
     }
 
     /**
      *  [androidx.camera.core.ImageAnalysisConfig] requires enum value of
-     *  [androidx.camera.core.AspectRatio]. Currently it has values of 4:3 & 16:9.
+     *  [androidx.camera.core.AspectRatio]. Currently, it has values of 4:3 & 16:9.
      *
      *  Detecting the most suitable ratio for dimensions provided in @params by counting absolute
      *  of preview ratio to one of the provided values.
