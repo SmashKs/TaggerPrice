@@ -38,31 +38,31 @@ object LibraryDependency {
         const val RECYCLERVIEW = "1.2.0-alpha01"
         const val CONSTRAINTLAYOUT = "2.0.0-beta4"
         const val COORDINATORLAYOUT = "1.1.0"
-        const val CAMERA_2 = "1.0.0-alpha09"
-        const val CAMERA_LIFECYCLE = "1.0.0-alpha03"
+        const val CAMERA_2 = "1.0.0-alpha10"
+        const val CAMERA_LIFECYCLE = "1.0.0-alpha10"
 
         const val AAC_LIFECYCLE = "2.2.0"
 
         const val KODEIN = "6.5.1"
 
         const val KTX = "1.2.0-rc01"
-        const val FRAGMENT_KTX = "1.2.0"
+        const val FRAGMENT_KTX = "1.2.1"
         const val PALETTE_KTX = "1.0.0"
         const val COLLECTION_KTX = "1.1.0"
         const val VIEWMODEL_KTX = AAC_LIFECYCLE
         const val NAVIGATION_KTX = "2.2.0"
-        const val WORK_KTX = "2.3.0"
+        const val WORK_KTX = "2.3.1"
         const val DYN_ANIM_KTX = "1.0.0-alpha01"
-        const val CAMERA_KTX = "1.0.0-alpha06"
+        const val CAMERA_KTX = "1.0.0-alpha07"
 
         const val ROOM = "2.2.3"
         const val MMKV = "1.0.24"
         const val GSON = "2.8.6"
-        const val PLAY_CORE = "1.6.4"
+        const val PLAY_CORE = "1.6.5"
 
-        const val COIL = "0.9.3"
+        const val COIL = "0.9.5"
         const val RETROFIT2 = "2.7.1"
-        const val OKHTTP3 = "4.3.1"
+        const val OKHTTP3 = "4.4.0"
         const val JSOUP = "1.12.1"
 
         const val FIREBASE_CORE = "17.2.2"
