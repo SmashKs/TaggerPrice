@@ -40,9 +40,6 @@ import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
 import taiwan.no.one.device.camera.LuminosityAnalyzer
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 
 class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() {
     companion object Constant {
