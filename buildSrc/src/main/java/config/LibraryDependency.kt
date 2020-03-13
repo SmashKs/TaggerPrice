@@ -58,11 +58,11 @@ object LibraryDependency {
         const val ROOM = "2.2.4"
         const val MMKV = "1.0.24"
         const val GSON = "2.8.6"
-        const val PLAY_CORE = "1.6.5"
+        const val PLAY_CORE = "1.7.0"
 
         const val COIL = "0.9.5"
         const val RETROFIT2 = "2.7.2"
-        const val OKHTTP3 = "4.4.0"
+        const val OKHTTP3 = "4.4.1"
         const val JSOUP = "1.12.1"
 
         const val FIREBASE_CORE = "17.2.2"
