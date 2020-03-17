@@ -40,6 +40,7 @@ import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
 import taiwan.no.one.device.camera.LuminosityAnalyzer
+import kotlin.math.abs
 
 class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() {
     companion object Constant {
@@ -112,7 +113,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
                 .setTargetRotation(rotation)
                 .build()
             // Default PreviewSurfaceProvider
-            preview?.previewSurfaceProvider = binding.previewFinder.previewSurfaceProvider
+//            preview?.previewSurfaceProvider = binding.previewFinder.previewSurfaceProvider
 
             // ImageCapture
             imageCapture = ImageCapture.Builder()
@@ -168,7 +169,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
      *  @return suitable aspect ratio
      */
     private fun aspectRatio(width: Int, height: Int): Int {
-        val previewRatio = max(width, height).toDouble() / min(width, height)
+        val previewRatio = maxOf(width, height).toDouble() / minOf(width, height)
         if (abs(previewRatio - RATIO_4_3_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE)) {
             return AspectRatio.RATIO_4_3
         }
