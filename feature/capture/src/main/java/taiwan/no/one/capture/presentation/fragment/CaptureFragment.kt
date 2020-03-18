@@ -58,6 +58,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
 
+    //region Variables
     private var displayId = -1
     private var lensFacing = CameraSelector.LENS_FACING_BACK
     private var preview: Preview? = null
@@ -91,20 +92,9 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             }
         } ?: Unit
     }
+    //endregion
 
     //region Fragment LifeCycle
-    override fun onResume() {
-        super.onResume()
-        // Make sure that all permissions are still present, since the
-        // user could have removed them while the app was in paused state.
-        if (!requireContext().allPermissionsGranted(requiredPermissions)) {
-            requestPermissions(requiredPermissions, REQUEST_CODE_PERMISSIONS)
-        }
-        else {
-            // If permissions have already been granted, proceed
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         // Shut down our background executor
@@ -121,6 +111,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             val message = if (PackageManager.PERMISSION_GRANTED == grantResults.firstOrNull()) {
                 // Take the user to the success fragment when permission is granted.
+                initCamera()
                 "Permissions not granted by the user."
             }
             else {
@@ -129,19 +120,19 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             Toast.makeText(parent, message, Toast.LENGTH_LONG).show()
         }
     }
-
     //endregion
 
     //region Customized methods
     override fun viewComponentBinding() {
         super.viewComponentBinding()
-        // Wait for the views to be properly laid out
-        binding.previewFinder.post {
-            // Build UI controls
-//            updateCameraUi()
-            // Bind use cases
-            bindCameraUseCases()
+        // Make sure that all permissions are still present, since the
+        // user could have removed them while the app was in paused state.
+        if (!requireContext().allPermissionsGranted(requiredPermissions)) {
+            requestPermissions(requiredPermissions, REQUEST_CODE_PERMISSIONS)
+            return
         }
+        // If permissions have already been granted, proceed
+        initCamera()
     }
 
     override fun componentListenersBinding() {
@@ -149,17 +140,20 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         cameraExecutor = Executors.newSingleThreadExecutor()
         // Every time the orientation of device changes, update rotation for use cases
         displayManager.registerDisplayListener(displayListener, null)
-        // Wait for the views to be properly laid out
+    }
+    //endregion
+
+    private fun initCamera() {
+        // Wait for the views to be properly laid out.
         binding.previewFinder.post {
             // Keep track of the display in which this view is attached
             displayId = binding.previewFinder.display.displayId
             // Build UI controls
-//            updateCameraUi()
+            //            updateCameraUi()
             // Bind use cases
             bindCameraUseCases()
         }
     }
-    //endregion
 
     /** Declare and bind preview, capture and analysis use cases */
     private fun bindCameraUseCases() {
