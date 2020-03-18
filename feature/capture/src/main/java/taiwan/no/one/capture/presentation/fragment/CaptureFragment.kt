@@ -25,7 +25,11 @@
 package taiwan.no.one.capture.presentation.fragment
 
 import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.hardware.display.DisplayManager
 import android.util.DisplayMetrics
+import android.widget.Toast
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
@@ -35,11 +39,15 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.devrapid.kotlinknifer.logd
+import com.devrapid.kotlinknifer.loge
 import taiwan.no.one.capture.databinding.FragmentCaptureBinding
 import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
 import taiwan.no.one.device.camera.LuminosityAnalyzer
+import taiwan.no.one.ktx.context.allPermissionsGranted
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import kotlin.math.abs
 
 class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() {
@@ -48,19 +56,62 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         // request. Where an app has multiple context for requesting permission,
         // this can help differentiate the different contexts.
         private const val REQUEST_CODE_PERMISSIONS = 10
-        private const val RATIO_4_3_VALUE = 4.0 / 3.0
-        private const val RATIO_16_9_VALUE = 16.0 / 9.0
     }
 
+    private var displayId = -1
     private var lensFacing = CameraSelector.LENS_FACING_BACK
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
 
+    // Blocking camera operations are performed using this executor.
+    private lateinit var cameraExecutor: ExecutorService
+
     // This is an array of all the permission specified in the manifest.
     private val requiredPermissions = arrayOf(Manifest.permission.CAMERA)
     private val vm by viewModel<CaptureViewModel>()
+    private val displayManager by lazy {
+        requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+    }
+
+    /**
+     * We need a display listener for orientation changes that do not trigger a configuration
+     * change, for example if we choose to override config change in manifest or for 180-degree
+     * orientation changes.
+     */
+    private val displayListener = object : DisplayManager.DisplayListener {
+        override fun onDisplayAdded(displayId: Int) = Unit
+        override fun onDisplayRemoved(displayId: Int) = Unit
+        override fun onDisplayChanged(displayId: Int) = view?.let { view ->
+            if (displayId == this@CaptureFragment.displayId) {
+                logd("Rotation changed: ${view.display.rotation}")
+                imageCapture?.targetRotation = view.display.rotation
+                imageAnalyzer?.targetRotation = view.display.rotation
+            }
+        } ?: Unit
+    }
+
+    //region Fragment LifeCycle
+    override fun onResume() {
+        super.onResume()
+        // Make sure that all permissions are still present, since the
+        // user could have removed them while the app was in paused state.
+        if (!requireContext().allPermissionsGranted(requiredPermissions)) {
+            requestPermissions(requiredPermissions, REQUEST_CODE_PERMISSIONS)
+        }
+        else {
+            // If permissions have already been granted, proceed
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Shut down our background executor
+        cameraExecutor.shutdown()
+        // Unregister the broadcast receivers and listeners
+        displayManager.unregisterDisplayListener(displayListener)
+    }
 
     /**
      * Process result from permission request dialog box, has the request been granted?
@@ -68,14 +119,20 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
      */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
-//            requestCameraIfFail {
-//                Toast.makeText(parent,
-//                               "Permissions not granted by the user.",
-//                               Toast.LENGTH_SHORT).show()
-//            }
+            val message = if (PackageManager.PERMISSION_GRANTED == grantResults.firstOrNull()) {
+                // Take the user to the success fragment when permission is granted.
+                "Permissions not granted by the user."
+            }
+            else {
+                "Permission request denied"
+            }
+            Toast.makeText(parent, message, Toast.LENGTH_LONG).show()
         }
     }
 
+    //endregion
+
+    //region Customized methods
     override fun viewComponentBinding() {
         super.viewComponentBinding()
         // Wait for the views to be properly laid out
@@ -86,6 +143,23 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             bindCameraUseCases()
         }
     }
+
+    override fun componentListenersBinding() {
+        // Initialize our background executor
+        cameraExecutor = Executors.newSingleThreadExecutor()
+        // Every time the orientation of device changes, update rotation for use cases
+        displayManager.registerDisplayListener(displayListener, null)
+        // Wait for the views to be properly laid out
+        binding.previewFinder.post {
+            // Keep track of the display in which this view is attached
+            displayId = binding.previewFinder.display.displayId
+            // Build UI controls
+//            updateCameraUi()
+            // Bind use cases
+            bindCameraUseCases()
+        }
+    }
+    //endregion
 
     /** Declare and bind preview, capture and analysis use cases */
     private fun bindCameraUseCases() {
@@ -105,17 +179,17 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             // CameraProvider
             val cameraProvider = cameraProviderFuture.get()
 
-            // Preview
+            // *** Preview
             preview = Preview.Builder()
                 // We request aspect ratio but no resolution
                 .setTargetAspectRatio(screenAspectRatio)
                 // Set initial target rotation
                 .setTargetRotation(rotation)
                 .build()
-            // Default PreviewSurfaceProvider
-//            preview?.previewSurfaceProvider = binding.previewFinder.previewSurfaceProvider
+            // Attach the viewfinder's surface provider to preview use case
+            preview?.setSurfaceProvider(binding.previewFinder.previewSurfaceProvider)
 
-            // ImageCapture
+            // *** ImageCapture
             imageCapture = ImageCapture.Builder()
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                 // We request aspect ratio but no resolution to match preview config, but letting
@@ -126,7 +200,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
                 .setTargetRotation(rotation)
                 .build()
 
-            // ImageAnalysis
+            // *** ImageAnalysis
             imageAnalyzer = ImageAnalysis.Builder()
                 // We request aspect ratio but no resolution
                 .setTargetAspectRatio(screenAspectRatio)
@@ -136,7 +210,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
                 .build()
                 // The analyzer can then be assigned to the instance
                 .also {
-                    it.setAnalyzer(ContextCompat.getMainExecutor(parent), LuminosityAnalyzer { luma ->
+                    it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { luma ->
                         // Values returned from our analyzer are passed to the attached listener
                         // We log image analysis results here - you should do something useful instead!
                         logd("Average luminosity: $luma")
@@ -152,7 +226,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
                 camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture, imageAnalyzer)
             }
             catch (exc: Exception) {
-                logd("Use case binding failed", exc)
+                loge("Use case binding failed", exc)
             }
         }, ContextCompat.getMainExecutor(parent))
     }
@@ -170,7 +244,8 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
      */
     private fun aspectRatio(width: Int, height: Int): Int {
         val previewRatio = maxOf(width, height).toDouble() / minOf(width, height)
-        if (abs(previewRatio - RATIO_4_3_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE)) {
+        if (abs(previewRatio - LuminosityAnalyzer.RATIO_4_3_VALUE) <=
+            abs(previewRatio - LuminosityAnalyzer.RATIO_16_9_VALUE)) {
             return AspectRatio.RATIO_4_3
         }
         return AspectRatio.RATIO_16_9
@@ -178,6 +253,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
 
     /** Method used to re-draw the camera UI controls, called every time configuration changes. */
 //    private fun updateCameraUi() {
+//
 //        // Remove previous UI if any
 //        container.findViewById<ConstraintLayout>(R.id.camera_ui_container)?.let {
 //            container.removeView(it)
@@ -185,6 +261,15 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
 //
 //        // Inflate a new view containing all UI for controlling the camera
 //        val controls = View.inflate(requireContext(), R.layout.camera_ui_container, container)
+//
+//        // In the background, load latest photo taken (if any) for gallery thumbnail
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            outputDirectory.listFiles { file ->
+//                EXTENSION_WHITELIST.contains(file.extension.toUpperCase(Locale.ROOT))
+//            }?.max()?.let {
+//                setGalleryThumbnail(Uri.fromFile(it))
+//            }
+//        }
 //
 //        // Listener for button used to capture photo
 //        controls.findViewById<ImageButton>(R.id.camera_capture_button).setOnClickListener {
@@ -202,8 +287,50 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
 //                    isReversedHorizontal = lensFacing == CameraSelector.LENS_FACING_FRONT
 //                }
 //
+//                // Create output options object which contains file + metadata
+//                val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile)
+//                    .setMetadata(metadata)
+//                    .build()
+//
 //                // Setup image capture listener which is triggered after photo has been taken
-//                imageCapture.takePicture(photoFile, metadata, mainExecutor, imageSavedListener)
+//                imageCapture.takePicture(
+//                    outputOptions, cameraExecutor, object : ImageCapture.OnImageSavedCallback {
+//                    override fun onError(exc: ImageCaptureException) {
+//                        Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+//                    }
+//
+//                    override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+//                        val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
+//                        Log.d(TAG, "Photo capture succeeded: $savedUri")
+//
+//                        // We can only change the foreground Drawable using API level 23+ API
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                            // Update the gallery thumbnail with latest picture taken
+//                            setGalleryThumbnail(savedUri)
+//                        }
+//
+//                        // Implicit broadcasts will be ignored for devices running API level >= 24
+//                        // so if you only target API level 24+ you can remove this statement
+//                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//                            requireActivity().sendBroadcast(
+//                                Intent(android.hardware.Camera.ACTION_NEW_PICTURE, savedUri)
+//                            )
+//                        }
+//
+//                        // If the folder selected is an external media directory, this is
+//                        // unnecessary but otherwise other apps will not be able to access our
+//                        // images unless we scan them using [MediaScannerConnection]
+//                        val mimeType = MimeTypeMap.getSingleton()
+//                            .getMimeTypeFromExtension(savedUri.toFile().extension)
+//                        MediaScannerConnection.scanFile(
+//                            context,
+//                            arrayOf(savedUri.toString()),
+//                            arrayOf(mimeType)
+//                        ) { _, uri ->
+//                            Log.d(TAG, "Image capture scanned into media store: $uri")
+//                        }
+//                    }
+//                })
 //
 //                // We can only change the foreground Drawable using API level 23+ API
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -226,7 +353,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
 //            else {
 //                CameraSelector.LENS_FACING_FRONT
 //            }
-//            // Bind use cases
+//            // Re-bind use cases to update selected camera
 //            bindCameraUseCases()
 //        }
 //
@@ -234,8 +361,10 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
 //        controls.findViewById<ImageButton>(R.id.photo_view_button).setOnClickListener {
 //            // Only navigate when the gallery has photos
 //            if (true == outputDirectory.listFiles()?.isNotEmpty()) {
-//                Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
-//                    CameraFragmentDirections.actionCameraToGallery(outputDirectory.absolutePath))
+//                Navigation.findNavController(
+//                    requireActivity(), R.id.fragment_container
+//                ).navigate(CameraFragmentDirections
+//                               .actionCameraToGallery(outputDirectory.absolutePath))
 //            }
 //        }
 //    }
