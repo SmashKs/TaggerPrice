@@ -29,8 +29,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import androidx.core.content.PermissionChecker
-import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.lifecycle.observe
 import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinknifer.toBitmap
@@ -40,6 +38,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.googlecode.tesseract.android.TessBaseAPI
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
+import taiwan.no.one.ktx.context.allPermissionsGranted
 import taiwan.no.one.ocr.R
 import taiwan.no.one.ocr.databinding.FragmentOcrBinding
 import taiwan.no.one.ocr.presentation.viewmodel.OcrViewModel
@@ -50,24 +49,30 @@ import java.io.InputStream
 import java.io.OutputStream
 
 internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>() {
+    private val requiredPermissions =
+        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     /**
      * TessBaseAPI初始化用到的第一个参数，是个目录。
      */
     private val DATAPATH: String =
         Environment.getExternalStorageDirectory().absolutePath.toString() + File.separator
+
     /**
      * 在DATAPATH中新建这个目录，TessBaseAPI初始化要求必须有这个目录。
      */
     private val tessdata = DATAPATH + "tessdata"
+
     /**
      * TessBaseAPI初始化测第二个参数，就是识别库的名字不要后缀名。
      */
     private val DEFAULT_LANGUAGE = "eng"
+
     /**
      * assets中的文件名
      */
     private val DEFAULT_LANGUAGE_NAME = "$DEFAULT_LANGUAGE.traineddata"
+
     /**
      * 保存到SD卡中的完整文件名
      */
@@ -88,13 +93,9 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
 
     override fun rendered(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(requireContext(),
-                                    Manifest.permission.READ_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED ||
-                checkSelfPermission(requireContext(),
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED) {
-                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                           Manifest.permission.READ_EXTERNAL_STORAGE),
-                                   PERMISSION_REQUEST_CODE)
+            if (requireContext().allPermissionsGranted(requiredPermissions)) {
+                requestPermissions(requiredPermissions, PERMISSION_REQUEST_CODE)
+                return
             }
         }
 
@@ -117,7 +118,7 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
-            PERMISSION_REQUEST_CODE -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            PERMISSION_REQUEST_CODE -> if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
                 logw("onRequestPermissionsResult: copy")
                 copyToSD(LANGUAGE_PATH, DEFAULT_LANGUAGE_NAME)
             }
