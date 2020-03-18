@@ -38,8 +38,8 @@ object LibraryDependency {
         const val RECYCLERVIEW = "1.2.0-alpha01"
         const val CONSTRAINTLAYOUT = "2.0.0-beta4"
         const val COORDINATORLAYOUT = "1.1.0"
-        const val CAMERA_2 = "1.0.0-alpha10"
-        const val CAMERA_LIFECYCLE = "1.0.0-alpha10"
+        const val CAMERA_2 = "1.0.0-beta01"
+        const val CAMERA_LIFECYCLE = "1.0.0-beta01"
 
         const val AAC_LIFECYCLE = "2.2.0"
 
@@ -53,7 +53,7 @@ object LibraryDependency {
         const val NAVIGATION_KTX = "2.2.0"
         const val WORK_KTX = "2.3.2"
         const val DYN_ANIM_KTX = "1.0.0-alpha01"
-        const val CAMERA_KTX = "1.0.0-alpha07"
+        const val CAMERA_KTX = "1.0.0-alpha08"
 
         const val ROOM = "2.2.4"
         const val MMKV = "1.0.24"

@@ -15,33 +15,35 @@ config:
 processors:
   active: true
   exclude:
-  # - 'DetektProgressListener'
-  # - 'FunctionCountProcessor'
-  # - 'PropertyCountProcessor'
-  # - 'ClassCountProcessor'
-  # - 'PackageCountProcessor'
-  # - 'KtFileCountProcessor'
+    - 'DetektProgressListener'
+#    - 'FunctionCountProcessor'
+#    - 'PropertyCountProcessor'
+#    - 'ClassCountProcessor'
+#    - 'PackageCountProcessor'
+#    - 'KtFileCountProcessor'
 
 console-reports:
   active: true
   exclude:
-    #  - 'ProjectStatisticsReport'
-    #  - 'ComplexityReport'
-    #  - 'NotificationReport'
-    #  - 'FindingsReport'
+    - 'ProjectStatisticsReport'
+    - 'ComplexityReport'
+    - 'NotificationReport'
+    #     - 'FindingsReport'
     - 'FileBasedFindingsReport'
-  #  - 'BuildFailureReport'
 
 comments:
   active: true
   excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
+  AbsentOrWrongFileLicense:
+    active: false
+    licenseTemplateFile: 'license.template'
   CommentOverPrivateFunction:
     active: false
   CommentOverPrivateProperty:
     active: false
   EndOfSentenceFormat:
     active: false
-    endOfSentenceFormat: ([.?!][ \t\n\r\f<])|([.?!:]$)
+    endOfSentenceFormat: '([.?!][ \t\n\r\f<])|([.?!:]$)'
   UndocumentedPublicClass:
     active: false
     searchInNestedClass: true
@@ -142,6 +144,8 @@ empty-blocks:
     active: true
   EmptySecondaryConstructor:
     active: true
+  EmptyTryBlock:
+    active: true
   EmptyWhenBlock:
     active: true
   EmptyWhileBlock:
@@ -219,6 +223,7 @@ formatting:
   FinalNewline:
     active: true
     autoCorrect: true
+    insertFinalNewLine: true
   ImportOrdering:
     active: true
     autoCorrect: true
@@ -352,6 +357,7 @@ naming:
     rootPackage: ''
   MatchingDeclarationName:
     active: true
+    mustBeFirst: true
   MemberNameEqualsClassName:
     active: true
     ignoreOverridden: true
@@ -458,6 +464,8 @@ style:
   EqualsNullCall:
     active: true
   EqualsOnSignatureLine:
+    active: false
+  ExplicitCollectionElementAccessMethod:
     active: false
   ExplicitItLambdaParameter:
     active: false
