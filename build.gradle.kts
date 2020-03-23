@@ -34,7 +34,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.0.0-beta01")
+        classpath("com.android.tools.build:gradle:4.0.0-beta03")
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath(config.GradleDependency.SAFE_ARGS)
@@ -64,6 +64,7 @@ allprojects {
     tasks {
         withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
             kotlinOptions {
+                languageVersion = "1.4"
                 jvmTarget = "1.8"
                 suppressWarnings = false
                 freeCompilerArgs = listOf(

@@ -33,7 +33,7 @@ object LibraryDependency {
         const val MATERIAL = "1.2.0-alpha05"
         const val ANDROIDX = "1.0.0"
         const val ANNOTATION = "1.1.0"
-        const val APPCOMPAT = "1.2.0-alpha01"
+        const val APPCOMPAT = "1.2.0-alpha03"
         const val CARDVIEW = ANDROIDX
         const val RECYCLERVIEW = "1.2.0-alpha01"
         const val CONSTRAINTLAYOUT = "2.0.0-beta4"
@@ -41,21 +41,20 @@ object LibraryDependency {
         const val CAMERA_2 = "1.0.0-beta01"
         const val CAMERA_LIFECYCLE = "1.0.0-beta01"
 
-        const val AAC_LIFECYCLE = "2.2.0"
+        const val AAC_LIFECYCLE = "2.3.0-alpha01"
 
         const val KODEIN = "6.5.3"
 
-        const val KTX = "1.2.0-rc01"
+        const val KTX = "1.3.0-alpha02"
         const val FRAGMENT_KTX = "1.2.2"
         const val PALETTE_KTX = "1.0.0"
         const val COLLECTION_KTX = "1.1.0"
-        const val VIEWMODEL_KTX = AAC_LIFECYCLE
-        const val NAVIGATION_KTX = "2.2.0"
-        const val WORK_KTX = "2.3.2"
+        const val NAVIGATION_KTX = "2.3.0-alpha04"
+        const val WORK_KTX = "2.4.0-alpha01"
         const val DYN_ANIM_KTX = "1.0.0-alpha01"
         const val CAMERA_KTX = "1.0.0-alpha08"
 
-        const val ROOM = "2.2.4"
+        const val ROOM = "2.2.5"
         const val MMKV = "1.0.24"
         const val GSON = "2.8.6"
         const val PLAY_CORE = "1.7.0"
@@ -106,8 +105,13 @@ object LibraryDependency {
 
     //endregion
     //region ViewModel and LiveData
-    const val LIFECYCLE = "androidx.lifecycle:lifecycle-extensions:${Version.AAC_LIFECYCLE}"
-    const val LIFECYCLE_COMPILER = "android.arch.lifecycle:compiler:${Version.AAC_LIFECYCLE}"
+    const val LIFECYCLE_COMPILER = "androidx.lifecycle:lifecycle-compiler:${Version.AAC_LIFECYCLE}"
+
+    // helpers for implementing LifecycleOwner in a Service
+    const val LIFECYCLE_SERVICE = "androidx.lifecycle:lifecycle-service:${Version.AAC_LIFECYCLE}"
+
+    // ProcessLifecycleOwner provides a lifecycle for the whole application process
+    const val LIFECYCLE_PROCESS = "androidx.lifecycle:lifecycle-process:${Version.AAC_LIFECYCLE}"
 
     //endregion
     //region Android Ktx
@@ -115,9 +119,9 @@ object LibraryDependency {
     const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Version.FRAGMENT_KTX}"
     const val PALETTE_KTX = "androidx.palette:palette-ktx:${Version.PALETTE_KTX}"
     const val COLLECTION_KTX = "androidx.collection:collection-ktx:${Version.COLLECTION_KTX}"
-    const val VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Version.VIEWMODEL_KTX}"
-    const val LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:${Version.VIEWMODEL_KTX}"
-    const val RUNTIME_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:${Version.VIEWMODEL_KTX}"
+    const val VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Version.AAC_LIFECYCLE}"
+    const val LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:${Version.AAC_LIFECYCLE}"
+    const val RUNTIME_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:${Version.AAC_LIFECYCLE}"
     const val NAVIGATION_COMMON_KTX = "androidx.navigation:navigation-common-ktx:${Version.NAVIGATION_KTX}"
     const val NAVIGATION_FRAGMENT_KTX = "androidx.navigation:navigation-fragment-ktx:${Version.NAVIGATION_KTX}"
     const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:${Version.NAVIGATION_KTX}"

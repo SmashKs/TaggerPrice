@@ -37,7 +37,8 @@ object Dependencies {
 
     private val commonAndroidDeps = hashMapOf(
         "appcompat" to LibraryDependency.APPCOMPAT,
-        "lifecycle" to LibraryDependency.LIFECYCLE
+        "lifecycleService" to LibraryDependency.LIFECYCLE_SERVICE,
+        "lifecycleProcess" to LibraryDependency.LIFECYCLE_PROCESS
     )
 
     private val commonKtxDeps = hashMapOf(
@@ -61,7 +62,6 @@ object Dependencies {
     }
 
     val androidxDeps = commonAndroidDeps.apply {
-        put("lifecycle", LibraryDependency.LIFECYCLE)
         put("materialDesign", LibraryDependency.MATERIAL_DESIGN)
         put("recyclerview", LibraryDependency.RECYCLERVIEW)
         put("cardview", LibraryDependency.CARDVIEW)
