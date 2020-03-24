@@ -29,7 +29,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import androidx.lifecycle.Observer
 import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinknifer.toBitmap
 import com.devrapid.kotlinknifer.toDrawable
@@ -82,16 +81,13 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
     private val vm by viewModel<OcrViewModel>()
 
     override fun bindLiveData() {
-//        vm.ocrResult.observe(this) {
-//            it.onSuccess {
-//                logw(it)
-//            }.onFailure {
-//                logw(it.localizedMessage.toString())
-//            }
-//        }
-        vm.ocrResult.observe(this, Observer {
-            it.onSuccess { }
-        })
+        vm.ocrResult.observe(this) {
+            it.onSuccess {
+                logw(it)
+            }.onFailure {
+                logw(it.localizedMessage.toString())
+            }
+        }
     }
 
     override fun rendered(savedInstanceState: Bundle?) {
