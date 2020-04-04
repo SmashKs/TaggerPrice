@@ -26,13 +26,11 @@ package taiwan.no.one.taggerprice
 
 import android.app.Application
 import android.content.Context
-import androidx.camera.camera2.Camera2Config
-import androidx.camera.core.CameraXConfig
 import com.google.android.play.core.splitcompat.SplitCompat
 import org.kodein.di.KodeinAware
 import taiwan.no.one.taggerprice.di.Dispatcher
 
-class TaggerPriceApp : Application(), CameraXConfig.Provider, KodeinAware {
+class TaggerPriceApp : Application(), KodeinAware {
     companion object {
         lateinit var appContext: Context
             private set
@@ -48,7 +46,4 @@ class TaggerPriceApp : Application(), CameraXConfig.Provider, KodeinAware {
         super.attachBaseContext(context)
         SplitCompat.install(this)
     }
-
-    /** @returns Camera2 default configuration */
-    override fun getCameraXConfig() = Camera2Config.defaultConfig()
 }

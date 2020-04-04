@@ -181,7 +181,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
                 .setTargetRotation(rotation)
                 .build()
             // Attach the viewfinder's surface provider to preview use case
-            preview?.setSurfaceProvider(binding.previewFinder.previewSurfaceProvider)
+            preview?.setSurfaceProvider(binding.previewFinder.createSurfaceProvider(null))
 
             // *** ImageCapture
             imageCapture = ImageCapture.Builder()
@@ -208,6 +208,20 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
                         // Values returned from our analyzer are passed to the attached listener
                         // We log image analysis results here - you should do something useful instead!
                         logd("Average luminosity: $luma")
+//                        val yuvImage = YuvImage(luma,
+//                                                ImageFormat.YUY2,
+//                                                binding.clContainer.width,
+//                                                binding.clContainer.height,
+//                                                null)
+//                        io {
+//                            val stream = ByteArrayOutputStream()
+//                            yuvImage.compressToJpeg(Rect(0, 0, binding.clContainer.width, binding.clContainer.height),
+//                                                    80,
+//                                                    stream)
+//                            val bmp = BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size())
+//                            ui { binding.ivPreview.setImageBitmap(bmp) }
+//                            stream.close()
+//                        }
                     })
                 }
 

@@ -34,6 +34,8 @@ import java.util.Locale
 
 /** Helper type alias used for analysis use case callbacks */
 typealias LumaListener = (luma: Double) -> Unit
+/** */
+typealias RawDataListener = (rawData: ByteArray) -> Unit
 
 /**
  * Our custom image analysis class.
@@ -41,7 +43,7 @@ typealias LumaListener = (luma: Double) -> Unit
  * <p>All we need to do is override the function `analyze` with our desired operations. Here,
  * we compute the average luminosity of the image by looking at the Y plane of the YUV frame.
  */
-class LuminosityAnalyzer(listener: LumaListener? = null) : ImageAnalysis.Analyzer {
+class LuminosityAnalyzer(listener: RawDataListener? = null) : ImageAnalysis.Analyzer {
     companion object {
         const val RATIO_4_3_VALUE = 4.0 / 3.0
         const val RATIO_16_9_VALUE = 16.0 / 9.0
@@ -57,13 +59,19 @@ class LuminosityAnalyzer(listener: LumaListener? = null) : ImageAnalysis.Analyze
         private set
     private val frameRateWindow = 8
     private val frameTimestamps = ArrayDeque<Long>(5)
-    private val listeners = ArrayList<LumaListener>().apply { listener?.let { add(it) } }
+    private val listeners = ArrayList<RawDataListener>().apply { listener?.let { add(it) } }
+    private val lumaListeners = ArrayList<LumaListener>()
     private var lastAnalyzedTimestamp = 0L
+
+    /**
+     * Used to add listeners that will be called with raw data
+     */
+    fun onRawAnalyzed(listener: RawDataListener) = listeners.add(listener)
 
     /**
      * Used to add listeners that will be called with each luma computed
      */
-    fun onFrameAnalyzed(listener: LumaListener) = listeners.add(listener)
+    fun onFrameAnalyzed(listener: LumaListener) = lumaListeners.add(listener)
 
     /**
      * Helper extension function used to extract a byte array from an
@@ -93,10 +101,10 @@ class LuminosityAnalyzer(listener: LumaListener? = null) : ImageAnalysis.Analyze
      */
     override fun analyze(image: ImageProxy) {
         // If there are no listeners attached, we don't need to perform analysis
-        if (listeners.isEmpty()) {
-            image.close()
-            return
-        }
+//        if (lumaListeners.isEmpty()) {
+//            image.close()
+//            return
+//        }
 
         // Keep track of frames analyzed
         val currentTime = System.currentTimeMillis()
@@ -114,15 +122,16 @@ class LuminosityAnalyzer(listener: LumaListener? = null) : ImageAnalysis.Analyze
         lastAnalyzedTimestamp = frameTimestamps.first
 
         // Since format in ImageAnalysis is YUV, image.planes[0] contains the luminance plane
-        val buffer = image.planes[0].buffer
+        val buffer = image.planes[1].buffer
         // Extract image data from callback object
         val data = buffer.toByteArray()
+        listeners.forEach { it(data) }
         // Convert the data into an array of pixel values ranging 0-255
         val pixels = data.map { it.toInt() and 0xFF }
         // Compute average luminance for the image
         val luma = pixels.average()
         // Call all listeners with new value
-        listeners.forEach { it(luma) }
+        lumaListeners.forEach { it(luma) }
         image.close()
     }
 }

@@ -95,7 +95,6 @@ object Dependencies {
     )
 
     val cameraDeps = hashMapOf(
-        "camera2" to LibraryDependency.CAMERA2,
         "cameraView" to LibraryDependency.CAMERA_VIEW,
         "cameraLifecycle" to LibraryDependency.CAMERA_LIFECYCLE,
         "cameraKtx" to LibraryDependency.CAMERA_KTX

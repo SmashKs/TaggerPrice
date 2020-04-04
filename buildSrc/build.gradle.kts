@@ -23,7 +23,7 @@
  */
 
 plugins {
-    id("org.gradle.kotlin.kotlin-dsl").version("1.3.1")
+    id("org.gradle.kotlin.kotlin-dsl").version("1.3.5")
 }
 
 // gradle versions above 4.10.
