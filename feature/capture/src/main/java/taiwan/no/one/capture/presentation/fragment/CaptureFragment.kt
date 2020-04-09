@@ -27,6 +27,7 @@ package taiwan.no.one.capture.presentation.fragment
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.hardware.display.DisplayManager
 import android.util.DisplayMetrics
 import android.widget.Toast
@@ -40,11 +41,15 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.devrapid.kotlinknifer.logd
 import com.devrapid.kotlinknifer.loge
+import com.devrapid.kotlinshaver.io
+import com.devrapid.kotlinshaver.ui
+import kotlinx.coroutines.delay
 import taiwan.no.one.capture.databinding.FragmentCaptureBinding
 import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
 import taiwan.no.one.device.camera.LuminosityAnalyzer
+import taiwan.no.one.device.camera.YuvToRgbConverter
 import taiwan.no.one.ktx.context.allPermissionsGranted
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -201,15 +206,17 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
                 // Set initial target rotation, we will have to call this again if rotation changes
                 // during the lifecycle of this use case
                 .setTargetRotation(rotation)
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
                 // The analyzer can then be assigned to the instance
                 .also {
-                    it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { luma ->
-                        // Values returned from our analyzer are passed to the attached listener
-                        // We log image analysis results here - you should do something useful instead!
-                        logd("Average luminosity: $luma")
+                    // TODO(Jieyi): 4/9/20 For testing the [YuvToRgbConverter].
+//                    it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { luma ->
+//                        // Values returned from our analyzer are passed to the attached listener
+//                        // We log image analysis results here - you should do something useful instead!
+//                        logd("Average luminosity: $luma")
 //                        val yuvImage = YuvImage(luma,
-//                                                ImageFormat.YUY2,
+//                                                ImageFormat.NV21,
 //                                                binding.clContainer.width,
 //                                                binding.clContainer.height,
 //                                                null)
@@ -222,6 +229,19 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
 //                            ui { binding.ivPreview.setImageBitmap(bmp) }
 //                            stream.close()
 //                        }
+//                    })
+                    it.setAnalyzer(cameraExecutor, ImageAnalysis.Analyzer { image ->
+                        val bmp = Bitmap.createBitmap(binding.clContainer.width,
+                                                      binding.clContainer.height,
+                                                      Bitmap.Config.ARGB_8888)
+                        YuvToRgbConverter(requireContext()).yuvToRgb(image, bmp)
+                        ui {
+                            binding.ivPreview.setImageBitmap(bmp)
+                        }
+                        io {
+                            delay(2000)
+                            image.close()
+                        }
                     })
                 }
 
