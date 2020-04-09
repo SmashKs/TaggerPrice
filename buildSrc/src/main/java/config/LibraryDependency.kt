@@ -33,9 +33,9 @@ object LibraryDependency {
         const val MATERIAL = "1.2.0-alpha05"
         const val ANDROIDX = "1.0.0"
         const val ANNOTATION = "1.1.0"
-        const val APPCOMPAT = "1.2.0-alpha03"
+        const val APPCOMPAT = "1.2.0-beta01"
         const val CARDVIEW = ANDROIDX
-        const val RECYCLERVIEW = "1.2.0-alpha01"
+        const val RECYCLERVIEW = "1.2.0-alpha02"
         const val CONSTRAINTLAYOUT = "2.0.0-beta4"
         const val COORDINATORLAYOUT = "1.1.0"
         const val CAMERA_LIFECYCLE = "1.0.0-beta02"
@@ -44,8 +44,8 @@ object LibraryDependency {
 
         const val KODEIN = "6.5.3"
 
-        const val KTX = "1.3.0-alpha02"
-        const val FRAGMENT_KTX = "1.2.2"
+        const val KTX = "1.3.0-beta01"
+        const val FRAGMENT_KTX = "1.3.0-alpha03"
         const val PALETTE_KTX = "1.0.0"
         const val COLLECTION_KTX = "1.1.0"
         const val NAVIGATION_KTX = "2.3.0-alpha04"
@@ -59,8 +59,8 @@ object LibraryDependency {
         const val PLAY_CORE = "1.7.0"
 
         const val COIL = "0.9.5"
-        const val RETROFIT2 = "2.7.2"
-        const val OKHTTP3 = "4.4.1"
+        const val RETROFIT2 = "2.8.1"
+        const val OKHTTP3 = "4.5.0"
         const val JSOUP = "1.12.1"
 
         const val FIREBASE_CORE = "17.2.2"
