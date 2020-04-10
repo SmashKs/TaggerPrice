@@ -43,6 +43,7 @@ object Dependencies {
 
     private val commonKtxDeps = hashMapOf(
         "ktx" to LibraryDependency.KTX,
+        "activityKtx" to LibraryDependency.ACTIVITY_KTX,
         "fragmentKtx" to LibraryDependency.FRAGMENT_KTX,
         "viewmodelKtx" to LibraryDependency.VIEWMODEL_KTX,
         "livedataKtx" to LibraryDependency.LIVEDATA_KTX,

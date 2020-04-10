@@ -25,9 +25,8 @@
 package taiwan.no.one.taggerprice.presentation.lifecycle
 
 import android.content.Context
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
@@ -38,7 +37,7 @@ import taiwan.no.one.taggerprice.provider.NaviGraphRouteProvider
 class SplitModuleAddLifecycle(
     private val context: Context,
     private val modules: List<String>
-) : LifecycleObserver {
+) : DefaultLifecycleObserver {
     private val manager by lazy { SplitInstallManagerFactory.create(context.applicationContext) }
     private val request by lazy {
         SplitInstallRequest.newBuilder().apply { modules.forEach { addModule(it) } }.build()
@@ -54,14 +53,12 @@ class SplitModuleAddLifecycle(
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun registerListener() {
+    override fun onResume(owner: LifecycleOwner) {
         manager.registerListener(listener)
         manager.startInstall(request)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun unregisterListener() {
+    override fun onPause(owner: LifecycleOwner) {
         manager.unregisterListener(listener)
     }
 }

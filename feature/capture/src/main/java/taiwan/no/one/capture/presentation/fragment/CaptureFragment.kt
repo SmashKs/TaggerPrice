@@ -26,11 +26,11 @@ package taiwan.no.one.capture.presentation.fragment
 
 import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.hardware.display.DisplayManager
 import android.util.DisplayMetrics
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
@@ -50,7 +50,6 @@ import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
 import taiwan.no.one.device.camera.LuminosityAnalyzer
 import taiwan.no.one.device.camera.YuvToRgbConverter
-import taiwan.no.one.ktx.context.allPermissionsGranted
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.math.abs
@@ -80,6 +79,17 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
     private val displayManager by lazy {
         requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
     }
+    private val permissionRequester = prepareCall(ActivityResultContracts.RequestPermission()) { permissionGranted ->
+        val message = if (permissionGranted) {
+            // Take the user to the success fragment when permission is granted.
+            initCamera()
+            "Permissions not granted by the user."
+        }
+        else {
+            "Permission request denied"
+        }
+        Toast.makeText(parent, message, Toast.LENGTH_LONG).show()
+    }
 
     /**
      * We need a display listener for orientation changes that do not trigger a configuration
@@ -107,37 +117,12 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         // Unregister the broadcast receivers and listeners
         displayManager.unregisterDisplayListener(displayListener)
     }
-
-    /**
-     * Process result from permission request dialog box, has the request been granted?
-     * If yes, start Camera. Otherwise, display a toast.
-     */
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            val message = if (PackageManager.PERMISSION_GRANTED == grantResults.firstOrNull()) {
-                // Take the user to the success fragment when permission is granted.
-                initCamera()
-                "Permissions not granted by the user."
-            }
-            else {
-                "Permission request denied"
-            }
-            Toast.makeText(parent, message, Toast.LENGTH_LONG).show()
-        }
-    }
     //endregion
 
     //region Customized methods
     override fun viewComponentBinding() {
         super.viewComponentBinding()
-        // Make sure that all permissions are still present, since the
-        // user could have removed them while the app was in paused state.
-        if (!requireContext().allPermissionsGranted(requiredPermissions)) {
-            requestPermissions(requiredPermissions, REQUEST_CODE_PERMISSIONS)
-            return
-        }
-        // If permissions have already been granted, proceed
-        initCamera()
+        permissionRequester.launch(Manifest.permission.CAMERA)
     }
 
     override fun componentListenersBinding() {

@@ -45,6 +45,7 @@ object LibraryDependency {
         const val KODEIN = "6.5.3"
 
         const val KTX = "1.3.0-beta01"
+        const val ACTIVITY_KTX = "1.2.0-alpha03"
         const val FRAGMENT_KTX = "1.3.0-alpha03"
         const val PALETTE_KTX = "1.0.0"
         const val COLLECTION_KTX = "1.1.0"
@@ -114,6 +115,7 @@ object LibraryDependency {
     //endregion
     //region Android Ktx
     const val KTX = "androidx.core:core-ktx:${Version.KTX}"
+    const val ACTIVITY_KTX = "androidx.activity:activity-ktx:${Version.ACTIVITY_KTX}"
     const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Version.FRAGMENT_KTX}"
     const val PALETTE_KTX = "androidx.palette:palette-ktx:${Version.PALETTE_KTX}"
     const val COLLECTION_KTX = "androidx.collection:collection-ktx:${Version.COLLECTION_KTX}"
