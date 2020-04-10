@@ -4,6 +4,8 @@
     <enableDetekt>true</enableDetekt>
     <enableFormatting>true</enableFormatting>
     <buildUponDefaultConfig>true</buildUponDefaultConfig>
+    <enableAllRules>true</enableAllRules>
     <rulesPath>$PROJECT_DIR$/../JurassicPark/detekt.yml</rulesPath>
+    <baselinePath>$PROJECT_DIR$/config/detekt/baseline.xml</baselinePath>
   </component>
 </project>
