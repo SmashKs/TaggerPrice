@@ -53,13 +53,6 @@ import java.util.concurrent.Executors
 import kotlin.math.abs
 
 class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() {
-    companion object Constant {
-        // This is an arbitrary number we are using to keep track of the permission
-        // request. Where an app has multiple context for requesting permission,
-        // this can help differentiate the different contexts.
-        private const val REQUEST_CODE_PERMISSIONS = 10
-    }
-
     //region Variables
     private var displayId = -1
     private var lensFacing = CameraSelector.LENS_FACING_BACK
@@ -70,23 +63,18 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
 
     // Blocking camera operations are performed using this executor.
     private lateinit var cameraExecutor: ExecutorService
-
-    // This is an array of all the permission specified in the manifest.
-    private val requiredPermissions = arrayOf(Manifest.permission.CAMERA)
     private val vm by viewModel<CaptureViewModel>()
     private val displayManager by lazy {
         requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
     }
     private val permissionRequester = prepareCall(ActivityResultContracts.RequestPermission()) { permissionGranted ->
-        val message = if (permissionGranted) {
+        if (permissionGranted) {
             // Take the user to the success fragment when permission is granted.
             initCamera()
-            "Permissions not granted by the user."
         }
         else {
-            "Permission request denied"
+            Toast.makeText(parent, "Permission request denied", Toast.LENGTH_LONG).show()
         }
-        Toast.makeText(parent, message, Toast.LENGTH_LONG).show()
     }
 
     /**
@@ -192,7 +180,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
                 // The analyzer can then be assigned to the instance
-                .also {
+                .also { it ->
                     // TODO(Jieyi): 4/9/2019 For testing the [YuvToRgbConverter].
 //                    it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { luma ->
 //                        // Values returned from our analyzer are passed to the attached listener
