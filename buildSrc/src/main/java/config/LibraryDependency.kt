@@ -28,9 +28,9 @@ object LibraryDependency {
     object Version {
         const val ARV = "1.0.16"
         const val QUICK_DIALOG = "1.0.7"
-        const val KINFER = "2.1.17"
+        const val KINFER = "2.1.18"
 
-        const val MATERIAL = "1.2.0-alpha05"
+        const val MATERIAL = "1.2.0-alpha06"
         const val ANDROIDX = "1.0.0"
         const val ANNOTATION = "1.1.0"
         const val APPCOMPAT = "1.2.0-beta01"
@@ -38,39 +38,39 @@ object LibraryDependency {
         const val RECYCLERVIEW = "1.2.0-alpha02"
         const val CONSTRAINTLAYOUT = "2.0.0-beta4"
         const val COORDINATORLAYOUT = "1.1.0"
-        const val CAMERA_LIFECYCLE = "1.0.0-beta02"
+        const val CAMERA_LIFECYCLE = "1.0.0-beta03"
 
         const val AAC_LIFECYCLE = "2.3.0-alpha01"
 
-        const val KODEIN = "6.5.3"
+        const val KODEIN = "6.5.5"
 
-        const val KTX = "1.3.0-beta01"
+        const val KTX = "1.3.0-rc01"
         const val ACTIVITY_KTX = "1.2.0-alpha03"
         const val FRAGMENT_KTX = "1.3.0-alpha03"
         const val PALETTE_KTX = "1.0.0"
         const val COLLECTION_KTX = "1.1.0"
-        const val NAVIGATION_KTX = "2.3.0-alpha04"
-        const val WORK_KTX = "2.4.0-alpha01"
+        const val NAVIGATION_KTX = "2.3.0-alpha05"
+        const val WORK_KTX = "2.4.0-alpha02"
         const val DYN_ANIM_KTX = "1.0.0-alpha01"
-        const val CAMERA_KTX = "1.0.0-alpha09"
+        const val CAMERA_KTX = "1.0.0-alpha10"
 
         const val ROOM = "2.2.5"
-        const val MMKV = "1.0.24"
+        const val MMKV = "1.1.1"
         const val GSON = "2.8.6"
-        const val PLAY_CORE = "1.7.0"
+        const val PLAY_CORE = "1.7.2"
 
         const val COIL = "0.9.5"
         const val RETROFIT2 = "2.8.1"
         const val OKHTTP3 = "4.5.0"
         const val JSOUP = "1.12.1"
 
-        const val FIREBASE_CORE = "17.2.2"
+        const val FIREBASE_CORE = "17.3.0"
         const val FIREBASE_DATABASE = "16.1.0"
         const val FIREBASE_AUTH = "16.0.3"
         const val FIREBASE_MESSAGING = "17.5.0"
-        const val FIREBASE_ANALYTICS = "17.2.2"
+        const val FIREBASE_ANALYTICS = "17.3.0"
         const val FIREBASE_CRASHLYTICS = "2.10.1"
-        const val FIREBASE_ML = "24.0.1"
+        const val FIREBASE_ML = "24.0.2"
 
         const val GOOGLE_SERVICE = "4.3.2"
 
