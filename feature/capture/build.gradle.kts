@@ -127,6 +127,7 @@ dependencies {
     listOf(project(CommonModuleDependency.APP),
            project(CommonModuleDependency.FEAT_CURRENCY),
            project(CommonModuleDependency.FEAT_OCR)).forEach(::implementation)
+    api(LibraryDependency.CAMERAVIEW)
     kapt(LibraryDependency.ROOM_ANNOTATION)
     kapt(LibraryDependency.LIFECYCLE_COMPILER)
 }

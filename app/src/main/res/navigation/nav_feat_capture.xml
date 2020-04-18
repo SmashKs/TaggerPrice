@@ -27,11 +27,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navFeatCapture"
-    app:startDestination="@id/captureFragment">
+    app:startDestination="@id/cameraFragment">
 
     <fragment
-        android:id="@+id/captureFragment"
-        android:name="taiwan.no.one.capture.presentation.fragment.CaptureFragment"
+        android:id="@+id/cameraFragment"
+        android:name="taiwan.no.one.capture.presentation.fragment.CameraFragment"
         android:label="Capture Index">
     </fragment>
 </navigation>

@@ -23,20 +23,14 @@
   ~ SOFTWARE.
   -->
 
-<navigation
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navCapture"
-    app:startDestination="@id/cameraFragment">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <fragment
-        android:id="@+id/cameraFragment"
-        android:name="taiwan.no.one.capture.presentation.fragment.CameraFragment"
-        android:label="Capture Fragment"
-        tools:layout="@layout/fragment_camera">
-        <deepLink
-            android:id="@+id/deepLink"
-            app:uri="taiwan.no.one.dummy/dummy"/>
-    </fragment>
-</navigation>
+    <com.otaliastudios.cameraview.CameraView
+        android:id="@+id/cvCamera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

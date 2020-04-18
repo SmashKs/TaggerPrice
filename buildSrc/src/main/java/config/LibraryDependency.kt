@@ -77,6 +77,7 @@ object LibraryDependency {
         const val SHAPE_OF_VIEW = "1.4.7"
         const val REALTIME_BLUR = "1.2.1"
         const val LOTTIE = "3.4.0"
+        const val CAMERAVIEW = "2.6.2"
 
         const val TESSERACT = "9.1.0"
         const val TENSORFLOW_LITE = "2.1.0"
@@ -179,6 +180,7 @@ object LibraryDependency {
     const val SHAPE_OF_VIEW = "com.github.florent37:shapeofview:${Version.SHAPE_OF_VIEW}"
     const val REALTIME_BLUR = "com.github.mmin18:realtimeblurview:${Version.REALTIME_BLUR}"
     const val LOTTIE = "com.airbnb.android:lottie:${Version.LOTTIE}"
+    const val CAMERAVIEW = "com.otaliastudios:cameraview:${Version.CAMERAVIEW}"
 
     //endregion
     const val TESSERACT = "com.rmtheis:tess-two:${Version.TESSERACT}"
