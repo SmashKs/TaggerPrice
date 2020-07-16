@@ -24,18 +24,23 @@
 
 package taiwan.no.one.ocr
 
+import android.content.Context
+import com.google.auto.service.AutoService
 import org.kodein.di.Kodein
 import taiwan.no.one.ocr.data.DataModules
 import taiwan.no.one.ocr.domain.DomainModules
 import taiwan.no.one.ocr.presentation.PresentationModules
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-object FeatModules : ModuleProvider {
-    internal const val FEAT_NAME = "Tesseract"
+@AutoService(ModuleProvider::class)
+class FeatModules : ModuleProvider {
+    companion object {
+        internal const val FEAT_NAME = "Tesseract"
+    }
 
-    override fun provide() = Kodein.Module("${FEAT_NAME}Module") {
-        import(DataModules.provide())
-        import(DomainModules.provide())
-        import(PresentationModules.provide())
+    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}Module") {
+        import(DataModules.provide(context))
+        import(DomainModules.provide(context))
+        import(PresentationModules.provide(context))
     }
 }

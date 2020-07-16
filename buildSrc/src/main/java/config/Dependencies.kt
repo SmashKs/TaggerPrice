@@ -28,7 +28,8 @@ object Dependencies {
     val kotlinDeps = hashMapOf(
         "kotlin" to CoreDependency.KOTLIN,
         "reflect" to CoreDependency.KOTLIN_REFLECT,
-        "coroutine" to CoreDependency.KOTLIN_COROUTINE
+        "coroutine" to CoreDependency.KOTLIN_COROUTINE,
+        "autoservice" to LibraryDependency.AUTO_SERVICE
     )
 
     val kotlinAndroidDeps = kotlinDeps.apply {

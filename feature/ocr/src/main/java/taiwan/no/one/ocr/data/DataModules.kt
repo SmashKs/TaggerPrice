@@ -32,7 +32,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
-import taiwan.no.one.ocr.FeatModules.FEAT_NAME
+import taiwan.no.one.ocr.FeatModules.Companion.FEAT_NAME
 import taiwan.no.one.ocr.data.local.service.OcrService
 import taiwan.no.one.ocr.data.local.service.firebase.v1.FirebaseOcr
 import taiwan.no.one.ocr.data.local.service.tesseract.v1.TesseractOcr
@@ -50,7 +50,7 @@ internal object DataModules : ModuleProvider {
     private const val TAG_FIREBASE = "firebase"
     private const val TAG_TESSERACT = "tesseract"
 
-    override fun provide() = Kodein.Module("${FEAT_NAME}DataModule") {
+    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}DataModule") {
         import(localProvide(TaggerPriceApp.appContext.applicationContext))
         import(remoteProvide())
 

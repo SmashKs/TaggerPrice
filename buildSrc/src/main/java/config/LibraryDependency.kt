@@ -81,6 +81,7 @@ object LibraryDependency {
 
         const val TESSERACT = "9.1.0"
         const val TENSORFLOW_LITE = "2.1.0"
+        const val AUTO_SERVICE = "1.0-rc7"
     }
 
     const val ANDROID_COROUTINE =
@@ -185,4 +186,5 @@ object LibraryDependency {
     //endregion
     const val TESSERACT = "com.rmtheis:tess-two:${Version.TESSERACT}"
     const val TF_LITE = "org.tensorflow:tensorflow-lite:${Version.TENSORFLOW_LITE}"
+    const val AUTO_SERVICE = "com.google.auto.service:auto-service:${Version.AUTO_SERVICE}"
 }

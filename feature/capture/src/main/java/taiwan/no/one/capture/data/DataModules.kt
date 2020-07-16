@@ -24,11 +24,12 @@
 
 package taiwan.no.one.capture.data
 
+import android.content.Context
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
-import taiwan.no.one.capture.FeatModules.FEAT_NAME
+import taiwan.no.one.capture.FeatModules.Companion.FEAT_NAME
 import taiwan.no.one.capture.data.local.config.CaptureDatabase
 import taiwan.no.one.capture.data.local.service.database.v1.CaptureDao
 import taiwan.no.one.capture.data.local.service.json.v1.CaptureFile
@@ -39,7 +40,7 @@ import taiwan.no.one.capture.domain.repository.CaptureRepo
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 internal object DataModules : ModuleProvider {
-    override fun provide() = Kodein.Module("${FEAT_NAME}DataModule") {
+    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}DataModule") {
         import(localProvide())
         import(remoteProvide())
 

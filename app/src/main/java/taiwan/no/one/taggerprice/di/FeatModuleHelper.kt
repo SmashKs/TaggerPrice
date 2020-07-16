@@ -24,27 +24,11 @@
 
 package taiwan.no.one.taggerprice.di
 
-import taiwan.no.one.taggerprice.BuildConfig
+import android.content.Context
 import taiwan.no.one.taggerprice.provider.ModuleProvider
+import java.util.ServiceLoader
 
 object FeatModuleHelper {
-    // Will get the string "taiwan.no.one.".
-    val featurePackagePrefix by lazy {
-        BuildConfig.APPLICATION_ID
-            .split(".")
-            .dropLast(1)
-            .joinToString(".")
-    }
-
-    val kodeinModules = BuildConfig.FEATURE_MODULE_NAMES
-        .map { "$featurePackagePrefix.$it.FeatModules" }
-        .map {
-            try {
-                Class.forName(it).kotlin.objectInstance as ModuleProvider
-            }
-            catch (e: ClassNotFoundException) {
-                throw ClassNotFoundException("Kodein module class not found $it")
-            }
-        }
-        .map { it.provide() }
+    fun kodeinModules(context: Context) = ServiceLoader.load(ModuleProvider::class.java).map { it.provide(context) }
 }
+

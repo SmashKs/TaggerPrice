@@ -24,17 +24,18 @@
 
 package taiwan.no.one.ocr.domain
 
+import android.content.Context
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
-import taiwan.no.one.ocr.FeatModules.FEAT_NAME
+import taiwan.no.one.ocr.FeatModules.Companion.FEAT_NAME
 import taiwan.no.one.ocr.domain.usecase.FetchRecognizeCase
 import taiwan.no.one.ocr.domain.usecase.FetchRecognizeOneShotCase
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 internal object DomainModules : ModuleProvider {
-    override fun provide() = Kodein.Module("${FEAT_NAME}DomainModule") {
+    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}DomainModule") {
         bind<FetchRecognizeCase>() with singleton { FetchRecognizeOneShotCase(instance()) }
     }
 }

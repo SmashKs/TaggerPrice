@@ -24,18 +24,23 @@
 
 package taiwan.no.one.currency
 
+import android.content.Context
+import com.google.auto.service.AutoService
 import org.kodein.di.Kodein
 import taiwan.no.one.currency.data.DataModules
 import taiwan.no.one.currency.domain.DomainModules
 import taiwan.no.one.currency.presentation.PresentationModules
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-object FeatModules : ModuleProvider {
-    internal const val FEAT_NAME = "Currency"
+@AutoService(ModuleProvider::class)
+class FeatModules : ModuleProvider {
+    companion object {
+        internal const val FEAT_NAME = "Currency"
+    }
 
-    override fun provide() = Kodein.Module("${FEAT_NAME}Module") {
-        import(DataModules.provide())
-        import(DomainModules.provide())
-        import(PresentationModules.provide())
+    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}Module") {
+        import(DataModules.provide(context))
+        import(DomainModules.provide(context))
+        import(PresentationModules.provide(context))
     }
 }

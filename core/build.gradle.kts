@@ -22,7 +22,6 @@
  * SOFTWARE.
  */
 
-import com.android.build.api.dsl.CommonExtension
 import config.AndroidConfiguration
 import config.CommonModuleDependency
 import config.Dependencies
@@ -39,11 +38,9 @@ android {
         consumerProguardFiles(file("consumer-rules.pro"))
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas".toString(),
-                    "room.incremental" to "true",
-                    "room.expandProjection" to "true"
-                )
+                arguments["room.schemaLocation"] = "$projectDir/schemas"
+                arguments["room.incremental"] = "true"
+                arguments["room.expandProjection"] = "true"
             }
         }
     }
@@ -88,9 +85,7 @@ android {
         val options = this as org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
         options.jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-    (this as CommonExtension<*, *, *, *, *, *, *, *, *, *, *, *, *, *>).buildFeatures {
-        viewBinding = true
-    }
+    viewBinding.isEnabled = true
 }
 
 androidExtensions {
@@ -115,6 +110,7 @@ dependencies {
      Dependencies.localDeps.values).forEach(::api)
     api(LibraryDependency.GSON)
     kapt(LibraryDependency.ROOM_ANNOTATION)
+    kapt(LibraryDependency.AUTO_SERVICE)
     kapt(LibraryDependency.LIFECYCLE_COMPILER)
     Dependencies.debugDeps.values.forEach(::debugApi)
 }

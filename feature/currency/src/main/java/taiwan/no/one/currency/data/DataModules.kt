@@ -33,7 +33,7 @@ import retrofit2.Retrofit
 import taiwan.no.one.core.data.remote.RetrofitConfig
 import taiwan.no.one.core.data.remote.provider.OkHttpClientProvider
 import taiwan.no.one.core.data.remote.provider.RetrofitProvider
-import taiwan.no.one.currency.FeatModules.FEAT_NAME
+import taiwan.no.one.currency.FeatModules.Companion.FEAT_NAME
 import taiwan.no.one.currency.data.remote.config.CurrencyRetrofitConfig
 import taiwan.no.one.currency.data.remote.service.CurrencyConvertService
 import taiwan.no.one.currency.data.repository.CurrencyRepository
@@ -44,7 +44,7 @@ import taiwan.no.one.taggerprice.TaggerPriceApp
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 internal object DataModules : ModuleProvider {
-    override fun provide() = Kodein.Module("${FEAT_NAME}DataModule") {
+    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}DataModule") {
         import(localProvide())
         import(remoteProvide(TaggerPriceApp.appContext))
 

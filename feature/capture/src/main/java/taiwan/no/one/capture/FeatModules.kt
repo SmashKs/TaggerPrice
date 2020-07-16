@@ -24,6 +24,8 @@
 
 package taiwan.no.one.capture
 
+import android.content.Context
+import com.google.auto.service.AutoService
 import org.kodein.di.Kodein
 import taiwan.no.one.capture.data.DataModules
 import taiwan.no.one.capture.domain.DomainModules
@@ -33,15 +35,18 @@ import taiwan.no.one.taggerprice.provider.ModuleProvider
 typealias CurrencyFeatureModules = taiwan.no.one.currency.FeatModules
 typealias OcrFeatureModules = taiwan.no.one.ocr.FeatModules
 
-object FeatModules : ModuleProvider {
-    internal const val FEAT_NAME = "Capture"
+@AutoService(ModuleProvider::class)
+class FeatModules : ModuleProvider {
+    companion object {
+        internal const val FEAT_NAME = "Capture"
+    }
 
-    override fun provide() = Kodein.Module("${FEAT_NAME}Module") {
-        import(DataModules.provide())
-        import(DomainModules.provide())
-        import(PresentationModules.provide())
+    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}Module") {
+        import(DataModules.provide(context))
+        import(DomainModules.provide(context))
+        import(PresentationModules.provide(context))
 
-        import(CurrencyFeatureModules.provide())
-        import(OcrFeatureModules.provide())
+        import(CurrencyFeatureModules().provide(context))
+        import(OcrFeatureModules().provide(context))
     }
 }

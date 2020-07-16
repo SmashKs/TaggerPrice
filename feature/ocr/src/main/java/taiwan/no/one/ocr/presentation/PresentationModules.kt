@@ -24,18 +24,19 @@
 
 package taiwan.no.one.ocr.presentation
 
+import android.content.Context
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.inSet
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
-import taiwan.no.one.ocr.FeatModules.FEAT_NAME
+import taiwan.no.one.ocr.FeatModules.Companion.FEAT_NAME
 import taiwan.no.one.ocr.presentation.viewmodel.OcrViewModel
 import taiwan.no.one.taggerprice.di.ViewModelEntry
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 internal object PresentationModules : ModuleProvider {
-    override fun provide() = Kodein.Module("${FEAT_NAME}PreziModule") {
+    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}PreziModule") {
         bind<ViewModelEntry>().inSet() with provider {
             OcrViewModel::class.java to OcrViewModel(instance())
         }

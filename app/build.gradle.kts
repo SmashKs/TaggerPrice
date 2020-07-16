@@ -24,19 +24,13 @@
 
 import config.AndroidConfiguration
 import config.CommonModuleDependency
-import config.Configuration
 import config.Dependencies
 import config.LibraryDependency
 import org.jetbrains.kotlin.gradle.internal.CacheImplementation
 import resources.FeatureRes
 
 plugins {
-    if (!config.Configuration.isFeature) {
-        id("com.android.application")
-    }
-    else {
-        id("com.android.library")
-    }
+    id("com.android.application")
 
     kotlin("android")
     kotlin("android.extensions")
@@ -47,9 +41,7 @@ plugins {
 android {
     compileSdkVersion(AndroidConfiguration.COMPILE_SDK)
     defaultConfig {
-        if (!Configuration.isFeature) {
-            applicationId = AndroidConfiguration.ID
-        }
+        applicationId = AndroidConfiguration.ID
         minSdkVersion(AndroidConfiguration.MIN_SDK)
         targetSdkVersion(AndroidConfiguration.TARGET_SDK)
         versionCode = 1
@@ -61,14 +53,11 @@ android {
         consumerProguardFiles(file("consumer-rules.pro"))
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas",
-                    "room.incremental" to "true",
-                    "room.expandProjection" to "true"
-                )
+                arguments["room.schemaLocation"] = "$projectDir/schemas"
+                arguments["room.incremental"] = "true"
+                arguments["room.expandProjection"] = "true"
             }
         }
-        buildConfigField("FEATURE_MODULE_NAMES", CommonModuleDependency.getFeatureModuleName())
     }
     buildFeatures {
         viewBinding = true
@@ -96,8 +85,6 @@ android {
     sourceSets {
         getByName("main").apply {
             res.srcDirs(*FeatureRes.dirs)
-            manifest.srcFile(file(
-                if (Configuration.isFeature) FeatureRes.MANIFEST_FEATURE else FeatureRes.MANIFEST_APP))
         }
     }
     dexOptions {
@@ -121,9 +108,7 @@ android {
         val options = this as org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
         options.jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-    if (!Configuration.isFeature) {
-        dynamicFeatures = CommonModuleDependency.getDynamicFeatureModules()
-    }
+    dynamicFeatures = CommonModuleDependency.getDynamicFeatureModules()
 }
 
 androidExtensions {

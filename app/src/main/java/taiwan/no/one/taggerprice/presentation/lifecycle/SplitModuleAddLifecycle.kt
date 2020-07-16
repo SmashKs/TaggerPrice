@@ -31,8 +31,6 @@ import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
-import taiwan.no.one.taggerprice.di.FeatModuleHelper
-import taiwan.no.one.taggerprice.provider.NaviGraphRouteProvider
 
 class SplitModuleAddLifecycle(
     private val context: Context,
@@ -43,11 +41,9 @@ class SplitModuleAddLifecycle(
         SplitInstallRequest.newBuilder().apply { modules.forEach { addModule(it) } }.build()
     }
     private val listener by lazy {
-        val captureRoute = "${FeatModuleHelper.featurePackagePrefix}.capture.FeatureARoute"
         SplitInstallStateUpdatedListener {
             when (it.status()) {
                 SplitInstallSessionStatus.INSTALLED -> {
-                    val route = Class.forName(captureRoute).kotlin.objectInstance as? NaviGraphRouteProvider
                 }
             }
         }
