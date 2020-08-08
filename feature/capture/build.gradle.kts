@@ -61,6 +61,12 @@ android {
                 arguments["room.expandProjection"] = "true"
             }
         }
+        externalNativeBuild {
+            cmake {
+                cppFlags("-std=c++14")
+                abiFilters("arm64-v8a")
+            }
+        }
     }
     buildTypes {
         getByName("release") {
@@ -76,6 +82,9 @@ android {
             ext.set("alwaysUpdateBuildId", false)
             isCrunchPngs = false // Enabled by default for RELEASE build type
         }
+    }
+    externalNativeBuild {
+        cmake.path = File("CMakeLists.txt")
     }
     sourceSets {
         getByName("main").apply {
