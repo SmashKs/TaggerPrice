@@ -84,7 +84,7 @@ android {
         }
     }
     externalNativeBuild {
-        cmake.path = File("CMakeLists.txt")
+        cmake.path = file("CMakeLists.txt")
     }
     sourceSets {
         getByName("main").apply {
@@ -118,6 +118,7 @@ android {
         options.jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
     viewBinding.isEnabled = true
+    ndkVersion = "21.0.6113669"
 }
 
 kapt {
