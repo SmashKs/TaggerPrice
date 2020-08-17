@@ -70,7 +70,7 @@ object LibraryDependency {
         const val FIREBASE_MESSAGING = "17.5.0"
         const val FIREBASE_ANALYTICS = "17.5.0"
         const val FIREBASE_CRASHLYTICS = "2.10.1"
-        const val FIREBASE_ML = "24.1.0"
+        const val FIREBASE_ML = "24.0.2"
 
         const val GOOGLE_SERVICE = "4.3.2"
 
