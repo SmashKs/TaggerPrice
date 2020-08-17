@@ -67,15 +67,16 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
     private val displayManager by lazy {
         requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
     }
-    private val permissionRequester = prepareCall(ActivityResultContracts.RequestPermission()) { permissionGranted ->
-        if (permissionGranted) {
-            // Take the user to the success fragment when permission is granted.
-            initCamera()
+    private val permissionRequester =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { permissionGranted ->
+            if (permissionGranted) {
+                // Take the user to the success fragment when permission is granted.
+                initCamera()
+            }
+            else {
+                Toast.makeText(parent, "Permission request denied", Toast.LENGTH_LONG).show()
+            }
         }
-        else {
-            Toast.makeText(parent, "Permission request denied", Toast.LENGTH_LONG).show()
-        }
-    }
 
     /**
      * We need a display listener for orientation changes that do not trigger a configuration
@@ -157,7 +158,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
                 .setTargetRotation(rotation)
                 .build()
             // Attach the viewfinder's surface provider to preview use case
-            preview?.setSurfaceProvider(binding.previewFinder.createSurfaceProvider(null))
+            preview?.setSurfaceProvider(binding.previewFinder.createSurfaceProvider())
 
             // *** ImageCapture
             imageCapture = ImageCapture.Builder()

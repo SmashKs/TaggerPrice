@@ -64,7 +64,7 @@ object LibraryDependency {
         const val OKHTTP3 = "4.8.1"
         const val JSOUP = "1.12.1"
 
-        const val FIREBASE_CORE = "17.5.0"
+        const val FIREBASE_CORE = "17.3.0"
         const val FIREBASE_DATABASE = "16.1.0"
         const val FIREBASE_AUTH = "16.0.3"
         const val FIREBASE_MESSAGING = "17.5.0"

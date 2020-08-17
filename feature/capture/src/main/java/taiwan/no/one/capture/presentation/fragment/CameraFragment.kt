@@ -36,7 +36,7 @@ class CameraFragment : BaseFragment<BaseActivity<*>, FragmentCameraBinding>() {
     //region Variables
     // Blocking camera operations are performed using this executor.
     private val vm by viewModel<CaptureViewModel>()
-    private val permissionRequester = prepareCall(ActivityResultContracts.RequestPermissions()) {
+    private val permissionRequester = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
         if (it.all { it.value }) {
             // Take the user to the success fragment when permission is granted.
             binding.cvCamera.apply {
