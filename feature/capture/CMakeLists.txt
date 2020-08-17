@@ -14,23 +14,23 @@ set(CMAKE_VERBOSE_MAKEFILE on)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
 # OpenCV
-set(pathToOpenCV src/opencv)
+set(pathToOpenCV ${CMAKE_CURRENT_SOURCE_DIR}/src/opencv)
 include_directories(${pathToOpenCV}/sdk/native/jni/include/)
 add_library(lib_opencv SHARED IMPORTED )
 set_target_properties(lib_opencv
         PROPERTIES
-        IMPORTED_LOCATION /Users/weian/project/MyCamera/app/src/opencv/sdk/native/libs/${CMAKE_ANDROID_ARCH_ABI}/libopencv_java3.so
+        IMPORTED_LOCATION ${pathToOpenCV}/sdk/native/libs/${CMAKE_ANDROID_ARCH_ABI}/libopencv_java3.so
         # IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/${pathToOpenCV}/sdk/native/libs/${CMAKE_ANDROID_ARCH_ABI}/libopencv_java3.so
         )
 
 
 add_library( # Sets the name of the library.
-        app
+        native
 
         # Sets the library as a shared library.
         SHARED
 
-        src/jni/app.cpp
+        src/jni/native.cc
         )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -51,7 +51,7 @@ find_library( # Sets the name of the path variable.
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
-        app
+        native
 
         # Links the target library to the log library
         # included in the NDK.
@@ -62,5 +62,5 @@ target_link_libraries( # Specifies the target library.
 
 # Enable optimization flags: if having problems with source level debugging,
 # disable -Ofast ( and debug ), re-enable after done debugging.
-target_compile_options(app
+target_compile_options(native
         PRIVATE -std=c++14 -Wall -Werror "$<$<CONFIG:RELEASE>:-Ofast>")
