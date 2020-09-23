@@ -38,7 +38,7 @@ object LibraryDependency {
         const val RECYCLERVIEW = "1.2.0-alpha05"
         const val CONSTRAINTLAYOUT = "2.0.0-rc1"
         const val COORDINATORLAYOUT = "1.1.0"
-        const val CAMERA_LIFECYCLE = "1.0.0-1.0.0-beta07"
+        const val CAMERA_LIFECYCLE = "1.0.0-beta09"
 
         const val AAC_LIFECYCLE = "2.3.0-alpha06"
 
@@ -52,7 +52,7 @@ object LibraryDependency {
         const val NAVIGATION_KTX = "2.3.0"
         const val WORK_KTX = "2.4.0"
         const val DYN_ANIM_KTX = "1.0.0-alpha01"
-        const val CAMERA_KTX = "1.0.0-alpha14"
+        const val CAMERA_KTX = "1.0.0-alpha16"
 
         const val ROOM = "2.3.0-alpha02"
         const val MMKV = "1.2.2"
@@ -77,7 +77,7 @@ object LibraryDependency {
         const val SHAPE_OF_VIEW = "1.4.7"
         const val REALTIME_BLUR = "1.2.1"
         const val LOTTIE = "3.4.1"
-        const val CAMERAVIEW = "2.6.3"
+        const val CAMERAVIEW = "2.6.4"
 
         const val TESSERACT = "9.1.0"
         const val TENSORFLOW_LITE = "2.3.0"

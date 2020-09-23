@@ -158,7 +158,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
                 .setTargetRotation(rotation)
                 .build()
             // Attach the viewfinder's surface provider to preview use case
-            preview?.setSurfaceProvider(binding.previewFinder.createSurfaceProvider())
+            preview?.setSurfaceProvider(binding.previewFinder.surfaceProvider)
 
             // *** ImageCapture
             imageCapture = ImageCapture.Builder()
