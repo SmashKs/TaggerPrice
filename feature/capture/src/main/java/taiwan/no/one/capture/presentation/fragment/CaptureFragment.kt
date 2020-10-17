@@ -154,6 +154,8 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             .setTargetRotation(rotation)
             .build()
 
+        preview?.setSurfaceProvider(binding.previewFinder.surfaceProvider)
+
         // ImageCapture
         imageCapture = ImageCapture.Builder()
             .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
