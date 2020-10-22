@@ -47,11 +47,11 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import com.devrapid.kotlinshaver.ui
 import taiwan.no.one.capture.databinding.FragmentCaptureBinding
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
 import java.io.ByteArrayOutputStream
-import java.lang.IllegalStateException
 import java.nio.ByteBuffer
 import java.util.ArrayDeque
 import java.util.concurrent.ExecutorService
@@ -167,7 +167,8 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
 
         try {
             camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture, imageAnalyzer)
-        } catch (exc: Exception) {
+        }
+        catch (exc: Exception) {
             Log.e(TAG, "Use case binding failed $exc")
         }
     }
@@ -189,7 +190,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
         return AspectRatio.RATIO_16_9
     }
 
-    private class BitmapAnalyzer(listener: BitmapListener? = null): ImageAnalysis.Analyzer {
+    private class BitmapAnalyzer(listener: BitmapListener? = null) : ImageAnalysis.Analyzer {
 
         private val frameRateWindow = 8
         private val frameTimestamps = ArrayDeque<Long>(5)
@@ -233,8 +234,10 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             // Compute average luminance for the image
             val luma = pixels.average()
 
+            val bitmap = getBitmap(data, image.width, image.height)
+
             // Call all listeners with new value
-            bitmapListener.forEach { it(getBitmap(data, image.width, image.height)) }
+            bitmapListener.forEach { bitmapListener -> ui { bitmapListener(bitmap) } }
 
             image.close()
         }
