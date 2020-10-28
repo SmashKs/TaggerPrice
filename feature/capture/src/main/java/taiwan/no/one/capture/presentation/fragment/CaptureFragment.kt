@@ -160,6 +160,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             .also {
                 it.setAnalyzer(cameraExecutor, BitmapAnalyzer { bitmap ->
                     Log.i(TAG, "width: ${bitmap.width}, height: ${bitmap.height}")
+                    ui { bitmap }
                 })
             }
 
@@ -234,10 +235,9 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             // Compute average luminance for the image
             val luma = pixels.average()
 
-            val bitmap = getBitmap(data, image.width, image.height)
-
             // Call all listeners with new value
-            bitmapListener.forEach { bitmapListener -> ui { bitmapListener(bitmap) } }
+            bitmapListener.forEach { bitmapListener.forEach { it(getBitmap(data, image.width, image.height)) }
+            }
 
             image.close()
         }
