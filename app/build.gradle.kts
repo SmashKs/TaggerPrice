@@ -77,9 +77,6 @@ android {
             ext.set("alwaysUpdateBuildId", false)
             isCrunchPngs = false // Enabled by default for RELEASE build type
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), file("proguard-rules.pro"))
-            ndk {
-                abiFilters("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
-            }
         }
     }
     sourceSets {
@@ -131,6 +128,8 @@ dependencies {
     api(LibraryDependency.COIL)
     implementation(LibraryDependency.FIREBASE_CORE)
     implementation(LibraryDependency.FIREBASE_ANALYTICS)
+    implementation("androidx.navigation:navigation-fragment-ktx:2.3.1")
+    implementation("androidx.navigation:navigation-ui-ktx:2.3.1")
     (Dependencies.androidxKtxDeps.values +
      Dependencies.androidxDeps.values +
      Dependencies.uiDeps.values).forEach(::api)

@@ -27,11 +27,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_ocr"
-    app:startDestination="@id/ocrFragment">
+    app:startDestination="@id/ocr_fragment">
 
     <fragment
-        android:id="@+id/ocrFragment"
+        android:id="@+id/ocr_fragment"
         android:name="taiwan.no.one.ocr.presentation.fragment.OcrFragment"
         android:label="OcrFragment"
         tools:layout="@layout/fragment_ocr"/>

@@ -27,11 +27,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_currency"
-    app:startDestination="@id/currencyFragment">
+    app:startDestination="@id/currency_fragment">
 
     <fragment
-        android:id="@+id/currencyFragment"
+        android:id="@+id/currency_fragment"
         android:name="taiwan.no.one.currency.presentation.CurrencyFragment"
         android:label="CurrencyFragment"
         tools:layout="@layout/fragment_currency"/>

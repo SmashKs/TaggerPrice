@@ -27,11 +27,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navCapture"
-    app:startDestination="@id/cameraFragment">
+    app:startDestination="@id/capture_fragment">
 
     <fragment
-        android:id="@+id/cameraFragment"
+        android:id="@+id/camera_fragment"
         android:name="taiwan.no.one.capture.presentation.fragment.CameraFragment"
         android:label="Capture Fragment"
         tools:layout="@layout/fragment_camera">
@@ -39,4 +38,10 @@
             android:id="@+id/deepLink"
             app:uri="taiwan.no.one.dummy/dummy"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/capture_fragment"
+        android:name="taiwan.no.one.capture.presentation.fragment.CaptureFragment"
+        android:label="CaptureFragment"
+        tools:layout="@layout/fragment_capture"/>
 </navigation>
