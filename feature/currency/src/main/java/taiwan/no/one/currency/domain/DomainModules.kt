@@ -25,10 +25,10 @@
 package taiwan.no.one.currency.domain
 
 import android.content.Context
-import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.singleton
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.instance
+import org.kodein.di.singleton
 import taiwan.no.one.currency.FeatModules.Companion.FEAT_NAME
 import taiwan.no.one.currency.domain.usecase.FetchCountriesCase
 import taiwan.no.one.currency.domain.usecase.FetchCountriesOneShotCase
@@ -37,7 +37,7 @@ import taiwan.no.one.currency.domain.usecase.FetchRateCase
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 internal object DomainModules : ModuleProvider {
-    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}DomainModule") {
+    override fun provide(context: Context) = DI.Module("${FEAT_NAME}DomainModule") {
         bind<FetchCountriesCase>() with singleton { FetchCountriesOneShotCase(instance()) }
         bind<FetchRateCase>() with singleton { FetchCurrencyRateOneShotCase(instance()) }
     }

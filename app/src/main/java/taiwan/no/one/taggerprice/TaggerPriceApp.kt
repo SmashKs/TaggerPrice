@@ -27,10 +27,10 @@ package taiwan.no.one.taggerprice
 import android.app.Application
 import android.content.Context
 import com.google.android.play.core.splitcompat.SplitCompat
-import org.kodein.di.KodeinAware
+import org.kodein.di.DIAware
 import taiwan.no.one.taggerprice.di.Dispatcher
 
-class TaggerPriceApp : Application(), KodeinAware {
+class TaggerPriceApp : Application(), DIAware {
     companion object {
         lateinit var appContext: Context
             private set
@@ -40,7 +40,7 @@ class TaggerPriceApp : Application(), KodeinAware {
         appContext = this
     }
 
-    override val kodein = Dispatcher.importIntoApp(this)
+    override val di = Dispatcher.importIntoApp(this)
 
     override fun attachBaseContext(context: Context?) {
         super.attachBaseContext(context)

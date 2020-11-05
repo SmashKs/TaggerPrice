@@ -74,7 +74,6 @@ object Dependencies {
 
     val diDeps = hashMapOf(
         "kodeinJvm" to LibraryDependency.KODEIN_JVM,
-        "kodeinCore" to LibraryDependency.KODEIN_CORE,
         "kodeinAndroid" to LibraryDependency.KODEIN_ANDROID_X
     )
 

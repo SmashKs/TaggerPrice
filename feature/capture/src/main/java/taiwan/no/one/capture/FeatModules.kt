@@ -26,7 +26,7 @@ package taiwan.no.one.capture
 
 import android.content.Context
 import com.google.auto.service.AutoService
-import org.kodein.di.Kodein
+import org.kodein.di.DI
 import taiwan.no.one.capture.data.DataModules
 import taiwan.no.one.capture.domain.DomainModules
 import taiwan.no.one.capture.presentation.PresentationModules
@@ -41,7 +41,7 @@ class FeatModules : ModuleProvider {
         internal const val FEAT_NAME = "Capture"
     }
 
-    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}Module") {
+    override fun provide(context: Context) = DI.Module("${FEAT_NAME}Module") {
         import(DataModules.provide(context))
         import(DomainModules.provide(context))
         import(PresentationModules.provide(context))

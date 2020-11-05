@@ -25,11 +25,11 @@
 package taiwan.no.one.taggerprice.di
 
 import android.app.Application
-import org.kodein.di.Kodein
+import org.kodein.di.DI
 import org.kodein.di.android.x.androidXModule
 
 object Dispatcher {
-    fun importIntoApp(app: Application) = Kodein.lazy {
+    fun importIntoApp(app: Application) = DI.lazy {
         import(androidXModule(app))
         import(CommonModule.provide())
         import(ContainerModule.provide())

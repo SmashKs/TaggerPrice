@@ -25,10 +25,10 @@
 package taiwan.no.one.capture.data
 
 import android.content.Context
-import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.singleton
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.instance
+import org.kodein.di.singleton
 import taiwan.no.one.capture.FeatModules.Companion.FEAT_NAME
 import taiwan.no.one.capture.data.local.config.CaptureDatabase
 import taiwan.no.one.capture.data.local.service.database.v1.CaptureDao
@@ -40,7 +40,7 @@ import taiwan.no.one.capture.domain.repository.CaptureRepo
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 internal object DataModules : ModuleProvider {
-    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}DataModule") {
+    override fun provide(context: Context) = DI.Module("${FEAT_NAME}DataModule") {
         import(localProvide())
         import(remoteProvide())
 
@@ -50,13 +50,13 @@ internal object DataModules : ModuleProvider {
         bind<CaptureRepo>() with singleton { CaptureRepository(instance(), instance()) }
     }
 
-    private fun localProvide() = Kodein.Module("${FEAT_NAME}LocalModule") {
+    private fun localProvide() = DI.Module("${FEAT_NAME}LocalModule") {
         bind<CaptureDatabase>() with singleton { CaptureDatabase.getDatabase(instance()) }
 
         bind<CaptureFile>() with singleton { CaptureFile(instance()) }
         bind<CaptureDao>() with singleton { instance<CaptureDatabase>().createCaptureDao() }
     }
 
-    private fun remoteProvide() = Kodein.Module("${FEAT_NAME}RemoteModule") {
+    private fun remoteProvide() = DI.Module("${FEAT_NAME}RemoteModule") {
     }
 }

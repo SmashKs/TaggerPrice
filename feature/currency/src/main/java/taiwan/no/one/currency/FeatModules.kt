@@ -26,7 +26,7 @@ package taiwan.no.one.currency
 
 import android.content.Context
 import com.google.auto.service.AutoService
-import org.kodein.di.Kodein
+import org.kodein.di.DI
 import taiwan.no.one.currency.data.DataModules
 import taiwan.no.one.currency.domain.DomainModules
 import taiwan.no.one.currency.presentation.PresentationModules
@@ -38,7 +38,7 @@ class FeatModules : ModuleProvider {
         internal const val FEAT_NAME = "Currency"
     }
 
-    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}Module") {
+    override fun provide(context: Context) = DI.Module("${FEAT_NAME}Module") {
         import(DataModules.provide(context))
         import(DomainModules.provide(context))
         import(PresentationModules.provide(context))
