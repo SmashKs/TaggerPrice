@@ -29,7 +29,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import androidx.lifecycle.observe
 import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinknifer.toBitmap
 import com.devrapid.kotlinknifer.toDrawable

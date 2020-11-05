@@ -33,6 +33,7 @@ object Dispatcher {
         import(androidXModule(app))
         import(CommonModule.provide())
         import(ContainerModule.provide())
+        import(FeatModuleHelper.provide())
         importAll(FeatModuleHelper.kodeinModules(app.applicationContext))
     }
 }

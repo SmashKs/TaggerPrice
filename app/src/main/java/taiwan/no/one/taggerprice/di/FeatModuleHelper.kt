@@ -25,10 +25,20 @@
 package taiwan.no.one.taggerprice.di
 
 import android.content.Context
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.singleton
+import taiwan.no.one.taggerprice.provider.CurrencyMethodProvider
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 import java.util.ServiceLoader
 
 object FeatModuleHelper {
     fun kodeinModules(context: Context) = ServiceLoader.load(ModuleProvider::class.java).map { it.provide(context) }
+
+    fun provide() = DI.Module("Feature Method Provider Module") {
+        bind<CurrencyMethodProvider>() with singleton {
+            ServiceLoader.load(CurrencyMethodProvider::class.java).toList().first()
+        }
+    }
 }
 

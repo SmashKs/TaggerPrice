@@ -22,23 +22,24 @@
  * SOFTWARE.
  */
 
-package config
+package taiwan.no.one.currency
 
-import config.LibraryDependency.Version.NAVIGATION_KTX
+import com.google.auto.service.AutoService
+import org.kodein.di.DIAware
+import org.kodein.di.instance
+import taiwan.no.one.currency.domain.model.CountryModel
+import taiwan.no.one.currency.domain.toEntity
+import taiwan.no.one.currency.domain.usecase.FetchCountriesCase
+import taiwan.no.one.currency.domain.usecase.FetchRateCase
+import taiwan.no.one.taggerprice.TaggerPriceApp
+import taiwan.no.one.taggerprice.provider.CurrencyMethodProvider
 
-object GradleDependency {
-    object Version {
-        const val SAFE_ARGS = NAVIGATION_KTX
-        const val GOOGLE_SERVICE = "4.3.3"
-        const val DETEKT = "1.11.0"
-        const val VERSION_UPDATER = "0.29.0"
-        const val DEPENDENCY_GRAPH = "0.5.0"
-    }
+@AutoService(CurrencyMethodProvider::class)
+class MethodProvider : CurrencyMethodProvider, DIAware {
+    override val di by lazy { (TaggerPriceApp.appContext as DIAware).di }
+    private val fetchRateCase by instance<FetchRateCase>()
+    private val fetchCountriesCase by instance<FetchCountriesCase>()
 
-    const val KOTLIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${CoreDependency.Version.KOTLIN}"
-    const val SAFE_ARGS = "androidx.navigation:navigation-safe-args-gradle-plugin:${Version.SAFE_ARGS}"
-    const val GOOGLE_SERVICE = "com.google.gms:google-services:${Version.GOOGLE_SERVICE}"
-    const val DETEKT = "io.gitlab.arturbosch.detekt"
-    const val GRADLE_VERSION_UPDATER = "com.github.ben-manes.versions"
-    const val DEPENDENCY_GRAPH = "com.vanniktech.dependency.graph.generator"
+    override suspend fun getCountries() =
+        (fetchCountriesCase.execute().getOrNull() ?: throw Exception()).map(CountryModel::toEntity)
 }
