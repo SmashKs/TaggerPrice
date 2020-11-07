@@ -32,9 +32,6 @@ import taiwan.no.one.capture.domain.DomainModules
 import taiwan.no.one.capture.presentation.PresentationModules
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
-typealias CurrencyFeatureModules = taiwan.no.one.currency.FeatModules
-typealias OcrFeatureModules = taiwan.no.one.ocr.FeatModules
-
 @AutoService(ModuleProvider::class)
 class FeatModules : ModuleProvider {
     companion object {
@@ -45,8 +42,5 @@ class FeatModules : ModuleProvider {
         import(DataModules.provide(context))
         import(DomainModules.provide(context))
         import(PresentationModules.provide(context))
-
-        import(CurrencyFeatureModules().provide(context))
-        import(OcrFeatureModules().provide(context))
     }
 }

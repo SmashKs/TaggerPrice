@@ -116,5 +116,6 @@ dependencies {
     implementation(project(CommonModuleDependency.APP))
     kapt(LibraryDependency.ROOM_ANNOTATION)
     kapt(LibraryDependency.LIFECYCLE_COMPILER)
+    kapt(LibraryDependency.AUTO_SERVICE)
 }
 

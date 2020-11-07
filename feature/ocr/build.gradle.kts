@@ -96,4 +96,5 @@ dependencies {
     implementation(LibraryDependency.FIREBASE_ML)
     kapt(LibraryDependency.ROOM_ANNOTATION)
     kapt(LibraryDependency.LIFECYCLE_COMPILER)
+    kapt(LibraryDependency.AUTO_SERVICE)
 }
