@@ -226,20 +226,23 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             lastAnalyzedTimestamp = frameTimestamps.first
 
             // Since format in ImageAnalysis is YUV, image.planes[0] contains the luminance plane
-            val buffer = image.planes[0].buffer
+            val yBuffer = image.planes[0].buffer // Y
+            val vuBuffer = image.planes[2].buffer // VU
 
-            // Extract image data from callback object
-            val data = buffer.toByteArray()
+            val ySize = yBuffer.remaining()
+            val vuSize = vuBuffer.remaining()
 
-            // Convert the data into an array of pixel values ranging 0-255
-            val pixels = data.map { it.toInt() and 0xFF }
+            val nv21 = ByteArray(ySize + vuSize)
 
-            // Compute average luminance for the image
-            val luma = pixels.average()
+            yBuffer.get(nv21, 0, ySize)
+            vuBuffer.get(nv21, ySize, vuSize)
 
-            // Call all listeners with new value
+            val yuvImage = YuvImage(nv21, ImageFormat.NV21, image.width, image.height, null)
+            val out = ByteArrayOutputStream()
+            yuvImage.compressToJpeg(Rect(0, 0, yuvImage.width, yuvImage.height), 50, out)
+            val imageBytes = out.toByteArray()
             bitmapListener.forEach {
-                bitmapListener.forEach { it(getBitmap(data, image.width, image.height)) }
+                bitmapListener.forEach { it(BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)) }
             }
 
             image.close()
@@ -250,13 +253,6 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             val data = ByteArray(remaining())
             get(data)   // Copy the buffer into a byte array
             return data // Return the byte array
-        }
-
-        private fun getBitmap(rawImage: ByteArray, width: Int, height: Int): Bitmap {
-            val image = YuvImage(rawImage, ImageFormat.NV21, width, height, null)
-            val stream = ByteArrayOutputStream()
-            image.compressToJpeg(Rect(0, 0, width, height), 80, stream)
-            return BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size())
         }
     }
 
