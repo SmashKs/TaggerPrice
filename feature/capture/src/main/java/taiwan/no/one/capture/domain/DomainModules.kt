@@ -25,17 +25,17 @@
 package taiwan.no.one.capture.domain
 
 import android.content.Context
-import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.singleton
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.instance
+import org.kodein.di.singleton
 import taiwan.no.one.capture.FeatModules.Companion.FEAT_NAME
 import taiwan.no.one.capture.domain.usecase.FetchDummyCase
 import taiwan.no.one.capture.domain.usecase.FetchDummyOneShotCase
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 internal object DomainModules : ModuleProvider {
-    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}DomainModule") {
+    override fun provide(context: Context) = DI.Module("${FEAT_NAME}DomainModule") {
         bind<FetchDummyCase>() with singleton { FetchDummyOneShotCase(instance()) }
     }
 }

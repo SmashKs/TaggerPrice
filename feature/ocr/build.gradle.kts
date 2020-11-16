@@ -79,13 +79,7 @@ android {
     }
     testOptions { unitTests.apply { isReturnDefaultValues = true } }
     lintOptions { isAbortOnError = false }
-    kotlinOptions {
-        // We have to add the explicit cast before accessing the options itself.
-        // If we don't, it does not work: "unresolved reference: jvmTarget"
-        val options = this as org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-        options.jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-    viewBinding.isEnabled = true
+    buildFeatures.viewBinding = true
 }
 
 kapt {
@@ -102,4 +96,5 @@ dependencies {
     implementation(LibraryDependency.FIREBASE_ML)
     kapt(LibraryDependency.ROOM_ANNOTATION)
     kapt(LibraryDependency.LIFECYCLE_COMPILER)
+    kapt(LibraryDependency.AUTO_SERVICE)
 }

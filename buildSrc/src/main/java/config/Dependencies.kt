@@ -56,9 +56,9 @@ object Dependencies {
     val androidxKtxDeps = commonKtxDeps.apply {
         put("paletteKtx", LibraryDependency.PALETTE_KTX)
         put("collectionKtx", LibraryDependency.COLLECTION_KTX)
-        put("navigationCommonKtx", LibraryDependency.NAVIGATION_COMMON_KTX)
         put("navigationFragmentKtx", LibraryDependency.NAVIGATION_FRAGMENT_KTX)
         put("navigationUiKtx", LibraryDependency.NAVIGATION_UI_KTX)
+        put("navigationDynamicKtx", LibraryDependency.NAVIGATION_DYNAMIC_KTX)
         put("workerKtx", LibraryDependency.WORKER_KTX)
 //        "dynAnimKtx" to Deps.Presentation.dynAnimKtx
     }
@@ -74,7 +74,6 @@ object Dependencies {
 
     val diDeps = hashMapOf(
         "kodeinJvm" to LibraryDependency.KODEIN_JVM,
-        "kodeinCore" to LibraryDependency.KODEIN_CORE,
         "kodeinAndroid" to LibraryDependency.KODEIN_ANDROID_X
     )
 

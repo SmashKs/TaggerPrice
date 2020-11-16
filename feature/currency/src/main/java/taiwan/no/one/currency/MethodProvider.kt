@@ -22,21 +22,24 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.core.presentation.fragment
+package taiwan.no.one.currency
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
+import com.google.auto.service.AutoService
 import org.kodein.di.DIAware
-import org.kodein.di.DITrigger
-import org.kodein.di.android.x.di
-import taiwan.no.one.core.BuildConfig
+import org.kodein.di.instance
+import taiwan.no.one.currency.domain.model.CountryModel
+import taiwan.no.one.currency.domain.toEntity
+import taiwan.no.one.currency.domain.usecase.FetchCountriesCase
+import taiwan.no.one.currency.domain.usecase.FetchRateCase
+import taiwan.no.one.taggerprice.TaggerPriceApp
+import taiwan.no.one.taggerprice.provider.CurrencyMethodProvider
 
-abstract class InjectableFragment : Fragment(), DIAware {
-    override val di by di()
-    override val diTrigger = if (BuildConfig.DEBUG) DITrigger() else super.diTrigger
+@AutoService(CurrencyMethodProvider::class)
+class MethodProvider : CurrencyMethodProvider, DIAware {
+    override val di by lazy { (TaggerPriceApp.appContext as DIAware).di }
+    private val fetchRateCase by instance<FetchRateCase>()
+    private val fetchCountriesCase by instance<FetchCountriesCase>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        diTrigger?.trigger()
-    }
+    override suspend fun getCountries() =
+        (fetchCountriesCase.execute().getOrNull() ?: throw Exception()).map(CountryModel::toEntity)
 }

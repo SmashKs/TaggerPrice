@@ -22,17 +22,12 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.capture
+package taiwan.no.one.taggerprice.provider
 
-import androidx.navigation.NavGraph
-import taiwan.no.one.taggerprice.provider.NaviGraphRouteProvider
+import androidx.annotation.WorkerThread
+import taiwan.no.one.taggerprice.entity.CountryEntity
 
-object FeatureARoute : NaviGraphRouteProvider {
-    override lateinit var navGraph: NavGraph
-
-    override val graphName get() = "nav_capture"
-
-    override val packageName get() = BuildConfig.APPLICATION_ID
-
-    override val resourceId get() = R.navigation.nav_capture
+interface CurrencyMethodProvider {
+    @WorkerThread
+    suspend fun getCountries(): List<CountryEntity>
 }

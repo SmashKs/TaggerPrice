@@ -35,6 +35,7 @@ object GradleDependency {
         const val DEPENDENCY_GRAPH = "0.5.0"
     }
 
+    const val KOTLIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${CoreDependency.Version.KOTLIN}"
     const val SAFE_ARGS = "androidx.navigation:navigation-safe-args-gradle-plugin:${Version.SAFE_ARGS}"
     const val GOOGLE_SERVICE = "com.google.gms:google-services:${Version.GOOGLE_SERVICE}"
     const val DETEKT = "io.gitlab.arturbosch.detekt"

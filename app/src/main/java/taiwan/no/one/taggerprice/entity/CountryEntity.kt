@@ -22,21 +22,9 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.taggerprice.presentation.navigation
+package taiwan.no.one.taggerprice.entity
 
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph
-import taiwan.no.one.taggerprice.provider.NaviGraphRouteProvider
-
-fun Fragment.addNavGraphDestination(
-    navigationGraphRoute: NaviGraphRouteProvider,
-    navController: NavController
-): NavGraph {
-    val navigationId = requireContext().resources.getIdentifier(navigationGraphRoute.graphName,
-                                                                "navigation",
-                                                                navigationGraphRoute.packageName)
-    val newGraph = navController.navInflater.inflate(navigationGraphRoute.resourceId)
-    navController.graph.addDestination(newGraph)
-    return newGraph
-}
+data class CountryEntity(
+    val name: String,
+    val code: String,
+)

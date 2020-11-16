@@ -22,26 +22,11 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.taggerprice.provider
+package taiwan.no.one.currency.domain
 
-import androidx.navigation.NavGraph
+import taiwan.no.one.currency.domain.model.CountryModel
+import taiwan.no.one.taggerprice.entity.CountryEntity
 
-/**
- * Provides necessary information for NavGraph in other modules
- */
-interface NaviGraphRouteProvider {
-    /*
-     * The inflated NavGraph
-     */
-    var navGraph: NavGraph
-    /**
-     * The .xml name for the nav-graph
-     */
-    val graphName: String
-    /**
-     * The full package name where the nav-graph is located
-     */
-    val packageName: String
-
-    val resourceId: Int
+fun CountryModel.toEntity() = let {
+    CountryEntity(it.name, it.code)
 }

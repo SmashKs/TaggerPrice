@@ -28,38 +28,38 @@ object LibraryDependency {
     object Version {
         const val ARV = "1.0.16"
         const val QUICK_DIALOG = "1.0.7"
-        const val KINFER = "2.1.19"
+        const val KINFER = "2.2.0"
 
-        const val MATERIAL = "1.3.0-alpha02"
+        const val MATERIAL = "1.3.0-alpha03"
         const val ANDROIDX = "1.0.0"
         const val ANNOTATION = "1.2.0-alpha01"
-        const val APPCOMPAT = "1.3.0-alpha01"
+        const val APPCOMPAT = "1.3.0-alpha02"
         const val CARDVIEW = ANDROIDX
-        const val RECYCLERVIEW = "1.2.0-alpha05"
-        const val CONSTRAINTLAYOUT = "2.0.0-rc1"
+        const val RECYCLERVIEW = "1.2.0-alpha06"
+        const val CONSTRAINTLAYOUT = "2.0.4"
         const val COORDINATORLAYOUT = "1.1.0"
         const val CAMERA_LIFECYCLE = "1.0.0-beta09"
 
-        const val AAC_LIFECYCLE = "2.3.0-alpha06"
+        const val AAC_LIFECYCLE = "2.3.0-beta01"
 
-        const val KODEIN = "6.5.5"
+        const val KODEIN = "7.1.0"
 
         const val KTX = "1.5.0-alpha01"
-        const val ACTIVITY_KTX = "1.2.0-alpha07"
-        const val FRAGMENT_KTX = "1.3.0-alpha07"
+        const val ACTIVITY_KTX = "1.2.0-beta01"
+        const val FRAGMENT_KTX = "1.3.0-beta01"
         const val PALETTE_KTX = "1.0.0"
         const val COLLECTION_KTX = "1.1.0"
-        const val NAVIGATION_KTX = "2.3.0"
-        const val WORK_KTX = "2.4.0"
+        const val NAVIGATION_KTX = "2.3.1"
+        const val WORK_KTX = "2.5.0-beta01"
         const val DYN_ANIM_KTX = "1.0.0-alpha01"
         const val CAMERA_KTX = "1.0.0-alpha16"
 
-        const val ROOM = "2.3.0-alpha02"
-        const val MMKV = "1.2.2"
+        const val ROOM = "2.3.0-alpha03"
+        const val MMKV = "1.2.4"
         const val GSON = "2.8.6"
         const val PLAY_CORE = "1.8.0"
 
-        const val COIL = "0.11.0"
+        const val COIL = "1.0.0"
         const val RETROFIT2 = "2.9.0"
         const val OKHTTP3 = "4.8.1"
         const val JSOUP = "1.12.1"
@@ -76,7 +76,7 @@ object LibraryDependency {
 
         const val SHAPE_OF_VIEW = "1.4.7"
         const val REALTIME_BLUR = "1.2.1"
-        const val LOTTIE = "3.4.1"
+        const val LOTTIE = "3.4.4"
         const val CAMERAVIEW = "2.6.4"
 
         const val TESSERACT = "9.1.0"
@@ -124,17 +124,17 @@ object LibraryDependency {
     const val VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Version.AAC_LIFECYCLE}"
     const val LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:${Version.AAC_LIFECYCLE}"
     const val RUNTIME_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:${Version.AAC_LIFECYCLE}"
-    const val NAVIGATION_COMMON_KTX = "androidx.navigation:navigation-common-ktx:${Version.NAVIGATION_KTX}"
     const val NAVIGATION_FRAGMENT_KTX = "androidx.navigation:navigation-fragment-ktx:${Version.NAVIGATION_KTX}"
     const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:${Version.NAVIGATION_KTX}"
+    const val NAVIGATION_DYNAMIC_KTX =
+        "androidx.navigation:navigation-dynamic-features-fragment:${Version.NAVIGATION_KTX}"
     const val WORKER_KTX = "androidx.work:work-runtime-ktx:${Version.WORK_KTX}"
     const val DYN_ANIM_KTX = "androidx.dynamicanimation-ktx:${Version.DYN_ANIM_KTX}"
     const val CAMERA_KTX = "androidx.camera:camera-extensions:${Version.CAMERA_KTX}"
 
     //endregion
     //region DI
-    const val KODEIN_JVM = "org.kodein.di:kodein-di-generic-jvm:${Version.KODEIN}"
-    const val KODEIN_CORE = "org.kodein.di:kodein-di-core-jvm:${Version.KODEIN}"
+    const val KODEIN_JVM = "org.kodein.di:kodein-di:${Version.KODEIN}"
     const val KODEIN_ANDROID_X = "org.kodein.di:kodein-di-framework-android-x:${Version.KODEIN}"
 
     //endregion

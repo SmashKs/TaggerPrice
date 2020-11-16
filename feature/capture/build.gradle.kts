@@ -111,13 +111,7 @@ android {
     }
     testOptions { unitTests.apply { isReturnDefaultValues = true } }
     lintOptions { isAbortOnError = false }
-    kotlinOptions {
-        // We have to add the explicit cast before accessing the options itself.
-        // If we don't, it does not work: "unresolved reference: jvmTarget"
-        val options = this as org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-        options.jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-    viewBinding.isEnabled = true
+    buildFeatures.viewBinding = true
     ndkVersion = "21.0.6113669"
 }
 
@@ -129,10 +123,9 @@ kapt {
 
 dependencies {
     //    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    listOf(project(CommonModuleDependency.APP),
-           project(CommonModuleDependency.FEAT_CURRENCY),
-           project(CommonModuleDependency.FEAT_OCR)).forEach(::implementation)
+    listOf(project(CommonModuleDependency.APP)).forEach(::implementation)
     api(LibraryDependency.CAMERAVIEW)
     kapt(LibraryDependency.ROOM_ANNOTATION)
     kapt(LibraryDependency.LIFECYCLE_COMPILER)
+    kapt(LibraryDependency.AUTO_SERVICE)
 }

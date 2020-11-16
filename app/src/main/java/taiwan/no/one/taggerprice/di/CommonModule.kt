@@ -26,12 +26,12 @@ package taiwan.no.one.taggerprice.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.singleton
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.singleton
 
 object CommonModule {
-    fun provide() = Kodein.Module("CommonModule") {
+    fun provide() = DI.Module("CommonModule") {
         bind<Gson>() with singleton { GsonBuilder().create() }
     }
 }

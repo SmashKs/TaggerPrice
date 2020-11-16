@@ -26,11 +26,21 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navApp"
-    app:startDestination="@id/navFeatCapture">
+    android:id="@+id/nav_app"
+    app:startDestination="@id/nav_capture">
 
-    <include app:graph="@navigation/nav_feat_capture"/>
-    <include app:graph="@navigation/nav_feat_currency"/>
-    <include app:graph="@navigation/nav_feat_ocr"/>
-    <include app:graph="@navigation/nav_second"/>
+    <include-dynamic
+        android:id="@+id/nav_capture"
+        app:graphResName="nav_capture"
+        app:moduleName="capture"/>
+
+    <include-dynamic
+        android:id="@+id/nav_currency"
+        app:graphResName="nav_currency"
+        app:moduleName="currency"/>
+
+    <include-dynamic
+        android:id="@+id/nav_ocr"
+        app:graphResName="nav_ocr"
+        app:moduleName="ocr"/>
 </navigation>

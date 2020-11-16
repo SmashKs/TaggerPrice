@@ -25,10 +25,10 @@
 package taiwan.no.one.currency.data
 
 import android.content.Context
-import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.singleton
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.instance
+import org.kodein.di.singleton
 import retrofit2.Retrofit
 import taiwan.no.one.core.data.remote.RetrofitConfig
 import taiwan.no.one.core.data.remote.provider.OkHttpClientProvider
@@ -44,7 +44,7 @@ import taiwan.no.one.taggerprice.TaggerPriceApp
 import taiwan.no.one.taggerprice.provider.ModuleProvider
 
 internal object DataModules : ModuleProvider {
-    override fun provide(context: Context) = Kodein.Module("${FEAT_NAME}DataModule") {
+    override fun provide(context: Context) = DI.Module("${FEAT_NAME}DataModule") {
         import(localProvide())
         import(remoteProvide(TaggerPriceApp.appContext))
 
@@ -54,10 +54,10 @@ internal object DataModules : ModuleProvider {
         bind<CurrencyRepo>() with singleton { CurrencyRepository(instance()) }
     }
 
-    private fun localProvide() = Kodein.Module("${FEAT_NAME}LocalModule") {
+    private fun localProvide() = DI.Module("${FEAT_NAME}LocalModule") {
     }
 
-    private fun remoteProvide(context: Context) = Kodein.Module("${FEAT_NAME}RemoteModule") {
+    private fun remoteProvide(context: Context) = DI.Module("${FEAT_NAME}RemoteModule") {
         bind<RetrofitConfig>() with singleton {
             CurrencyRetrofitConfig(context, OkHttpClientProvider(context), RetrofitProvider())
         }
