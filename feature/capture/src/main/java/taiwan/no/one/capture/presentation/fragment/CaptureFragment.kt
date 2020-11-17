@@ -31,6 +31,7 @@ import android.graphics.BitmapFactory
 import android.graphics.ImageFormat
 import android.graphics.Rect
 import android.graphics.YuvImage
+import android.media.Image
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Size
@@ -225,9 +226,16 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
 
             lastAnalyzedTimestamp = frameTimestamps.first
 
-            // Since format in ImageAnalysis is YUV, image.planes[0] contains the luminance plane
-            val yBuffer = image.planes[0].buffer // Y
-            val vuBuffer = image.planes[2].buffer // VU
+            bitmapListener.forEach {
+                bitmapListener.forEach { it( image.toBitmap()) }
+            }
+
+            image.close()
+        }
+
+        private fun ImageProxy.toBitmap(): Bitmap {
+            val yBuffer = planes[0].buffer // Y
+            val vuBuffer = planes[2].buffer // VU
 
             val ySize = yBuffer.remaining()
             val vuSize = vuBuffer.remaining()
@@ -237,22 +245,12 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             yBuffer.get(nv21, 0, ySize)
             vuBuffer.get(nv21, ySize, vuSize)
 
-            val yuvImage = YuvImage(nv21, ImageFormat.NV21, image.width, image.height, null)
+            val yuvImage = YuvImage(nv21, ImageFormat.NV21, this.width, this.height, null)
             val out = ByteArrayOutputStream()
             yuvImage.compressToJpeg(Rect(0, 0, yuvImage.width, yuvImage.height), 50, out)
             val imageBytes = out.toByteArray()
-            bitmapListener.forEach {
-                bitmapListener.forEach { it(BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)) }
-            }
 
-            image.close()
-        }
-
-        private fun ByteBuffer.toByteArray(): ByteArray {
-            rewind()    // Rewind the buffer to zero
-            val data = ByteArray(remaining())
-            get(data)   // Copy the buffer into a byte array
-            return data // Return the byte array
+            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
         }
     }
 
