@@ -22,19 +22,10 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.taggerprice.provider
+package taiwan.no.one.taggerprice.entity
 
-import androidx.annotation.WorkerThread
-import taiwan.no.one.taggerprice.entity.CountryEntity
-import taiwan.no.one.taggerprice.entity.RateEntity
-
-interface CurrencyMethodProvider {
-    @WorkerThread
-    suspend fun getCountries(): List<CountryEntity>
-
-    @WorkerThread
-    suspend fun getRate(from: String, to: String): RateEntity
-
-    @WorkerThread
-    suspend fun getRates(vararg pairs: Pair<String, String>): List<RateEntity>
-}
+data class RateEntity(
+    val from: String,
+    val to: String,
+    val rate: Double,
+)

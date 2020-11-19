@@ -27,5 +27,5 @@ package taiwan.no.one.currency.domain.model
 data class CurrencyRateModel(
     val from: String,
     val to: String,
-    val rate: Double
+    val rate: Double,
 )

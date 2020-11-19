@@ -28,6 +28,8 @@ import com.google.auto.service.AutoService
 import org.kodein.di.DIAware
 import org.kodein.di.instance
 import taiwan.no.one.currency.domain.model.CountryModel
+import taiwan.no.one.currency.domain.model.CurrencyRateModel
+import taiwan.no.one.currency.domain.parameter.RateRequestParams
 import taiwan.no.one.currency.domain.toEntity
 import taiwan.no.one.currency.domain.usecase.FetchCountriesCase
 import taiwan.no.one.currency.domain.usecase.FetchRateCase
@@ -40,6 +42,14 @@ class MethodProvider : CurrencyMethodProvider, DIAware {
     private val fetchRateCase by instance<FetchRateCase>()
     private val fetchCountriesCase by instance<FetchCountriesCase>()
 
-    override suspend fun getCountries() =
-        (fetchCountriesCase.execute().getOrNull() ?: throw Exception()).map(CountryModel::toEntity)
+    override suspend fun getCountries() = (fetchCountriesCase.execute().getOrNull() ?: throw Exception())
+        .map(CountryModel::toEntity)
+
+    override suspend fun getRate(from: String, to: String) =
+        (fetchRateCase.execute(RateRequestParams(listOf(from to to))).getOrNull() ?: throw Exception())
+            .firstOrNull()?.toEntity() ?: throw Exception()
+
+    override suspend fun getRates(vararg pairs: Pair<String, String>) =
+        (fetchRateCase.execute(RateRequestParams(pairs.toList())).getOrNull() ?: throw Exception())
+            .map(CurrencyRateModel::toEntity)
 }

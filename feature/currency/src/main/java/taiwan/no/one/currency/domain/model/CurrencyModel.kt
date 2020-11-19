@@ -27,5 +27,5 @@ package taiwan.no.one.currency.domain.model
 data class CurrencyModel(
     val name: String,
     val code: String,
-    val symbol: String
+    val symbol: String,
 )

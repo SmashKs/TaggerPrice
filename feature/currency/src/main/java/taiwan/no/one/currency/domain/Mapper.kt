@@ -25,8 +25,14 @@
 package taiwan.no.one.currency.domain
 
 import taiwan.no.one.currency.domain.model.CountryModel
+import taiwan.no.one.currency.domain.model.CurrencyRateModel
 import taiwan.no.one.taggerprice.entity.CountryEntity
+import taiwan.no.one.taggerprice.entity.RateEntity
 
 fun CountryModel.toEntity() = let {
     CountryEntity(it.name, it.code)
+}
+
+fun CurrencyRateModel.toEntity() = let {
+    RateEntity(it.from, it.to, it.rate)
 }
