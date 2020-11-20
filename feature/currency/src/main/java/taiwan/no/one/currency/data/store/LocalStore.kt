@@ -24,15 +24,19 @@
 
 package taiwan.no.one.currency.data.store
 
+import taiwan.no.one.core.data.cache.Caching
 import taiwan.no.one.currency.data.contract.DataStore
 import taiwan.no.one.currency.data.data.CountryData
 import taiwan.no.one.currency.data.local.service.room.v1.CountryDao
+import taiwan.no.one.ext.exceptions.UnsupportedOperation
 import java.util.Calendar
 
 internal class LocalStore(
     private val countryDao: CountryDao,
+    private val mmkvCache: Caching,
 ) : DataStore {
-    override suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>) = TODO()
+    override suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>) =
+        TODO("Using the MMKVCaching to achieve")
 
     override suspend fun retrieveCountries(): List<CountryData> {
         val oneMonthBeforeDate = Calendar.getInstance().apply {
@@ -45,5 +49,5 @@ internal class LocalStore(
         countryDao.insert(*countries.toTypedArray())
     }
 
-    override suspend fun retrieveCurrencies() = TODO()
+    override suspend fun retrieveCurrencies() = throw UnsupportedOperation()
 }

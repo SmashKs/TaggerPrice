@@ -48,10 +48,10 @@ internal object DataModules : ModuleProvider {
         import(localProvide())
         import(remoteProvide(TaggerPriceApp.appContext))
 
-        bind<LocalStore>() with singleton { LocalStore() }
+        bind<LocalStore>() with singleton { LocalStore(instance(), instance()) }
         bind<RemoteStore>() with singleton { RemoteStore(instance(), instance()) }
 
-        bind<CurrencyRepo>() with singleton { CurrencyRepository(instance()) }
+        bind<CurrencyRepo>() with singleton { CurrencyRepository(instance(), instance(), instance()) }
     }
 
     private fun localProvide() = DI.Module("${FEAT_NAME}LocalModule") {

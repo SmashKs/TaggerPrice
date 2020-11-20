@@ -26,14 +26,12 @@ package taiwan.no.one.currency.data.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import taiwan.no.one.currency.domain.model.CountryModel
 import java.util.Date
 
 @Entity(tableName = "table_country")
 data class CountryData(
-    @Ignore
     val alpha3: String? = "",
     @ColumnInfo(name = "currency_id")
     val currencyId: String? = "",
@@ -42,9 +40,9 @@ data class CountryData(
     @ColumnInfo(name = "currency_symbol")
     val currencySymbol: String? = "",
     @PrimaryKey
-    val id: String? = "",
+    val id: String = "",
     val name: String? = "",
-    val updated: Date = Date(),
+    val updated: Date? = Date(),
 ) {
     fun convert() = CountryModel(
         name.orEmpty(),
