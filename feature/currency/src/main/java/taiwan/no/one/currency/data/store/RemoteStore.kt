@@ -31,10 +31,11 @@ import taiwan.no.one.currency.data.data.CountryData
 import taiwan.no.one.currency.data.data.CurrencyData
 import taiwan.no.one.currency.data.remote.config.CurrencyRetrofitConfig
 import taiwan.no.one.currency.data.remote.service.CurrencyConvertService
+import taiwan.no.one.ext.exceptions.UnsupportedOperation
 
 internal class RemoteStore(
     private val currencyConvertService: CurrencyConvertService,
-    private val gson: Gson
+    private val gson: Gson,
 ) : DataStore {
     override suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>): List<ConvertRateData> {
         val params = CurrencyRetrofitConfig.QUERY_PARAMS
@@ -55,6 +56,8 @@ internal class RemoteStore(
             .map { gson.fromJson(it.value, CountryData::class.java) }
             .toList()
     }
+
+    override suspend fun createCountries(countries: List<CountryData>) = throw UnsupportedOperation()
 
     override suspend fun retrieveCurrencies(): List<CurrencyData> {
         val params = CurrencyRetrofitConfig.QUERY_PARAMS

@@ -22,28 +22,47 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.data.store
+package taiwan.no.one.currency.data.local.config
 
-import taiwan.no.one.currency.data.contract.DataStore
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import taiwan.no.one.core.data.local.room.convert.DateConvert
 import taiwan.no.one.currency.data.data.CountryData
 import taiwan.no.one.currency.data.local.service.room.v1.CountryDao
-import java.util.Calendar
 
-internal class LocalStore(
-    private val countryDao: CountryDao,
-) : DataStore {
-    override suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>) = TODO()
+@Database(
+    entities = [CountryData::class],
+    version = 1,
+    exportSchema = false
+)
+@TypeConverters(DateConvert::class)
+abstract class CurrencyDatabase : RoomDatabase() {
+    companion object {
+        @Volatile
+        private var INSTANCE: CurrencyDatabase? = null
+        private const val DATABASE_NAME = "currency.db"
 
-    override suspend fun retrieveCountries(): List<CountryData> {
-        val oneMonthBeforeDate = Calendar.getInstance().apply {
-            add(Calendar.MONTH, -1)
-        }.time
-        return countryDao.getCountries(oneMonthBeforeDate)
+        fun getDatabase(context: Context): CurrencyDatabase {
+            val tempInstance = INSTANCE
+
+            if (tempInstance != null) {
+                return tempInstance
+            }
+            synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    CurrencyDatabase::class.java,
+                    DATABASE_NAME
+                ).build()
+                INSTANCE = instance
+
+                return instance
+            }
+        }
     }
 
-    override suspend fun createCountries(countries: List<CountryData>) = tryWrapper {
-        countryDao.insert(*countries.toTypedArray())
-    }
-
-    override suspend fun retrieveCurrencies() = TODO()
+    abstract fun createCountryDao(): CountryDao
 }

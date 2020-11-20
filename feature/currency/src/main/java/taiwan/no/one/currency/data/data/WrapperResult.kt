@@ -24,10 +24,12 @@
 
 package taiwan.no.one.currency.data.data
 
+import androidx.annotation.Keep
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 
+@Keep
 internal data class WrapperResult(
     @SerializedName("results")
-    val results: JsonObject? = null
+    val results: JsonObject? = null,
 )

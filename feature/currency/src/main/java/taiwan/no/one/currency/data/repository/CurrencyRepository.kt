@@ -24,19 +24,33 @@
 
 package taiwan.no.one.currency.data.repository
 
+import taiwan.no.one.core.data.cache.LayerCaching
+import taiwan.no.one.currency.data.contract.DataStore
 import taiwan.no.one.currency.data.data.ConvertRateData
 import taiwan.no.one.currency.data.data.CountryData
 import taiwan.no.one.currency.data.data.CurrencyData
-import taiwan.no.one.currency.data.store.RemoteStore
 import taiwan.no.one.currency.domain.repostory.CurrencyRepo
+import java.util.prefs.Preferences
 
 internal class CurrencyRepository(
-    private val remote: RemoteStore
+    private val local: DataStore,
+    private val remote: DataStore,
+    private val dataStore: androidx.datastore.core.DataStore<Preferences>,
 ) : CurrencyRepo {
     override suspend fun fetchCurrencyRate(currencyKeys: List<Pair<String, String>>) =
         remote.retrieveRateCurrencies(currencyKeys).map(ConvertRateData::convert)
 
-    override suspend fun fetchCountries() = remote.retrieveCountries().map(CountryData::convert)
+    override suspend fun fetchCountries() = object : LayerCaching<List<CountryData>>() {
+        override suspend fun saveCallResult(data: List<CountryData>) {
+            local.createCountries(data)
+        }
+
+        override suspend fun shouldFetch(data: List<CountryData>) = data.isEmpty()
+
+        override suspend fun loadFromLocal() = local.retrieveCountries()
+
+        override suspend fun createCall() = remote.retrieveCountries()
+    }.value().map(CountryData::convert)
 
     override suspend fun fetchCurrencies() = remote.retrieveCurrencies().map(CurrencyData::convert)
 }

@@ -22,29 +22,44 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.data.contract
+package taiwan.no.one.core.data.cache
 
-import taiwan.no.one.currency.data.data.ConvertRateData
-import taiwan.no.one.currency.data.data.CountryData
-import taiwan.no.one.currency.data.data.CurrencyData
+import taiwan.no.one.core.exception.NotFoundException
+import java.util.Date
 
-internal interface DataStore {
-    suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>): List<ConvertRateData>
+abstract class LayerCaching<RT> {
+    protected open var timestamp = 0L
 
-    suspend fun retrieveCountries(): List<CountryData>
-
-    suspend fun createCountries(countries: List<CountryData>): Boolean
-
-    suspend fun retrieveCurrencies(): List<CurrencyData>
-
-    suspend fun tryWrapper(tryBlock: suspend () -> Unit): Boolean {
-        try {
-            tryBlock()
+    suspend fun value() = try {
+        cleanUp()
+        val dbSource = loadFromLocal()
+        if (dbSource == null || shouldFetch(dbSource)) {
+            timestamp = Date().time
+            fetchFromRemote()
         }
-        catch (e: Exception) {
-            e.printStackTrace()
-            return false
+        else {
+            dbSource
         }
-        return true
     }
+    catch (notFoundException: NotFoundException) {
+        // If can't find from the cache or the local persistence, will throw the [NotFoundException].
+        timestamp = Date().time
+        fetchFromRemote()
+    }
+    catch (e: Exception) {
+        timestamp = Date().time
+        fetchFromRemote()
+    }
+
+    private suspend fun fetchFromRemote() = createCall().apply { saveCallResult(this) }
+
+    protected abstract suspend fun saveCallResult(data: RT)
+
+    protected abstract suspend fun shouldFetch(data: RT): Boolean
+
+    protected abstract suspend fun loadFromLocal(): RT?
+
+    protected abstract suspend fun createCall(): RT
+
+    protected open suspend fun cleanUp() = Unit
 }

@@ -69,6 +69,7 @@ object Dependencies {
         put("cardview", LibraryDependency.CARDVIEW)
         put("coordinatorLayout", LibraryDependency.COORDINATOR_LAYOUT)
         put("constraintLayout", LibraryDependency.CONSTRAINT_LAYOUT)
+        put("datastore", LibraryDependency.DATASTORE)
         put("annot", LibraryDependency.ANNOT)
     }
 

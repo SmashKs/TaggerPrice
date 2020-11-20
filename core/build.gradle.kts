@@ -103,6 +103,7 @@ dependencies {
      Dependencies.internetDeps.values +
      Dependencies.localDeps.values).forEach(::api)
     api(LibraryDependency.GSON)
+    api(LibraryDependency.MMKV)
     kapt(LibraryDependency.ROOM_ANNOTATION)
     kapt(LibraryDependency.AUTO_SERVICE)
     kapt(LibraryDependency.LIFECYCLE_COMPILER)

@@ -22,29 +22,16 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.data.contract
+package taiwan.no.one.currency.data.local.service.room.v1
 
-import taiwan.no.one.currency.data.data.ConvertRateData
+import androidx.room.Dao
+import androidx.room.Query
+import taiwan.no.one.core.data.local.room.BaseDao
 import taiwan.no.one.currency.data.data.CountryData
-import taiwan.no.one.currency.data.data.CurrencyData
+import java.util.Date
 
-internal interface DataStore {
-    suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>): List<ConvertRateData>
-
-    suspend fun retrieveCountries(): List<CountryData>
-
-    suspend fun createCountries(countries: List<CountryData>): Boolean
-
-    suspend fun retrieveCurrencies(): List<CurrencyData>
-
-    suspend fun tryWrapper(tryBlock: suspend () -> Unit): Boolean {
-        try {
-            tryBlock()
-        }
-        catch (e: Exception) {
-            e.printStackTrace()
-            return false
-        }
-        return true
-    }
+@Dao
+abstract class CountryDao : BaseDao<CountryData> {
+    @Query("SELECT * FROM table_country WHERE updated >= :timestamp")
+    abstract fun getCountries(timestamp: Date): List<CountryData>
 }

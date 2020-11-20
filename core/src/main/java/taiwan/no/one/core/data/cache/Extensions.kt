@@ -22,29 +22,6 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.data.contract
+package taiwan.no.one.core.data.cache
 
-import taiwan.no.one.currency.data.data.ConvertRateData
-import taiwan.no.one.currency.data.data.CountryData
-import taiwan.no.one.currency.data.data.CurrencyData
-
-internal interface DataStore {
-    suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>): List<ConvertRateData>
-
-    suspend fun retrieveCountries(): List<CountryData>
-
-    suspend fun createCountries(countries: List<CountryData>): Boolean
-
-    suspend fun retrieveCurrencies(): List<CurrencyData>
-
-    suspend fun tryWrapper(tryBlock: suspend () -> Unit): Boolean {
-        try {
-            tryBlock()
-        }
-        catch (e: Exception) {
-            e.printStackTrace()
-            return false
-        }
-        return true
-    }
-}
+inline fun convertToKey(vararg keys: Any) = keys.toList().joinToString("@#$%")

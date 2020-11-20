@@ -22,29 +22,19 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.data.contract
+package taiwan.no.one.core.data.cache
 
-import taiwan.no.one.currency.data.data.ConvertRateData
-import taiwan.no.one.currency.data.data.CountryData
-import taiwan.no.one.currency.data.data.CurrencyData
+import java.lang.reflect.Type
 
-internal interface DataStore {
-    suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>): List<ConvertRateData>
-
-    suspend fun retrieveCountries(): List<CountryData>
-
-    suspend fun createCountries(countries: List<CountryData>): Boolean
-
-    suspend fun retrieveCurrencies(): List<CurrencyData>
-
-    suspend fun tryWrapper(tryBlock: suspend () -> Unit): Boolean {
-        try {
-            tryBlock()
-        }
-        catch (e: Exception) {
-            e.printStackTrace()
-            return false
-        }
-        return true
+interface Caching {
+    companion object Constant {
+        const val TIME_STAMP = "timestamp"
     }
+
+    fun <RT> get(key: String, classOf: Class<RT>): Pair<Long, RT>?
+    fun <RT> get(key: String, typeOf: Type): Pair<Long, RT>?
+    fun put(key: String, value: Any?)
+    fun remove(key: String)
+    fun removeAll(key: String)
+    fun clear()
 }
