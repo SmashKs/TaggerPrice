@@ -27,7 +27,6 @@ import config.CommonModuleDependency
 import config.Dependencies
 import config.LibraryDependency
 import org.jetbrains.kotlin.gradle.internal.CacheImplementation
-import resources.FeatureRes
 
 android {
     compileSdkVersion(AndroidConfiguration.COMPILE_SDK)
@@ -60,9 +59,6 @@ android {
             isCrunchPngs = false // Enabled by default for RELEASE build type
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), file("proguard-rules.pro"))
         }
-    }
-    sourceSets {
-        getByName("main").res.srcDirs(*FeatureRes.dirs)
     }
     dexOptions {
         jumboMode = true

@@ -27,11 +27,9 @@ import config.CommonModuleDependency
 import config.Dependencies
 import config.LibraryDependency
 import org.jetbrains.kotlin.gradle.internal.CacheImplementation
-import resources.FeatureRes
 
 plugins {
     id("com.android.application")
-
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
@@ -77,11 +75,6 @@ android {
             ext.set("alwaysUpdateBuildId", false)
             isCrunchPngs = false // Enabled by default for RELEASE build type
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), file("proguard-rules.pro"))
-        }
-    }
-    sourceSets {
-        getByName("main").apply {
-            res.srcDirs(*FeatureRes.dirs)
         }
     }
     dexOptions {

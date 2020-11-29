@@ -24,16 +24,10 @@
 
 import config.AndroidConfiguration
 import config.CommonModuleDependency
-import config.Configuration
 import config.LibraryDependency
 
 plugins {
-    if (config.Configuration.isFeature) {
-        id("com.android.application")
-    }
-    else {
-        id("com.android.dynamic-feature")
-    }
+    id("com.android.dynamic-feature")
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
@@ -47,9 +41,6 @@ android {
         targetSdkVersion(AndroidConfiguration.TARGET_SDK)
         versionCode = 1
         versionName = "1.0"
-        if (Configuration.isFeature) {
-            applicationId = "taiwan.no.one.capture"
-        }
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi = AndroidConfiguration.MIN_SDK
         testInstrumentationRunner = AndroidConfiguration.TEST_INSTRUMENTATION_RUNNER
@@ -86,14 +77,6 @@ android {
     externalNativeBuild {
         cmake.path = file("CMakeLists.txt")
     }
-    sourceSets {
-        getByName("main").apply {
-            if (Configuration.isFeature) {
-                java.srcDirs("src/main/java", "src/main/alone")
-                manifest.srcFile("src/main/alone/AndroidManifest.xml")
-            }
-        }
-    }
     dexOptions {
         jumboMode = true
         preDexLibraries = true
@@ -103,11 +86,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    if (Configuration.isFeature) {
-        packagingOptions {
-            exclude("META-INF/atomicfu.kotlin_module")
-            exclude("META-INF/kotlinx-coroutines-core.kotlin_module")
-        }
+    packagingOptions {
+        exclude("META-INF/atomicfu.kotlin_module")
+        exclude("META-INF/kotlinx-coroutines-core.kotlin_module")
     }
     testOptions { unitTests.apply { isReturnDefaultValues = true } }
     lintOptions { isAbortOnError = false }

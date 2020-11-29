@@ -38,7 +38,7 @@ import taiwan.no.one.taggerprice.provider.ModuleProvider
 internal object PresentationModules : ModuleProvider {
     override fun provide(context: Context) = DI.Module("${FEAT_NAME}PreziModule") {
         bind<ViewModelEntry>().inSet() with provider {
-            CaptureViewModel::class.java to CaptureViewModel(instance(), instance())
+            CaptureViewModel::class.java to CaptureViewModel(instance())
         }
     }
 }
