@@ -31,8 +31,8 @@ import org.jetbrains.kotlin.gradle.internal.CacheImplementation
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("android.extensions")
     kotlin("kapt")
+    id("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -95,11 +95,6 @@ android {
     dynamicFeatures = CommonModuleDependency.getDynamicFeatureModules()
 }
 
-androidExtensions {
-    isExperimental = true
-    defaultCacheImplementation = CacheImplementation.SPARSE_ARRAY
-}
-
 kapt {
     useBuildCache = true
     correctErrorTypes = true
@@ -116,8 +111,6 @@ dependencies {
     implementation(LibraryDependency.FIREBASE_CORE)
     implementation(LibraryDependency.FIREBASE_ANALYTICS)
     implementation(LibraryDependency.STARTUP)
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.1")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.1")
     (Dependencies.androidxKtxDeps.values +
      Dependencies.androidxDeps.values +
      Dependencies.uiDeps.values).forEach(::api)
