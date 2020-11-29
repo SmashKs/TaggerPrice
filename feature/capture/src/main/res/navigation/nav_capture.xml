@@ -30,16 +30,6 @@
     app:startDestination="@id/capture_fragment">
 
     <fragment
-        android:id="@+id/camera_fragment"
-        android:name="taiwan.no.one.capture.presentation.fragment.CameraFragment"
-        android:label="Capture Fragment"
-        tools:layout="@layout/fragment_camera">
-        <deepLink
-            android:id="@+id/deepLink"
-            app:uri="taiwan.no.one.dummy/dummy"/>
-    </fragment>
-
-    <fragment
         android:id="@+id/capture_fragment"
         android:name="taiwan.no.one.capture.presentation.fragment.CaptureFragment"
         android:label="CaptureFragment"
