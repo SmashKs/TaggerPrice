@@ -31,7 +31,6 @@ import android.graphics.BitmapFactory
 import android.graphics.ImageFormat
 import android.graphics.Rect
 import android.graphics.YuvImage
-import android.media.Image
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Size
@@ -48,12 +47,13 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinshaver.ui
 import taiwan.no.one.capture.databinding.FragmentCaptureBinding
+import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
 import java.io.ByteArrayOutputStream
-import java.nio.ByteBuffer
 import java.util.ArrayDeque
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -64,7 +64,7 @@ import kotlin.math.min
 typealias BitmapListener = (bitmap: Bitmap) -> Unit
 
 class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() {
-
+    private val vm by viewModel<CaptureViewModel>()
     private lateinit var cameraExecutor: ExecutorService
 
     private var displayId: Int = -1
@@ -227,7 +227,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             lastAnalyzedTimestamp = frameTimestamps.first
 
             bitmapListener.forEach {
-                bitmapListener.forEach { it( image.toBitmap()) }
+                bitmapListener.forEach { it(image.toBitmap()) }
             }
 
             image.close()

@@ -59,6 +59,18 @@
         </activity>
         <activity android:name="taiwan.no.one.taggerprice.presentation.activity.SecondActivity"/>
 
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="taiwan.no.one.taggerprice.androidx-startup"
+            android:exported="false"
+            tools:node="merge"
+            tools:replace="android:authorities">
+
+            <meta-data
+                android:name="taiwan.no.one.taggerprice.startup.MmkvInitializer"
+                android:value="androidx.startup"/>
+        </provider>
+
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="ocr"/>

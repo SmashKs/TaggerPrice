@@ -24,19 +24,14 @@
 
 package taiwan.no.one.capture.presentation.viewmodel
 
-import taiwan.no.one.capture.domain.model.Dummy
-import taiwan.no.one.capture.domain.usecase.FetchDummyCase
+import androidx.lifecycle.liveData
 import taiwan.no.one.core.presentation.viewmodel.BehindViewModel
-import taiwan.no.one.ktx.livedata.SafeMutableLiveData
-import taiwan.no.one.ktx.livedata.toLiveData
+import taiwan.no.one.taggerprice.provider.CurrencyMethodProvider
 
 internal class CaptureViewModel(
-    private val fetchDummyCase: FetchDummyCase
+    private val currencyProvider: CurrencyMethodProvider,
 ) : BehindViewModel() {
-    private val _dummy by lazy { SafeMutableLiveData<List<Dummy>>(emptyList()) }
-    val dummy = _dummy.toLiveData()
-
-    fun getDummies() = launchBehind {
-        fetchDummyCase.execute().onSuccess(_dummy::postValue)
+    val countries = liveData {
+        emit(currencyProvider.getCountries())
     }
 }

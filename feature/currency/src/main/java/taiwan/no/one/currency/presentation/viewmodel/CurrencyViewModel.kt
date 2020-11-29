@@ -35,9 +35,10 @@ import taiwan.no.one.currency.domain.usecase.FetchCountriesCase
 import taiwan.no.one.currency.domain.usecase.FetchRateCase
 import taiwan.no.one.ktx.livedata.toLiveData
 
+// NOTE(jieyi): 11/29/20 This is for testing only.
 class CurrencyViewModel(
     private val fetchRateCase: FetchRateCase,
-    private val fetchCountriesCase: FetchCountriesCase
+    private val fetchCountriesCase: FetchCountriesCase,
 ) : BehindViewModel() {
     val countries = liveData {
         emit(fetchCountriesCase.execute())

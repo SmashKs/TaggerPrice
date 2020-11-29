@@ -31,6 +31,7 @@ import taiwan.no.one.currency.databinding.FragmentCurrencyBinding
 import taiwan.no.one.currency.presentation.viewmodel.CurrencyViewModel
 import taiwan.no.one.taggerprice.presentation.activity.MainActivity
 
+// NOTE(jieyi): 11/29/20 This is for testing only.
 class CurrencyFragment : BaseFragment<MainActivity, FragmentCurrencyBinding>() {
     private val vm by viewModel<CurrencyViewModel>()
 
