@@ -95,7 +95,6 @@ subprojects {
                 }
             }
             if (name == "core") {
-                plugin("kotlin-android-extensions")
                 plugin("org.jetbrains.kotlin.kapt")
             }
             plugin(config.GradleDependency.DETEKT)
