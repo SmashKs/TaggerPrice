@@ -26,6 +26,7 @@ package taiwan.no.one.taggerprice.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.tencent.mmkv.MMKV
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.singleton
@@ -33,5 +34,6 @@ import org.kodein.di.singleton
 object CommonModule {
     fun provide() = DI.Module("CommonModule") {
         bind<Gson>() with singleton { GsonBuilder().create() }
+        bind<MMKV>() with singleton { MMKV.defaultMMKV() }
     }
 }

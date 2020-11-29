@@ -24,21 +24,47 @@
 
 package taiwan.no.one.currency.data.repository
 
+import android.content.SharedPreferences
+import androidx.core.content.edit
 import taiwan.no.one.core.data.cache.LayerCaching
+import taiwan.no.one.core.data.cache.convertToKey
 import taiwan.no.one.currency.data.contract.DataStore
 import taiwan.no.one.currency.data.data.ConvertRateData
 import taiwan.no.one.currency.data.data.CountryData
 import taiwan.no.one.currency.data.data.CurrencyData
 import taiwan.no.one.currency.domain.repostory.CurrencyRepo
-import java.util.prefs.Preferences
+import java.util.Date
 
 internal class CurrencyRepository(
     private val local: DataStore,
     private val remote: DataStore,
-    private val dataStore: androidx.datastore.core.DataStore<Preferences>,
+    private val sp: SharedPreferences,
 ) : CurrencyRepo {
+    companion object Constant {
+        const val EXPIRED_DURATION = 1_800_000 // 30 * 60 * 1000 = half hour
+    }
+
     override suspend fun fetchCurrencyRate(currencyKeys: List<Pair<String, String>>) =
-        remote.retrieveRateCurrencies(currencyKeys).map(ConvertRateData::convert)
+        object : LayerCaching<List<ConvertRateData>>() {
+            override var timestamp: Long
+                get() = sp.getLong(convertToKey(currencyKeys.toString()), 0L)
+                set(value) {
+                    sp.edit { putLong(currencyKeys.toString(), value) }
+                }
+
+            override suspend fun saveCallResult(data: List<ConvertRateData>) {
+                data.forEachIndexed { index, rate ->
+                    local.createRateCurrencies(currencyKeys[index], rate)
+                }
+            }
+
+            override suspend fun shouldFetch(data: List<ConvertRateData>) =
+                Date().time - timestamp > EXPIRED_DURATION
+
+            override suspend fun loadFromLocal() = local.retrieveRateCurrencies(currencyKeys)
+
+            override suspend fun createCall() = remote.retrieveRateCurrencies(currencyKeys)
+        }.value().map(ConvertRateData::convert)
 
     override suspend fun fetchCountries() = object : LayerCaching<List<CountryData>>() {
         override suspend fun saveCallResult(data: List<CountryData>) {

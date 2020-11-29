@@ -39,6 +39,7 @@ object LibraryDependency {
         const val CONSTRAINTLAYOUT = "2.0.4"
         const val COORDINATORLAYOUT = "1.1.0"
         const val CAMERA_LIFECYCLE = "1.0.0-beta09"
+        const val STARTUP = "1.0.0"
         const val DATASTORE = "1.0.0-alpha04"
 
         const val AAC_LIFECYCLE = "2.3.0-beta01"
@@ -104,6 +105,7 @@ object LibraryDependency {
     const val COORDINATOR_LAYOUT = "androidx.coordinatorlayout:coordinatorlayout:${Version.COORDINATORLAYOUT}"
     const val CAMERA_VIEW = "androidx.camera:camera-view:${Version.CAMERA_KTX}"
     const val CAMERA_LIFECYCLE = "androidx.camera:camera-lifecycle:${Version.CAMERA_LIFECYCLE}"
+    const val STARTUP = "androidx.startup:startup-runtime:${Version.STARTUP}"
     const val DATASTORE = "androidx.datastore:datastore:${Version.DATASTORE}"
 
     //endregion

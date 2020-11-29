@@ -22,31 +22,16 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.currency.data.contract
+package taiwan.no.one.taggerprice.startup
 
-import taiwan.no.one.currency.data.data.ConvertRateData
-import taiwan.no.one.currency.data.data.CountryData
-import taiwan.no.one.currency.data.data.CurrencyData
+import android.content.Context
+import androidx.startup.Initializer
+import com.tencent.mmkv.MMKV
 
-internal interface DataStore {
-    suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>): List<ConvertRateData>
-
-    suspend fun createRateCurrencies(pair: Pair<String, String>, currencyRate: ConvertRateData): Boolean
-
-    suspend fun retrieveCountries(): List<CountryData>
-
-    suspend fun createCountries(countries: List<CountryData>): Boolean
-
-    suspend fun retrieveCurrencies(): List<CurrencyData>
-
-    suspend fun tryWrapper(tryBlock: suspend () -> Unit): Boolean {
-        try {
-            tryBlock()
-        }
-        catch (e: Exception) {
-            e.printStackTrace()
-            return false
-        }
-        return true
+internal class MmkvInitializer : Initializer<Unit> {
+    override fun create(context: Context) {
+        MMKV.initialize(context)
     }
+
+    override fun dependencies() = emptyList<Class<out Initializer<*>>>()
 }

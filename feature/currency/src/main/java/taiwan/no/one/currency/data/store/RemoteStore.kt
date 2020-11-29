@@ -48,6 +48,9 @@ internal class RemoteStore(
             .toList()
     }
 
+    override suspend fun createRateCurrencies(pair: Pair<String, String>, currency: ConvertRateData) =
+        throw UnsupportedOperation()
+
     override suspend fun retrieveCountries(): List<CountryData> {
         val params = CurrencyRetrofitConfig.QUERY_PARAMS
         val countries = currencyConvertService.getCountries(params).results ?: throw NullPointerException()

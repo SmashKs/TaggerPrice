@@ -25,7 +25,10 @@
 package taiwan.no.one.currency.data.store
 
 import taiwan.no.one.core.data.cache.Caching
+import taiwan.no.one.core.data.cache.convertToKey
+import taiwan.no.one.core.exception.NotFoundException
 import taiwan.no.one.currency.data.contract.DataStore
+import taiwan.no.one.currency.data.data.ConvertRateData
 import taiwan.no.one.currency.data.data.CountryData
 import taiwan.no.one.currency.data.local.service.room.v1.CountryDao
 import taiwan.no.one.ext.exceptions.UnsupportedOperation
@@ -36,7 +39,14 @@ internal class LocalStore(
     private val mmkvCache: Caching,
 ) : DataStore {
     override suspend fun retrieveRateCurrencies(currencyKeys: List<Pair<String, String>>) =
-        TODO("Using the MMKVCaching to achieve")
+        currencyKeys.map {
+            mmkvCache.get(convertToKey(it.first, it.second),
+                          ConvertRateData::class.java)?.second ?: throw NotFoundException()
+        }
+
+    override suspend fun createRateCurrencies(pair: Pair<String, String>, currencyRate: ConvertRateData) = tryWrapper {
+        mmkvCache.put(convertToKey(pair.first, pair.second), currencyRate)
+    }
 
     override suspend fun retrieveCountries(): List<CountryData> {
         val oneMonthBeforeDate = Calendar.getInstance().apply {

@@ -122,6 +122,7 @@ dependencies {
     api(LibraryDependency.COIL)
     implementation(LibraryDependency.FIREBASE_CORE)
     implementation(LibraryDependency.FIREBASE_ANALYTICS)
+    implementation(LibraryDependency.STARTUP)
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.1")
     implementation("androidx.navigation:navigation-ui-ktx:2.3.1")
     (Dependencies.androidxKtxDeps.values +
