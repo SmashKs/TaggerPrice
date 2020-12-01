@@ -22,27 +22,19 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.taggerprice.di
+package taiwan.no.one.ocr
 
-import android.content.Context
-import org.kodein.di.DI
-import org.kodein.di.bind
-import org.kodein.di.singleton
-import taiwan.no.one.taggerprice.provider.CurrencyMethodProvider
-import taiwan.no.one.taggerprice.provider.ModuleProvider
+import android.graphics.Bitmap
+import com.google.auto.service.AutoService
+import org.kodein.di.DIAware
+import taiwan.no.one.taggerprice.TaggerPriceApp
 import taiwan.no.one.taggerprice.provider.OCRMethodProvider
-import java.util.ServiceLoader
 
-object FeatModuleHelper {
-    fun kodeinModules(context: Context) = ServiceLoader.load(ModuleProvider::class.java).map { it.provide(context) }
+@AutoService(OCRMethodProvider::class)
+class MethodProvider : OCRMethodProvider, DIAware {
+    override val di by lazy { (TaggerPriceApp.appContext as DIAware).di }
 
-    fun provide() = DI.Module("Feature Method Provider Module") {
-        bind<CurrencyMethodProvider>() with singleton {
-            ServiceLoader.load(CurrencyMethodProvider::class.java).toList().first()
-        }
-        bind<OCRMethodProvider>() with singleton {
-            ServiceLoader.load(OCRMethodProvider::class.java).toList().first()
-        }
+    override suspend fun getOCRResult(bitmap: Bitmap): List<String> {
+        return emptyList()
     }
 }
-
