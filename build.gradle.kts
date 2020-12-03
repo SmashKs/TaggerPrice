@@ -116,27 +116,23 @@ subprojects {
 
     afterEvaluate {
         //region Common Setting
-        if (name !in (listOf("ext", "feature") + modules)) {
+        if (name !in listOf("ext", "feature")) {
             // BaseExtension is common parent for application, library and test modules
             extensions.configure(com.android.build.gradle.BaseExtension::class.java) {
                 compileSdkVersion(config.AndroidConfiguration.COMPILE_SDK)
                 defaultConfig {
                     minSdkVersion(config.AndroidConfiguration.MIN_SDK)
                     targetSdkVersion(config.AndroidConfiguration.TARGET_SDK)
+                    vectorDrawables.useSupportLibrary = true
                     testInstrumentationRunner = config.AndroidConfiguration.TEST_INSTRUMENTATION_RUNNER
                     consumerProguardFiles(file("consumer-rules.pro"))
-                    javaCompileOptions {
-                        annotationProcessorOptions {
-                            arguments["room.schemaLocation"] = "$projectDir/schemas"
-                            arguments["room.incremental"] = "true"
-                            arguments["room.expandProjection"] = "true"
-                        }
+                    if (this@subprojects.name in features) {
+                        applyRoomSetting()
                     }
                 }
                 buildTypes {
                     getByName("release") {
-                        // This is exceptions.
-                        if (name !in features) {
+                        if (this@subprojects.name !in features) {
                             isMinifyEnabled = true
                         }
                         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -172,10 +168,22 @@ subprojects {
                         isIncludeAndroidResources = true
                     }
                 }
-                buildFeatures.viewBinding = true
+                if (this@subprojects.name !in modules) {
+                    buildFeatures.viewBinding = true
+                }
             }
         }
         //endregion
+    }
+}
+
+fun com.android.build.gradle.internal.dsl.DefaultConfig.applyRoomSetting() {
+    javaCompileOptions {
+        annotationProcessorOptions {
+            arguments["room.schemaLocation"] = "$projectDir/schemas"
+            arguments["room.incremental"] = "true"
+            arguments["room.expandProjection"] = "true"
+        }
     }
 }
 
