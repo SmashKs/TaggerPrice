@@ -80,18 +80,28 @@ allprojects {
     }
 }
 
+val modules = config.CommonModuleDependency.getLibraryModuleSimpleName()
+val features = config.CommonModuleDependency.getFeatureModuleSimpleName()
+
 subprojects {
     beforeEvaluate {
         //region Apply plugin
         apply {
             when (name) {
-                "domain", "ext" -> {
+                "ext" -> {
                     plugin("java-library")
                     plugin("kotlin")
                 }
-                "widget", "ktx", "device", "core" -> {
+                in modules -> {
                     plugin("com.android.library")
                     plugin("kotlin-android")
+                }
+                in features -> {
+                    plugin("com.android.dynamic-feature")
+                    plugin("kotlin-android")
+                    plugin("kotlin-parcelize")
+                    plugin("kotlin-kapt")
+                    plugin("androidx.navigation.safeargs.kotlin")
                 }
             }
             if (name == "core") {
@@ -100,6 +110,70 @@ subprojects {
             plugin(config.GradleDependency.DETEKT)
             plugin("project-report")  // for generating dependency graph
 //        plugin("org.jlleitschuh.gradle.ktlint")
+        }
+        //endregion
+    }
+
+    afterEvaluate {
+        //region Common Setting
+        if (name !in (listOf("ext", "feature") + modules)) {
+            // BaseExtension is common parent for application, library and test modules
+            extensions.configure(com.android.build.gradle.BaseExtension::class.java) {
+                compileSdkVersion(config.AndroidConfiguration.COMPILE_SDK)
+                defaultConfig {
+                    minSdkVersion(config.AndroidConfiguration.MIN_SDK)
+                    targetSdkVersion(config.AndroidConfiguration.TARGET_SDK)
+                    testInstrumentationRunner = config.AndroidConfiguration.TEST_INSTRUMENTATION_RUNNER
+                    consumerProguardFiles(file("consumer-rules.pro"))
+                    javaCompileOptions {
+                        annotationProcessorOptions {
+                            arguments["room.schemaLocation"] = "$projectDir/schemas"
+                            arguments["room.incremental"] = "true"
+                            arguments["room.expandProjection"] = "true"
+                        }
+                    }
+                }
+                buildTypes {
+                    getByName("release") {
+                        // This is exceptions.
+                        if (name !in features) {
+                            isMinifyEnabled = true
+                        }
+                        proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
+                                      file("proguard-rules.pro"))
+                    }
+                    getByName("debug") {
+                        splits.abi.isEnable = false
+                        splits.density.isEnable = false
+                        aaptOptions.cruncherEnabled = false
+                        isTestCoverageEnabled = true
+                        // Only use this flag on builds you don't proguard or upload to beta-by-crashlytics.
+                        ext.set("alwaysUpdateBuildId", false)
+                        isCrunchPngs = false // Enabled by default for RELEASE build type
+                    }
+                }
+                dexOptions {
+                    jumboMode = true
+                    preDexLibraries = true
+                    threadCount = 8
+                }
+                compileOptions {
+                    sourceCompatibility = JavaVersion.VERSION_1_8
+                    targetCompatibility = JavaVersion.VERSION_1_8
+                }
+                lintOptions {
+                    isAbortOnError = false
+                    isIgnoreWarnings = true
+                    isQuiet = true
+                }
+                testOptions {
+                    unitTests {
+                        isReturnDefaultValues = true
+                        isIncludeAndroidResources = true
+                    }
+                }
+                buildFeatures.viewBinding = true
+            }
         }
         //endregion
     }

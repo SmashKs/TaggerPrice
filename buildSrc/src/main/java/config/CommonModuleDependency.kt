@@ -52,8 +52,11 @@ object CommonModuleDependency {
         .filter { it.startsWith(FEATURE_PREFIX) }
         .toMutableSet()
 
-    fun getFeatureModuleName() = getDynamicFeatureModules()
-        .filter { it == FEAT_CAPTURE } // Only one will be imported
-        .map { it.replace(":feature:", "") }
-        .toMutableSet()
+    fun getFeatureModuleSimpleName() = getDynamicFeatureModules()
+        .map { it.split(":").last() }
+
+    fun getLibraryModuleSimpleName() = getAllModules()
+        .filterNot { it.startsWith(FEATURE_PREFIX) }
+        .filterNot { it == APP || it == LIB_PURE_EXT }
+        .map { it.split(":").last() }
 }
