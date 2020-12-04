@@ -36,12 +36,14 @@ import taiwan.no.one.ocr.FeatModules.Companion.FEAT_NAME
 import taiwan.no.one.ocr.data.local.service.OcrService
 import taiwan.no.one.ocr.data.local.service.firebase.v1.FirebaseOcr
 import taiwan.no.one.ocr.data.local.service.tesseract.v1.TesseractOcr
+import taiwan.no.one.ocr.data.remote.service.FirebaseMLService
 import taiwan.no.one.ocr.data.repository.OcrRepository
 import taiwan.no.one.ocr.data.store.LocalStore
 import taiwan.no.one.ocr.data.store.RemoteStore
 import taiwan.no.one.ocr.domain.repository.OcrRepo
 import taiwan.no.one.taggerprice.TaggerPriceApp
 import taiwan.no.one.taggerprice.provider.ModuleProvider
+import taiwan.no.one.ocr.data.remote.service.firebase.v1.FirebaseOcr as RemoteFirebaseOcr
 
 internal object DataModules : ModuleProvider {
     private const val TAG_LOCAL_SERVICE = "local service"
@@ -78,5 +80,7 @@ internal object DataModules : ModuleProvider {
         bind<FirebaseVisionTextRecognizer>(TAG_REMOTE_SERVICE) with singleton {
             FirebaseVision.getInstance().cloudTextRecognizer
         }
+
+        bind<FirebaseMLService>() with singleton { RemoteFirebaseOcr(instance(), instance(TAG_REMOTE_SERVICE)) }
     }
 }

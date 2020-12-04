@@ -22,22 +22,15 @@
  * SOFTWARE.
  */
 
-package taiwan.no.one.ocr
+package taiwan.no.one.ocr.data.remote.service
 
 import android.graphics.Bitmap
-import com.google.auto.service.AutoService
-import org.kodein.di.DIAware
-import org.kodein.di.instance
-import taiwan.no.one.ocr.domain.parameter.OcrRequestParams
-import taiwan.no.one.ocr.domain.usecase.FetchRecognizeCase
-import taiwan.no.one.taggerprice.TaggerPriceApp
-import taiwan.no.one.taggerprice.provider.OCRMethodProvider
+import java.io.File
 
-@AutoService(OCRMethodProvider::class)
-class MethodProvider : OCRMethodProvider, DIAware {
-    override val di by lazy { (TaggerPriceApp.appContext as DIAware).di }
-    private val fetchRecognizeCase by instance<FetchRecognizeCase>()
+internal interface FirebaseMLService {
+    suspend fun recognize(bitmap: Bitmap): String
 
-    override suspend fun getOCRResult(bitmap: Bitmap) =
-        fetchRecognizeCase.execute(OcrRequestParams(bitmap)).getOrNull()?.let { listOf(it) } ?: emptyList()
+    suspend fun recognize(file: File): String
+
+    suspend fun recognize(raw: ByteArray, lang: String): String
 }
