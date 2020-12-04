@@ -26,6 +26,9 @@ package taiwan.no.one.ocr.presentation.fragment
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -34,7 +37,6 @@ import com.devrapid.kotlinknifer.toBitmap
 import com.devrapid.kotlinknifer.toDrawable
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import com.googlecode.tesseract.android.TessBaseAPI
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
 import taiwan.no.one.ktx.context.allPermissionsGranted
@@ -91,6 +93,9 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
     }
 
     override fun rendered(savedInstanceState: Bundle?) {
+        val bitmap = R.drawable.test_ocr_1.toDrawable(requireContext()).toBitmap()
+        binding.ivPic.setImageBitmap(bitmap)
+
         if (Build.VERSION.SDK_INT >= 23) {
             if (requireContext().allPermissionsGranted(requiredPermissions)) {
                 requestPermissions(requiredPermissions, PERMISSION_REQUEST_CODE)
@@ -98,21 +103,39 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
             }
         }
 
-        copyToSD(LANGUAGE_PATH, DEFAULT_LANGUAGE_NAME)
-        val tessapi = TessBaseAPI().apply {
-            val datapath = Environment.getExternalStorageDirectory().absolutePath + File.separator
-            init(datapath, "eng")
-            pageSegMode = TessBaseAPI.PageSegMode.PSM_SINGLE_LINE
-        }
-
-        tessapi.setImage(R.drawable.ocr_test.toDrawable(requireContext()).toBitmap())
-        logw(tessapi.utF8Text)
-        tessapi.end()
+//        copyToSD(LANGUAGE_PATH, DEFAULT_LANGUAGE_NAME)
+//        val tessapi = TessBaseAPI().apply {
+//            val datapath = Environment.getExternalStorageDirectory().absolutePath + File.separator
+//            logw(datapath)
+//            init(datapath, "eng")
+//            pageSegMode = TessBaseAPI.PageSegMode.PSM_SINGLE_LINE
+//        }
+//
+//        tessapi.setImage(R.drawable.ocr_test.toDrawable(requireContext()).toBitmap())
+//        logw(tessapi.utF8Text)
+//        tessapi.end()
 
         // Firebase way
-        val visionImage = FirebaseVisionImage.fromBitmap(R.drawable.ocr_test.toDrawable(requireContext()).toBitmap())
+        val visionImage = FirebaseVisionImage.fromBitmap(bitmap)
         val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
         val task = detector.processImage(visionImage)
+        task.addOnSuccessListener {
+            binding.mtvText.text = it.text
+            // draw on the bitmap
+            val bm = bitmap.copy(bitmap.config, true)
+            Canvas(bm).apply {
+                val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    color = Color.RED
+                    style = Paint.Style.STROKE
+                    strokeWidth = 5f
+                }
+                it.textBlocks.forEach {
+                    it.boundingBox?.let { drawRect(it, paint) }
+                }
+            }
+
+            binding.ivPic.setImageBitmap(bm)
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
