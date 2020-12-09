@@ -24,14 +24,36 @@
 
 package taiwan.no.one.capture.presentation.viewmodel
 
+import android.graphics.Bitmap
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import taiwan.no.one.core.presentation.viewmodel.BehindViewModel
+import taiwan.no.one.ktx.livedata.toLiveData
 import taiwan.no.one.taggerprice.provider.CurrencyMethodProvider
+import taiwan.no.one.taggerprice.provider.OCRMethodProvider
 
 internal class CaptureViewModel(
     private val currencyProvider: CurrencyMethodProvider,
+    private val ocrProvider: OCRMethodProvider,
 ) : BehindViewModel() {
+    companion object {
+        private const val INTERVAL = 1000
+    }
+
+    private val _result by lazy { MutableLiveData<List<String>>() }
+    val ocrResult = _result.toLiveData()
     val countries = liveData {
         emit(currencyProvider.getCountries())
+    }
+    private var lastProcessedTime = 0L
+
+    fun getOcrResult(bitmap: Bitmap) = viewModelScope.launch {
+        val time = System.currentTimeMillis()
+        if (time - lastProcessedTime > INTERVAL) {
+            lastProcessedTime = time
+        }
+//        _result.value = ocrProvider.getOCRResult(bitmap)
     }
 }
