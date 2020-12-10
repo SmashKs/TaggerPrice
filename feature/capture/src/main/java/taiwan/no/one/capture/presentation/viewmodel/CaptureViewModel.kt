@@ -25,12 +25,14 @@
 package taiwan.no.one.capture.presentation.viewmodel
 
 import android.graphics.Bitmap
+import androidx.annotation.UiThread
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import taiwan.no.one.core.presentation.viewmodel.BehindViewModel
 import taiwan.no.one.ktx.livedata.toLiveData
+import taiwan.no.one.taggerprice.entity.RateEntity
 import taiwan.no.one.taggerprice.provider.CurrencyMethodProvider
 import taiwan.no.one.taggerprice.provider.OCRMethodProvider
 
@@ -39,21 +41,34 @@ internal class CaptureViewModel(
     private val ocrProvider: OCRMethodProvider,
 ) : BehindViewModel() {
     companion object {
-        private const val INTERVAL = 1000
+        private const val INTERVAL = 1000  // 1 sec
     }
 
+    private var lastProcessedTime = 0L
     private val _result by lazy { MutableLiveData<List<String>>() }
     val ocrResult = _result.toLiveData()
-    val countries = liveData {
-        emit(currencyProvider.getCountries())
-    }
-    private var lastProcessedTime = 0L
+    private val _currency by lazy { MutableLiveData<RateEntity>() }
+    val currency = _currency.toLiveData()
+    private val _currencies by lazy { MutableLiveData<List<RateEntity>>() }
+    val currencies = _currencies.toLiveData()
+    val countries = liveData { emit(currencyProvider.getCountries()) }
 
+    @UiThread
+    fun getCurrency(from: String, to: String) = viewModelScope.launch {
+        _currency.value = currencyProvider.getRate(from, to)
+    }
+
+    @UiThread
+    fun getCurrencies(pairs: List<Pair<String, String>>) = viewModelScope.launch {
+        _currencies.value = currencyProvider.getRates(*pairs.toTypedArray())
+    }
+
+    @UiThread
     fun getOcrResult(bitmap: Bitmap) = viewModelScope.launch {
         val time = System.currentTimeMillis()
         if (time - lastProcessedTime > INTERVAL) {
             lastProcessedTime = time
+            _result.value = ocrProvider.getOCRResult(bitmap)
         }
-//        _result.value = ocrProvider.getOCRResult(bitmap)
     }
 }
