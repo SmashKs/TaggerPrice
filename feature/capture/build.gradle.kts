@@ -38,12 +38,6 @@ android {
     ndkVersion = "21.0.6113669"
 }
 
-kapt {
-    useBuildCache = true
-    correctErrorTypes = true
-    mapDiagnosticLocations = true
-}
-
 dependencies {
     //    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     listOf(project(CommonModuleDependency.APP)).forEach(::implementation)

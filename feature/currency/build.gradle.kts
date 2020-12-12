@@ -25,12 +25,6 @@
 import config.CommonModuleDependency
 import config.LibraryDependency
 
-kapt {
-    useBuildCache = true
-    correctErrorTypes = true
-    mapDiagnosticLocations = true
-}
-
 dependencies {
     //    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(project(CommonModuleDependency.APP))

@@ -24,6 +24,10 @@
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+import com.android.build.gradle.BaseExtension
+import com.android.build.gradle.internal.dsl.DefaultConfig
+import org.jetbrains.kotlin.gradle.plugin.KaptExtension
+
 buildscript {
     repositories {
         google()
@@ -108,7 +112,7 @@ subprojects {
                 plugin("org.jetbrains.kotlin.kapt")
             }
             plugin(config.GradleDependency.DETEKT)
-            plugin("project-report")  // for generating dependency graph
+            plugin("project-report") // for generating dependency graph
 //        plugin("org.jlleitschuh.gradle.ktlint")
         }
         //endregion
@@ -118,7 +122,7 @@ subprojects {
         //region Common Setting
         if (name !in listOf("ext", "feature")) {
             // BaseExtension is common parent for application, library and test modules
-            extensions.configure(com.android.build.gradle.BaseExtension::class.java) {
+            extensions.configure<BaseExtension> {
                 compileSdkVersion(config.AndroidConfiguration.COMPILE_SDK)
                 defaultConfig {
                     minSdkVersion(config.AndroidConfiguration.MIN_SDK)
@@ -135,8 +139,10 @@ subprojects {
                         if (this@subprojects.name !in features) {
                             isMinifyEnabled = true
                         }
-                        proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
-                                      file("proguard-rules.pro"))
+                        proguardFiles(
+                            getDefaultProguardFile("proguard-android-optimize.txt"),
+                            file("proguard-rules.pro")
+                        )
                     }
                     getByName("debug") {
                         splits.abi.isEnable = false
@@ -173,11 +179,18 @@ subprojects {
                 }
             }
         }
+        if (name in features + listOf("app", "core")) {
+            extensions.configure<KaptExtension> {
+                useBuildCache = true
+                correctErrorTypes = true
+                mapDiagnosticLocations = true
+            }
+        }
         //endregion
     }
 }
 
-fun com.android.build.gradle.internal.dsl.DefaultConfig.applyRoomSetting() {
+fun DefaultConfig.applyRoomSetting() {
     javaCompileOptions {
         annotationProcessorOptions {
             arguments["room.schemaLocation"] = "$projectDir/schemas"

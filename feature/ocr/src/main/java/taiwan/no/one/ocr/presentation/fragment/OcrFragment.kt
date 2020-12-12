@@ -37,17 +37,21 @@ import com.devrapid.kotlinknifer.toBitmap
 import com.devrapid.kotlinknifer.toDrawable
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import org.tensorflow.lite.DataType
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import taiwan.no.one.core.presentation.activity.BaseActivity
 import taiwan.no.one.core.presentation.fragment.BaseFragment
 import taiwan.no.one.ktx.context.allPermissionsGranted
 import taiwan.no.one.ocr.R
 import taiwan.no.one.ocr.databinding.FragmentOcrBinding
+import taiwan.no.one.ocr.ml.KerasOcrDr
 import taiwan.no.one.ocr.presentation.viewmodel.OcrViewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.nio.ByteBuffer
 
 internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>() {
     private val requiredPermissions =
@@ -136,6 +140,23 @@ internal class OcrFragment : BaseFragment<BaseActivity<*>, FragmentOcrBinding>()
 
             binding.ivPic.setImageBitmap(bm)
         }
+
+        // TensorFlow Lite
+        val model = KerasOcrDr.newInstance(requireContext())
+
+        // Creates inputs for reference.
+        val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 31, 200, 1), DataType.FLOAT32)
+        val bytes = bitmap.byteCount
+        val byteBuffer = ByteBuffer.allocate(bytes)
+        bitmap.copyPixelsToBuffer(byteBuffer)
+        inputFeature0.loadBuffer(byteBuffer)
+
+        // Runs model inference and gets result.
+        val outputs = model.process(inputFeature0)
+        val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+
+        // Releases model resources if no longer used.
+        model.close()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

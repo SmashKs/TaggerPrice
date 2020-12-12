@@ -25,10 +25,15 @@
 import config.CommonModuleDependency
 import config.LibraryDependency
 
-kapt {
-    useBuildCache = true
-    correctErrorTypes = true
-    mapDiagnosticLocations = true
+// NOTE: KTS doesn't have mlModelBinding flag so change back to GRADLE file temporally.
+
+android {
+    buildFeatures {
+        mlModelBinding = true
+        aaptOptions {
+            setNoCompress("tflite")
+        }
+    }
 }
 
 dependencies {
@@ -38,6 +43,8 @@ dependencies {
     implementation(LibraryDependency.TESSERACT)
     implementation(LibraryDependency.TF_LITE)
     implementation(LibraryDependency.FIREBASE_ML)
+    implementation("org.tensorflow:tensorflow-lite-support:0.1.0-rc1")
+    implementation("org.tensorflow:tensorflow-lite-metadata:0.1.0-rc2")
     kapt(LibraryDependency.ROOM_ANNOTATION)
     kapt(LibraryDependency.LIFECYCLE_COMPILER)
     kapt(LibraryDependency.AUTO_SERVICE)
