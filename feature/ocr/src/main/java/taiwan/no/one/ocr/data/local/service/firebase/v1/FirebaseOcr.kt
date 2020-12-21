@@ -30,13 +30,15 @@ import androidx.core.net.toUri
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.suspendCancellableCoroutine
 import taiwan.no.one.ocr.data.local.service.OcrService
 import java.io.File
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 internal class FirebaseOcr(
     private val context: Context,
-    private val recognizer: FirebaseVisionTextRecognizer
+    private val recognizer: FirebaseVisionTextRecognizer,
 ) : OcrService {
     companion object Constant {
         private const val BREAK_TIME_FOR_WHILE = 50L
@@ -58,17 +60,11 @@ internal class FirebaseOcr(
         return process(image)
     }
 
-    private suspend fun process(image: FirebaseVisionImage): String {
-        val task = recognizer.processImage(image)
-        // Using while-loop for polling because recognizing will take time.
-        while (!task.isComplete) {
-            delay(BREAK_TIME_FOR_WHILE)
-        }
-        return if (task.isSuccessful) {
-            task.result?.text.orEmpty()
-        }
-        else {
-            throw task.exception ?: Exception()
+    private suspend fun process(image: FirebaseVisionImage) = suspendCancellableCoroutine<String> {
+        recognizer.processImage(image).addOnSuccessListener { res ->
+            it.resume(res.text)
+        }.addOnFailureListener { exception ->
+            it.resumeWithException(exception)
         }
     }
 }
