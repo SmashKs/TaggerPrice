@@ -48,6 +48,7 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import com.devrapid.kotlinknifer.logw
 import com.devrapid.kotlinshaver.ui
 import taiwan.no.one.capture.databinding.FragmentCaptureBinding
 import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
@@ -74,6 +75,12 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
     private var imageCapture: ImageCapture? = null
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
+
+    override fun bindLiveData() {
+        vm.ocrResult.observe(this) {
+            logw(it)
+        }
+    }
 
     override fun componentListenersBinding() {
         super.componentListenersBinding()
@@ -162,6 +169,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
                 it.setAnalyzer(cameraExecutor, BitmapAnalyzer { bitmap ->
                     Log.i(TAG, "width: ${bitmap.width}, height: ${bitmap.height}")
                     ui {
+                        vm.getOcrResult(bitmap)
                         binding.ivPreview.setImageBitmap(bitmap)
                     }
                 })
@@ -226,9 +234,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
 
             lastAnalyzedTimestamp = frameTimestamps.first
 
-            bitmapListener.forEach {
-                bitmapListener.forEach { it(image.toBitmap()) }
-            }
+            bitmapListener.forEach { it(image.toBitmap()) }
 
             image.close()
         }
