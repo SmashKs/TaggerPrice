@@ -48,8 +48,9 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.devrapid.kotlinknifer.logw
-import com.devrapid.kotlinshaver.ui
+import kotlinx.coroutines.launch
 import taiwan.no.one.capture.databinding.FragmentCaptureBinding
 import taiwan.no.one.capture.presentation.viewmodel.CaptureViewModel
 import taiwan.no.one.core.presentation.activity.BaseActivity
@@ -75,6 +76,12 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
     private var imageCapture: ImageCapture? = null
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
+    private val bitmapAnalyzer = BitmapAnalyzer { bitmap ->
+        lifecycleScope.launch {
+            vm.getOcrResult(bitmap)
+            binding.ivPreview.setImageBitmap(bitmap)
+        }
+    }
 
     override fun bindLiveData() {
         vm.ocrResult.observe(this) {
@@ -114,18 +121,18 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             //            updateCameraUi()
             // Bind use cases
             val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-            cameraProviderFuture.addListener(Runnable {
+            cameraProviderFuture.addListener({
 
-                // CameraProvider
-                cameraProvider = cameraProviderFuture.get()
+                                                 // CameraProvider
+                                                 cameraProvider = cameraProviderFuture.get()
 
-                // Select lenFacing depending on the available cameras
-                lensFacing = CameraSelector.LENS_FACING_BACK
+                                                 // Select lenFacing depending on the available cameras
+                                                 lensFacing = CameraSelector.LENS_FACING_BACK
 
-                // TODO: Enable or disable switching between cameras
+                                                 // TODO: Enable or disable switching between cameras
 
-                bindCameraUseCases()
-            }, ContextCompat.getMainExecutor(requireContext()))
+                                                 bindCameraUseCases()
+                                             }, ContextCompat.getMainExecutor(requireContext()))
         }
     }
 
@@ -165,15 +172,7 @@ class CaptureFragment : BaseFragment<BaseActivity<*>, FragmentCaptureBinding>() 
             .setTargetAspectRatio(screenAspectRatio)
             .setTargetRotation(rotation)
             .build()
-            .also {
-                it.setAnalyzer(cameraExecutor, BitmapAnalyzer { bitmap ->
-                    Log.i(TAG, "width: ${bitmap.width}, height: ${bitmap.height}")
-                    ui {
-                        vm.getOcrResult(bitmap)
-                        binding.ivPreview.setImageBitmap(bitmap)
-                    }
-                })
-            }
+            .also { it.setAnalyzer(cameraExecutor, bitmapAnalyzer) }
 
         cameraProvider.unbindAll()
 
