@@ -28,14 +28,7 @@ import config.LibraryDependency
 
 android {
     defaultConfig {
-        externalNativeBuild {
-            cmake {
-                cppFlags("-std=c++14")
-                abiFilters("arm64-v8a")
-            }
-        }
     }
-    ndkVersion = "21.0.6113669"
 }
 
 dependencies {
